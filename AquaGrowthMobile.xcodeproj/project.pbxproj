@@ -129,20 +129,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0F3048D52B866CE3008AFA4B /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		0F3048D62B866D38008AFA4B /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		4869C3C52B83ECCE00A53848 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,8 +178,6 @@
 		48DCF5672B83E39600F88996 /* AquaGrowthMobile */ = {
 			isa = PBXGroup;
 			children = (
-				0F3048D62B866D38008AFA4B /* Models */,
-				0F3048D52B866CE3008AFA4B /* ViewModels */,
 				4869C3C52B83ECCE00A53848 /* Views */,
 				48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */,
 				48DCF56A2B83E39600F88996 /* ContentView.swift */,
