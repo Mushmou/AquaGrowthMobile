@@ -6,3 +6,17 @@
 //
 
 import Foundation
+import SwiftUI
+
+struct LoginView: View {
+    var body: some View {
+        VStack {
+            Text("Hello, world!")
+        }
+        .padding()
+    }
+}
+
+#Preview {
+    LoginView()
+}
