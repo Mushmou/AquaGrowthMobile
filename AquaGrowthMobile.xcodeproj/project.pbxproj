@@ -155,20 +155,6 @@
 			path = AquaGrowthMobile/Views;
 			sourceTree = SOURCE_ROOT;
 		};
-		48A7356C2B8687F10041041C /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		48A7356D2B8687FB0041041C /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		48DCF55C2B83E39600F88996 = {
 			isa = PBXGroup;
 			children = (
@@ -192,8 +178,6 @@
 		48DCF5672B83E39600F88996 /* AquaGrowthMobile */ = {
 			isa = PBXGroup;
 			children = (
-				48A7356D2B8687FB0041041C /* Models */,
-				48A7356C2B8687F10041041C /* ViewModels */,
 				4869C3C52B83ECCE00A53848 /* Views */,
 				48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */,
 				48DCF56A2B83E39600F88996 /* ContentView.swift */,
