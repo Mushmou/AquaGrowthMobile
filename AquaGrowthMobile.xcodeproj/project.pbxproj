@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48D7EB7D2B868ED600CB6244 /* Models in Resources */ = {isa = PBXBuildFile; fileRef = 48D7EB7C2B868ED500CB6244 /* Models */; };
+		48D7EB7F2B868EE100CB6244 /* ViewModels in Resources */ = {isa = PBXBuildFile; fileRef = 48D7EB7E2B868EE100CB6244 /* ViewModels */; };
+		48D7EB812B868F8900CB6244 /* Views in Resources */ = {isa = PBXBuildFile; fileRef = 48D7EB802B868F8900CB6244 /* Views */; };
 		48DCF5692B83E39600F88996 /* AquaGrowthMobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */; };
 		48DCF56B2B83E39600F88996 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF56A2B83E39600F88996 /* ContentView.swift */; };
 		48DCF56D2B83E39700F88996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48DCF56C2B83E39700F88996 /* Assets.xcassets */; };
@@ -34,6 +37,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		48D7EB7C2B868ED500CB6244 /* Models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Models; sourceTree = "<group>"; };
+		48D7EB7E2B868EE100CB6244 /* ViewModels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ViewModels; sourceTree = "<group>"; };
+		48D7EB802B868F8900CB6244 /* Views */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Views; sourceTree = "<group>"; };
 		48DCF5652B83E39600F88996 /* AquaGrowthMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AquaGrowthMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaGrowthMobileApp.swift; sourceTree = "<group>"; };
 		48DCF56A2B83E39600F88996 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -94,6 +100,9 @@
 		48DCF5672B83E39600F88996 /* AquaGrowthMobile */ = {
 			isa = PBXGroup;
 			children = (
+				48D7EB802B868F8900CB6244 /* Views */,
+				48D7EB7E2B868EE100CB6244 /* ViewModels */,
+				48D7EB7C2B868ED500CB6244 /* Models */,
 				48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */,
 				48DCF56A2B83E39600F88996 /* ContentView.swift */,
 				48DCF56C2B83E39700F88996 /* Assets.xcassets */,
@@ -231,8 +240,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48D7EB7D2B868ED600CB6244 /* Models in Resources */,
+				48D7EB7F2B868EE100CB6244 /* ViewModels in Resources */,
 				48DCF5702B83E39700F88996 /* Preview Assets.xcassets in Resources */,
 				48DCF56D2B83E39700F88996 /* Assets.xcassets in Resources */,
+				48D7EB812B868F8900CB6244 /* Views in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
