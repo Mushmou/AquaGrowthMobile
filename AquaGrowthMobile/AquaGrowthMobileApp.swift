@@ -11,7 +11,7 @@ import SwiftUI
 struct AquaGrowthMobileApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginView()
         }
     }
 }

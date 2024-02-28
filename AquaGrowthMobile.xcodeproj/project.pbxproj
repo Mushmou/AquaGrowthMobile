@@ -45,6 +45,8 @@
 		48325BC62B8FB68700DCE61F /* splash_screen_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC52B8FB68700DCE61F /* splash_screen_viewmodel.swift */; };
 		48325BC82B8FB69300DCE61F /* user_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC72B8FB69300DCE61F /* user_model.swift */; };
 		48325BCA2B8FB69C00DCE61F /* bluetooth_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC92B8FB69C00DCE61F /* bluetooth_model.swift */; };
+		4879C5742B8FC67C008AEFAC /* main_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4879C5732B8FC67C008AEFAC /* main_view.swift */; };
+		4879C5762B8FC686008AEFAC /* main_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4879C5752B8FC686008AEFAC /* main_viewmodel.swift */; };
 		48DCF5692B83E39600F88996 /* AquaGrowthMobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */; };
 		48DCF56B2B83E39600F88996 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF56A2B83E39600F88996 /* ContentView.swift */; };
 		48DCF56D2B83E39700F88996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48DCF56C2B83E39700F88996 /* Assets.xcassets */; };
@@ -110,6 +112,8 @@
 		48325BC52B8FB68700DCE61F /* splash_screen_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = splash_screen_viewmodel.swift; sourceTree = "<group>"; };
 		48325BC72B8FB69300DCE61F /* user_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = user_model.swift; sourceTree = "<group>"; };
 		48325BC92B8FB69C00DCE61F /* bluetooth_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluetooth_model.swift; sourceTree = "<group>"; };
+		4879C5732B8FC67C008AEFAC /* main_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_view.swift; sourceTree = "<group>"; };
+		4879C5752B8FC686008AEFAC /* main_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_viewmodel.swift; sourceTree = "<group>"; };
 		48DCF5652B83E39600F88996 /* AquaGrowthMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AquaGrowthMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaGrowthMobileApp.swift; sourceTree = "<group>"; };
 		48DCF56A2B83E39600F88996 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -168,6 +172,7 @@
 				48325B992B8FB4B600DCE61F /* register_view.swift */,
 				48325B9B2B8FB4BE00DCE61F /* remove_plant_view.swift */,
 				48325B9D2B8FB4C600DCE61F /* splash_screen_view.swift */,
+				4879C5732B8FC67C008AEFAC /* main_view.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -193,6 +198,7 @@
 				48325BC12B8FB66A00DCE61F /* register_viewmodel.swift */,
 				48325BC32B8FB67B00DCE61F /* remove_plant_viewmodel.swift */,
 				48325BC52B8FB68700DCE61F /* splash_screen_viewmodel.swift */,
+				4879C5752B8FC686008AEFAC /* main_viewmodel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -408,6 +414,7 @@
 				48325B882B8FB45900DCE61F /* graph_day_view.swift in Sources */,
 				48325BA52B8FB5CE00DCE61F /* bluetooth_viewmodel.swift in Sources */,
 				48325BC62B8FB68700DCE61F /* splash_screen_viewmodel.swift in Sources */,
+				4879C5742B8FC67C008AEFAC /* main_view.swift in Sources */,
 				48325B802B8FB42D00DCE61F /* change_password_view.swift in Sources */,
 				48325B962B8FB49E00DCE61F /* plant_view.swift in Sources */,
 				48325B902B8FB47700DCE61F /* home_view.swift in Sources */,
@@ -433,6 +440,7 @@
 				48325B9A2B8FB4B600DCE61F /* register_view.swift in Sources */,
 				48325BC42B8FB67B00DCE61F /* remove_plant_viewmodel.swift in Sources */,
 				48325BB82B8FB63500DCE61F /* home_viewmodel.swift in Sources */,
+				4879C5762B8FC686008AEFAC /* main_viewmodel.swift in Sources */,
 				48325BAB2B8FB5E800DCE61F /* edit_plant_viewmodel.swift in Sources */,
 				48325BB62B8FB62900DCE61F /* home_info_viewmodel.swift in Sources */,
 			);
