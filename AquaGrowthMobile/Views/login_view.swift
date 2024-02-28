@@ -2,15 +2,19 @@
 //  login_view.swift
 //  AquaGrowthMobile
 //
-//  Created by Jeet Patel on 2/19/24.
+//  Created by Noah Jacinto on 2/28/24.
 //
 
 import Foundation
 import SwiftUI
 
+
 struct LoginView: View {
     var body: some View {
         VStack {
+            Image(systemName: "globe")
+                .imageScale(.large)
+                .foregroundStyle(.tint)
             Text("Hello, world!")
         }
         .padding()
