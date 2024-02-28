@@ -1,5 +1,5 @@
 //
-//  create_plant_view.swift
+//  remove_plant_viewmodel.swift
 //  AquaGrowthMobile
 //
 //  Created by Noah Jacinto on 2/28/24.
