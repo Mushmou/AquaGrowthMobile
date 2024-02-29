@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import FirebaseAuth
+
 class login_viewmodel: ObservableObject{
     @Published var email = ""
     @Published var password = ""
     @Published var errorMessage = ""
-    @Published var signed_in = false
     
     init(){}
     
@@ -18,10 +19,7 @@ class login_viewmodel: ObservableObject{
         guard validate() else{
             return
         }
-        
-//        Auth.auth().signIn(withEmail: email, password: password)
-        print("Authorized the sign in.")
-        signed_in = true
+        Auth.auth().signIn(withEmail: email, password: password)
     }
     
     //We need to implement a validation before logging in. Maybe some simple error checking

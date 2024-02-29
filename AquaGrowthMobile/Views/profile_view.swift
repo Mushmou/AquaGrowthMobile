@@ -7,11 +7,18 @@
 
 import Foundation
 import SwiftUI
-
-
+    
 struct ProfileView: View {
+    @StateObject var viewModel = profile_viewmodel()
     var body: some View {
-        Text("Profile View")
+        
+        VStack{
+            Text("Profile View")
+                .padding(10)
+            Button("Logout"){
+                viewModel.logOut()
+            }
+        }
     }
 }
 

@@ -9,12 +9,9 @@ import Foundation
 import SwiftUI
 
 struct MainView: View {
-    
     @StateObject var viewModel = main_viewmodel()
-
     var body: some View {
-        
-        if (viewModel.isSignedIn){
+        if viewModel.isSignedIn{
             TabView{
                 HomeView().tabItem {
                     Label("Home", systemImage: "house")

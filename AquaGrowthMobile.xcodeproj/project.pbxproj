@@ -47,6 +47,13 @@
 		48325BCA2B8FB69C00DCE61F /* bluetooth_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC92B8FB69C00DCE61F /* bluetooth_model.swift */; };
 		4879C5742B8FC67C008AEFAC /* main_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4879C5732B8FC67C008AEFAC /* main_view.swift */; };
 		4879C5762B8FC686008AEFAC /* main_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4879C5752B8FC686008AEFAC /* main_viewmodel.swift */; };
+		4879C5782B91124D008AEFAC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4879C5772B91124D008AEFAC /* GoogleService-Info.plist */; };
+		4879C5792B91124D008AEFAC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4879C5772B91124D008AEFAC /* GoogleService-Info.plist */; };
+		4879C57A2B91124D008AEFAC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4879C5772B91124D008AEFAC /* GoogleService-Info.plist */; };
+		4879C57D2B91130A008AEFAC /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C57C2B91130A008AEFAC /* FirebaseAnalytics */; };
+		4879C57F2B91130A008AEFAC /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C57E2B91130A008AEFAC /* FirebaseAuth */; };
+		4879C5812B91130A008AEFAC /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C5802B91130A008AEFAC /* FirebaseDatabase */; };
+		4879C5832B91130A008AEFAC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C5822B91130A008AEFAC /* FirebaseFirestore */; };
 		48DCF5692B83E39600F88996 /* AquaGrowthMobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */; };
 		48DCF56B2B83E39600F88996 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF56A2B83E39600F88996 /* ContentView.swift */; };
 		48DCF56D2B83E39700F88996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48DCF56C2B83E39700F88996 /* Assets.xcassets */; };
@@ -114,6 +121,7 @@
 		48325BC92B8FB69C00DCE61F /* bluetooth_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluetooth_model.swift; sourceTree = "<group>"; };
 		4879C5732B8FC67C008AEFAC /* main_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_view.swift; sourceTree = "<group>"; };
 		4879C5752B8FC686008AEFAC /* main_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_viewmodel.swift; sourceTree = "<group>"; };
+		4879C5772B91124D008AEFAC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		48DCF5652B83E39600F88996 /* AquaGrowthMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AquaGrowthMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaGrowthMobileApp.swift; sourceTree = "<group>"; };
 		48DCF56A2B83E39600F88996 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -131,6 +139,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4879C5812B91130A008AEFAC /* FirebaseDatabase in Frameworks */,
+				4879C5832B91130A008AEFAC /* FirebaseFirestore in Frameworks */,
+				4879C57D2B91130A008AEFAC /* FirebaseAnalytics in Frameworks */,
+				4879C57F2B91130A008AEFAC /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +247,7 @@
 		48DCF5672B83E39600F88996 /* AquaGrowthMobile */ = {
 			isa = PBXGroup;
 			children = (
+				4879C5772B91124D008AEFAC /* GoogleService-Info.plist */,
 				48325BA12B8FB5B500DCE61F /* Models */,
 				48325BA02B8FB5AF00DCE61F /* ViewModels */,
 				48325B7A2B8FB3F600DCE61F /* Views */,
@@ -287,6 +300,12 @@
 			dependencies = (
 			);
 			name = AquaGrowthMobile;
+			packageProductDependencies = (
+				4879C57C2B91130A008AEFAC /* FirebaseAnalytics */,
+				4879C57E2B91130A008AEFAC /* FirebaseAuth */,
+				4879C5802B91130A008AEFAC /* FirebaseDatabase */,
+				4879C5822B91130A008AEFAC /* FirebaseFirestore */,
+			);
 			productName = AquaGrowthMobile;
 			productReference = 48DCF5652B83E39600F88996 /* AquaGrowthMobile.app */;
 			productType = "com.apple.product-type.application";
@@ -359,6 +378,9 @@
 				Base,
 			);
 			mainGroup = 48DCF55C2B83E39600F88996;
+			packageReferences = (
+				4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 48DCF5662B83E39600F88996 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -377,6 +399,7 @@
 			files = (
 				48DCF5702B83E39700F88996 /* Preview Assets.xcassets in Resources */,
 				48DCF56D2B83E39700F88996 /* Assets.xcassets in Resources */,
+				4879C5782B91124D008AEFAC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,6 +407,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4879C5792B91124D008AEFAC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,6 +415,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4879C57A2B91124D008AEFAC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -772,6 +797,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.21.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4879C57C2B91130A008AEFAC /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		4879C57E2B91130A008AEFAC /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		4879C5802B91130A008AEFAC /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		4879C5822B91130A008AEFAC /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 48DCF55D2B83E39600F88996 /* Project object */;
 }
