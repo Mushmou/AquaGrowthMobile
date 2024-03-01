@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 
-
 struct LoginView: View {
     @StateObject var viewModel = login_viewmodel()
     @State private var navigateBackToLogin = false
@@ -20,7 +19,7 @@ struct LoginView: View {
                 Text("AquaGr🍅wth")
                     .font(.system(size: 60))
                     .bold()
-//                    .border(.red)
+                //                    .border(.red)
                 
                 TextField("Email", text: $viewModel.email)
                     .padding()
@@ -47,38 +46,41 @@ struct LoginView: View {
                 NavigationLink {
                     ForgotPasswordView()
                         .navigationBarBackButtonHidden(true)
-
+                    
                 } label: {
                     Text("Forgot Password?")
                         .underline()
                         .foregroundColor(.black)
                 }
-//                .border(.red)
+                //                .border(.red)
                 Spacer()
                 Text("Don't have an account?")
-                NavigationLink {
-                    RegisterView()
-                        .navigationBarBackButtonHidden(true)
-                        .toolbar{
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                NavigationLink {
-                                    LoginView()
-                                    .navigationBarBackButtonHidden(true)
-                                } label: {
-                                    // 4
-                                    Image(systemName: "chevron.backward")
-                                        .font(.system(size: 30)) // Adjust the size as needed
-                                        .foregroundColor(.black)
+                ZStack{
+                    NavigationLink{
+                        RegisterView()
+                            .navigationBarBackButtonHidden(true)
+                            
+                            .toolbar{
+                                ToolbarItem(placement: .navigationBarLeading) {
+                                    NavigationLink {
+                                        LoginView()
+                                            .navigationBarBackButtonHidden(true)
+                                    } label: {
+                                        // 4
+                                        Image(systemName: "chevron.backward")
+                                            .font(.system(size: 30)) // Adjust the size as needed
+                                            .foregroundColor(.black)
+                                    }
                                 }
                             }
-                        }
-                } label: {
-                    Text("Sign up for AquaGrowth")
-                        .underline()
-                        .bold()
-                        .foregroundColor(Color(red: 0.28, green: 0.59, blue: 0.17))
+                    }
+                    label: {
+                        Text("Sign up for AquaGrowth")
+                            .underline()
+                            .bold()
+                            .foregroundColor(Color(red: 0.28, green: 0.59, blue: 0.17))
+                    }
                 }
-//                .border(.red)
             }
         }
 //        .border(.red)

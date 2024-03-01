@@ -8,6 +8,18 @@
 import Foundation
 import SwiftUI
 
+
+
+extension View {
+    func customTextFieldStyle() -> some View {
+        self
+            .padding()
+            .frame(width: 300, height: 65)
+            .background(Color.gray.opacity(0.10))
+            .cornerRadius(12)
+    }
+}
+
 struct RegisterView: View {
     @StateObject var viewModel = register_viewmodel()
 
@@ -19,29 +31,21 @@ struct RegisterView: View {
                 .multilineTextAlignment(.center)
 
             TextField("Username", text: $viewModel.username)
-                .padding()
-                .frame(width: 300, height: 65)
-                .background(.gray.opacity(0.10))
-                .cornerRadius(12)
+                .customTextFieldStyle()
                 .textInputAutocapitalization(.never)
+//                .overlay(
+//                    RoundedRectangle(cornerRadius: 12)
+//                        .strokeBorder(viewModel.isUsernameValid ? Color.clear : Color.red, lineWidth: 2)
+//                )
             TextField("Email", text: $viewModel.email)
-                .padding()
-                .frame(width: 300, height: 65)
-                .background(.gray.opacity(0.10))
-                .cornerRadius(12)
+                .customTextFieldStyle()
                 .textInputAutocapitalization(.never)
             SecureField("Password", text: $viewModel.password)
-                .padding()
-                .frame(width: 300, height: 65)
-                .background(.gray.opacity(0.10))
-                .cornerRadius(12)
+                .customTextFieldStyle()
             SecureField("Confirm Password", text: $viewModel.confirm_password)
-                .padding()
-                .frame(width: 300, height: 65)
-                .background(.gray.opacity(0.10))
-                .cornerRadius(12)
+                .customTextFieldStyle()
             Button("Create Account"){
-                //Create your account
+                viewModel.register()
             }
             .frame(width: 300, height: 65)
             .background(Color(red: 0.28, green: 0.59, blue: 0.17))
