@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48192AAC2B918EB700F6F746 /* back_button_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48192AAB2B918EB700F6F746 /* back_button_view.swift */; };
 		48325B7C2B8FB41300DCE61F /* account_settings_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B7B2B8FB41300DCE61F /* account_settings_view.swift */; };
 		48325B7E2B8FB42300DCE61F /* bluetooth_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B7D2B8FB42300DCE61F /* bluetooth_view.swift */; };
 		48325B802B8FB42D00DCE61F /* change_password_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B7F2B8FB42D00DCE61F /* change_password_view.swift */; };
@@ -81,6 +82,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		48192AAB2B918EB700F6F746 /* back_button_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = back_button_view.swift; sourceTree = "<group>"; };
 		48325B7B2B8FB41300DCE61F /* account_settings_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = account_settings_view.swift; sourceTree = "<group>"; };
 		48325B7D2B8FB42300DCE61F /* bluetooth_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluetooth_view.swift; sourceTree = "<group>"; };
 		48325B7F2B8FB42D00DCE61F /* change_password_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = change_password_view.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				48325B9B2B8FB4BE00DCE61F /* remove_plant_view.swift */,
 				48325B9D2B8FB4C600DCE61F /* splash_screen_view.swift */,
 				4879C5732B8FC67C008AEFAC /* main_view.swift */,
+				48192AAB2B918EB700F6F746 /* back_button_view.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				48325BBE2B8FB65300DCE61F /* plant_viewmodel.swift in Sources */,
 				48325BC22B8FB66A00DCE61F /* register_viewmodel.swift in Sources */,
 				48325BAD2B8FB5F000DCE61F /* forgot_password_viewmodel.swift in Sources */,
+				48192AAC2B918EB700F6F746 /* back_button_view.swift in Sources */,
 				48325BC02B8FB65F00DCE61F /* profile_viewmodel.swift in Sources */,
 				48325B942B8FB49300DCE61F /* login_view.swift in Sources */,
 				48325B922B8FB48700DCE61F /* individual_plant_view.swift in Sources */,
