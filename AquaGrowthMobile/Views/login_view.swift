@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct LoginView: View {
+
     @StateObject var viewModel = login_viewmodel()
     @State private var navigateBackToLogin = false
 
@@ -84,6 +85,7 @@ struct LoginView: View {
             }
         }
 //        .border(.red)
+
     }
 }
 
