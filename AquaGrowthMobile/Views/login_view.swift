@@ -94,11 +94,6 @@ struct LoginView: View {
                 }
             }
         }
-<<<<<<< HEAD
-=======
-//        .border(.red)
-
->>>>>>> ecff9ba2af33873b559c3799f7a6cf5cbc52b028
     }
 }
 
