@@ -11,20 +11,29 @@ import SwiftUI
 struct LoginView: View {
     @StateObject var viewModel = login_viewmodel()
     @State private var navigateBackToLogin = false
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         VStack{
             NavigationStack{
                 Spacer()
-                Text("AquaGr🍅wth")
-                    .font(.system(size: 60))
-                    .bold()
-                //                    .border(.red)
+                HStack{
+                    Text("AquaGr")
+                        .font(.system(size: 60))
+                        .bold()
+                    Text("🍅")
+                        .font(.system(size: 50))
+                        .padding(0)
+                        .border(.red)
+                    Text("wth")
+                        .font(.system(size: 60))
+                        .bold()
+                }
                 
                 TextField("Email", text: $viewModel.email)
                     .padding()
                     .frame(width: 300, height: 65)
-                    .background(.gray.opacity(0.10))
+                    .background(Color.gray.opacity(0.20))
                     .cornerRadius(12)
                     .textInputAutocapitalization(.never)
                 
@@ -32,7 +41,7 @@ struct LoginView: View {
                 SecureField("Password", text: $viewModel.password)
                     .padding()
                     .frame(width: 300, height: 65)
-                    .background(.gray.opacity(0.10))
+                    .background(Color.gray.opacity(0.20))
                     .cornerRadius(12)
                 
                 Button("Log in"){
@@ -50,9 +59,9 @@ struct LoginView: View {
                 } label: {
                     Text("Forgot Password?")
                         .underline()
-                        .foregroundColor(.black)
+                        .bold()
+                        .foregroundColor(Color(red: 0.28, green: 0.59, blue: 0.17))
                 }
-                //                .border(.red)
                 Spacer()
                 Text("Don't have an account?")
                 ZStack{
@@ -65,11 +74,12 @@ struct LoginView: View {
                                     NavigationLink {
                                         LoginView()
                                             .navigationBarBackButtonHidden(true)
+                                            .transition(.scale)
                                     } label: {
                                         // 4
                                         Image(systemName: "chevron.backward")
                                             .font(.system(size: 30)) // Adjust the size as needed
-                                            .foregroundColor(.black)
+                                            .foregroundColor(colorScheme == .dark ? .white : .black)
                                     }
                                 }
                             }
@@ -83,7 +93,6 @@ struct LoginView: View {
                 }
             }
         }
-//        .border(.red)
     }
 }
 
