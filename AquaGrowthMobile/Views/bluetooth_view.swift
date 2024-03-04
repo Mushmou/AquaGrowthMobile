@@ -30,7 +30,9 @@ struct BluetoothView: View {
                 .foregroundColor(.white)
 
             VStack {
-                List(viewModel.bluetoothModel.discoveredPeripherals.filter { $0.name == "AquaGrowth" }, id: \.self) { peripheral in
+//                List(viewModel.bluetoothModel.discoveredPeripherals, id: \.self) { peripheral in
+
+                List(viewModel.bluetoothModel.discoveredPeripherals.filter { $0.name == "DREOtf05s10" }, id: \.self) { peripheral in
                     HStack {
                         Text(peripheral.name ?? "Unknown Device")
                             .bold()
