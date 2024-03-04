@@ -20,14 +20,13 @@ struct LoginView: View {
                 Spacer()
                 HStack{
                     Text("AquaGr")
-                        .font(.system(size: 60))
+                        .font(.system(size: 50))
                         .bold()
                     Text("🍅")
-                        .font(.system(size: 50))
+                        .font(.system(size: 40))
                         .padding(0)
-                        .border(.red)
                     Text("wth")
-                        .font(.system(size: 60))
+                        .font(.system(size: 50))
                         .bold()
                 }
                 
@@ -69,7 +68,6 @@ struct LoginView: View {
                     NavigationLink{
                         RegisterView()
                             .navigationBarBackButtonHidden(true)
-                            
                             .toolbar{
                                 ToolbarItem(placement: .navigationBarLeading) {
                                     NavigationLink {

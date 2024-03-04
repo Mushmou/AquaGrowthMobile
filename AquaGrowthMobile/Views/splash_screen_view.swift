@@ -7,11 +7,3 @@
 
 import Foundation
 import SwiftUI
-
-struct SplashScreen: View{
-    var body : some View{
-        Zstack{
-            Rectangle().background(Color.)
-        }
-    }
-}

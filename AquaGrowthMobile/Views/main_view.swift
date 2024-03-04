@@ -19,7 +19,7 @@ struct MainView: View {
                 PlantView().tabItem{
                     Label("Plant", systemImage: "leaf")
                 }
-                ProfileView().tabItem{
+                SettingsView().tabItem{
                     Label("User", systemImage: "person.crop.circle.fill")
                 }
             }

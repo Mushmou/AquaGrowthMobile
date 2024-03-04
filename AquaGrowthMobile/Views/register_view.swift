@@ -115,7 +115,7 @@ struct RegisterView: View {
     var body: some View {
         VStack{
             Text("Glad you're branching out with us. 🌳")
-                .font(.system(size: 60))
+                .font(.system(size: 40))
                 .bold()
                 .multilineTextAlignment(.center)
 
