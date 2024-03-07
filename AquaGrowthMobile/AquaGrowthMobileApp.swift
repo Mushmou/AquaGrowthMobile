@@ -12,9 +12,11 @@ struct AquaGrowthMobileApp: App {
     init(){
         FirebaseApp.configure()
     }
+    
     var body: some Scene {
         WindowGroup {
             MainView()
+            ContectView()
         }
     }
 }
