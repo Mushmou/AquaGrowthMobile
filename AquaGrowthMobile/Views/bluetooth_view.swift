@@ -10,12 +10,35 @@ import SwiftUI
 
 struct BluetoothView: View {
     @ObservedObject var viewModel = bluetooth_viewmodel()
-    
+    @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+    @Environment(\.colorScheme) var colorScheme
+    @State private var showNavigationBar = true
+
     var body: some View {
+        
+        Color.clear.frame(width: 1, height:1)
+            .navigationBarBackButtonHidden(true)
+            .toolbar{
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button (action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Image(systemName: "chevron.backward")
+                            .font(.system(size: 30)) // Adjust the size as needed
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                    })
+                    .onTapGesture {
+                        withAnimation {
+                            showNavigationBar.toggle()
+                        }
+                    }
+                }
+            }
+        
         ZStack{
             Rectangle()
                 .fill(Color(red: 0.28, green: 0.59, blue: 0.17))
-                .frame(width: 400, height: 300) // Change the size of the VStack
+                .frame(width: 400, height: 500) // Change the size of the VStack
                 .position(x: UIScreen.main.bounds.width / 2, y: 80)
             
             Rectangle()
@@ -71,6 +94,8 @@ struct BluetoothView: View {
                     .font(.system(size: 25))
                 )
                 .position(x: UIScreen.main.bounds.width / 2, y: 700)
+            
+            Spacer()
         }
     }
 }

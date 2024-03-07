@@ -68,20 +68,6 @@ struct LoginView: View {
                     NavigationLink{
                         RegisterView()
                             .navigationBarBackButtonHidden(true)
-                            .toolbar{
-                                ToolbarItem(placement: .navigationBarLeading) {
-                                    NavigationLink {
-                                        LoginView()
-                                            .navigationBarBackButtonHidden(true)
-                                            .transition(.scale)
-                                    } label: {
-                                        // 4
-                                        Image(systemName: "chevron.backward")
-                                            .font(.system(size: 30)) // Adjust the size as needed
-                                            .foregroundColor(colorScheme == .dark ? .white : .black)
-                                    }
-                                }
-                            }
                     }
                     label: {
                         Text("Sign up for AquaGrowth")
