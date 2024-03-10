@@ -1,3 +1,4 @@
+// VERSION #2
 import Foundation
 import SwiftUI
 
@@ -133,7 +134,7 @@ func loadImageFromDocumentDirectory(name: String) -> UIImage? {
 }
 
 
-
+// VERSION #1
 //import SwiftUI
 //import UIKit
 //
