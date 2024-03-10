@@ -45,13 +45,20 @@ struct LoginView: View {
                     .background(Color.gray.opacity(0.20))
                     .cornerRadius(12)
                 
-                Button("Log in"){
-                    viewModel.login()
+                 if viewModel.isLoading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .scaleEffect(1.5, anchor: .center)
+                            .padding([.bottom,.top], 20)
+                } else {
+                    Button("Log in") {
+                        viewModel.login() // This should handle setting isLoading appropriately
+                    }
+                    .frame(width: 300, height: 65)
+                    .background(Color(red: 0.28, green: 0.59, blue: 0.17))
+                    .cornerRadius(12)
+                    .foregroundColor(.white)
                 }
-                .frame(width: 300, height: 65)
-                .background(Color(red: 0.28, green: 0.59, blue: 0.17))
-                .cornerRadius(12)
-                .foregroundColor(.white)
                 
                 NavigationLink {
                     ForgotPasswordView()
