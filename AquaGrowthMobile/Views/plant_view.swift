@@ -6,3 +6,15 @@
 //
 
 import Foundation
+import SwiftUI
+
+struct PlantView: View {
+    var body: some View {
+        Text("Plant View")
+    }
+}
+
+#Preview {
+    PlantView()
+}
+

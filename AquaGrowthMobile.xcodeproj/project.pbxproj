@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48192AAC2B918EB700F6F746 /* back_button_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48192AAB2B918EB700F6F746 /* back_button_view.swift */; };
+		48192AB22B93080C00F6F746 /* profile_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48192AB12B93080C00F6F746 /* profile_view.swift */; };
 		48325B7C2B8FB41300DCE61F /* account_settings_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B7B2B8FB41300DCE61F /* account_settings_view.swift */; };
 		48325B7E2B8FB42300DCE61F /* bluetooth_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B7D2B8FB42300DCE61F /* bluetooth_view.swift */; };
 		48325B802B8FB42D00DCE61F /* change_password_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B7F2B8FB42D00DCE61F /* change_password_view.swift */; };
@@ -21,7 +23,7 @@
 		48325B922B8FB48700DCE61F /* individual_plant_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B912B8FB48700DCE61F /* individual_plant_view.swift */; };
 		48325B942B8FB49300DCE61F /* login_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B932B8FB49300DCE61F /* login_view.swift */; };
 		48325B962B8FB49E00DCE61F /* plant_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B952B8FB49E00DCE61F /* plant_view.swift */; };
-		48325B982B8FB4AF00DCE61F /* profile_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B972B8FB4AF00DCE61F /* profile_view.swift */; };
+		48325B982B8FB4AF00DCE61F /* settings_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B972B8FB4AF00DCE61F /* settings_view.swift */; };
 		48325B9A2B8FB4B600DCE61F /* register_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B992B8FB4B600DCE61F /* register_view.swift */; };
 		48325B9C2B8FB4BE00DCE61F /* remove_plant_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B9B2B8FB4BE00DCE61F /* remove_plant_view.swift */; };
 		48325B9E2B8FB4C600DCE61F /* splash_screen_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B9D2B8FB4C600DCE61F /* splash_screen_view.swift */; };
@@ -39,12 +41,21 @@
 		48325BBA2B8FB64200DCE61F /* individual_plant_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BB92B8FB64200DCE61F /* individual_plant_viewmodel.swift */; };
 		48325BBC2B8FB64C00DCE61F /* login_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BBB2B8FB64C00DCE61F /* login_viewmodel.swift */; };
 		48325BBE2B8FB65300DCE61F /* plant_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BBD2B8FB65300DCE61F /* plant_viewmodel.swift */; };
-		48325BC02B8FB65F00DCE61F /* profile_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BBF2B8FB65F00DCE61F /* profile_viewmodel.swift */; };
+		48325BC02B8FB65F00DCE61F /* settings_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BBF2B8FB65F00DCE61F /* settings_viewmodel.swift */; };
 		48325BC22B8FB66A00DCE61F /* register_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC12B8FB66A00DCE61F /* register_viewmodel.swift */; };
 		48325BC42B8FB67B00DCE61F /* remove_plant_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC32B8FB67B00DCE61F /* remove_plant_viewmodel.swift */; };
 		48325BC62B8FB68700DCE61F /* splash_screen_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC52B8FB68700DCE61F /* splash_screen_viewmodel.swift */; };
 		48325BC82B8FB69300DCE61F /* user_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC72B8FB69300DCE61F /* user_model.swift */; };
 		48325BCA2B8FB69C00DCE61F /* bluetooth_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC92B8FB69C00DCE61F /* bluetooth_model.swift */; };
+		4879C5742B8FC67C008AEFAC /* main_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4879C5732B8FC67C008AEFAC /* main_view.swift */; };
+		4879C5762B8FC686008AEFAC /* main_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4879C5752B8FC686008AEFAC /* main_viewmodel.swift */; };
+		4879C5782B91124D008AEFAC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4879C5772B91124D008AEFAC /* GoogleService-Info.plist */; };
+		4879C5792B91124D008AEFAC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4879C5772B91124D008AEFAC /* GoogleService-Info.plist */; };
+		4879C57A2B91124D008AEFAC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4879C5772B91124D008AEFAC /* GoogleService-Info.plist */; };
+		4879C57D2B91130A008AEFAC /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C57C2B91130A008AEFAC /* FirebaseAnalytics */; };
+		4879C57F2B91130A008AEFAC /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C57E2B91130A008AEFAC /* FirebaseAuth */; };
+		4879C5812B91130A008AEFAC /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C5802B91130A008AEFAC /* FirebaseDatabase */; };
+		4879C5832B91130A008AEFAC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C5822B91130A008AEFAC /* FirebaseFirestore */; };
 		48DCF5692B83E39600F88996 /* AquaGrowthMobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */; };
 		48DCF56B2B83E39600F88996 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF56A2B83E39600F88996 /* ContentView.swift */; };
 		48DCF56D2B83E39700F88996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48DCF56C2B83E39700F88996 /* Assets.xcassets */; };
@@ -52,6 +63,7 @@
 		48DCF57A2B83E39800F88996 /* AquaGrowthMobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF5792B83E39800F88996 /* AquaGrowthMobileTests.swift */; };
 		48DCF5842B83E39800F88996 /* AquaGrowthMobileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF5832B83E39800F88996 /* AquaGrowthMobileUITests.swift */; };
 		48DCF5862B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF5852B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift */; };
+		48F8662C2B97AC440045C2D5 /* custom_tab_bar_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F8662B2B97AC440045C2D5 /* custom_tab_bar_view.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +84,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		48192AAB2B918EB700F6F746 /* back_button_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = back_button_view.swift; sourceTree = "<group>"; };
+		48192AB02B92F01700F6F746 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		48192AB12B93080C00F6F746 /* profile_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile_view.swift; sourceTree = "<group>"; };
 		48325B7B2B8FB41300DCE61F /* account_settings_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = account_settings_view.swift; sourceTree = "<group>"; };
 		48325B7D2B8FB42300DCE61F /* bluetooth_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluetooth_view.swift; sourceTree = "<group>"; };
 		48325B7F2B8FB42D00DCE61F /* change_password_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = change_password_view.swift; sourceTree = "<group>"; };
@@ -86,7 +101,7 @@
 		48325B912B8FB48700DCE61F /* individual_plant_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = individual_plant_view.swift; sourceTree = "<group>"; };
 		48325B932B8FB49300DCE61F /* login_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = login_view.swift; sourceTree = "<group>"; };
 		48325B952B8FB49E00DCE61F /* plant_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = plant_view.swift; sourceTree = "<group>"; };
-		48325B972B8FB4AF00DCE61F /* profile_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile_view.swift; sourceTree = "<group>"; };
+		48325B972B8FB4AF00DCE61F /* settings_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings_view.swift; sourceTree = "<group>"; };
 		48325B992B8FB4B600DCE61F /* register_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = register_view.swift; sourceTree = "<group>"; };
 		48325B9B2B8FB4BE00DCE61F /* remove_plant_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = remove_plant_view.swift; sourceTree = "<group>"; };
 		48325B9D2B8FB4C600DCE61F /* splash_screen_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = splash_screen_view.swift; sourceTree = "<group>"; };
@@ -104,12 +119,15 @@
 		48325BB92B8FB64200DCE61F /* individual_plant_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = individual_plant_viewmodel.swift; sourceTree = "<group>"; };
 		48325BBB2B8FB64C00DCE61F /* login_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = login_viewmodel.swift; sourceTree = "<group>"; };
 		48325BBD2B8FB65300DCE61F /* plant_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = plant_viewmodel.swift; sourceTree = "<group>"; };
-		48325BBF2B8FB65F00DCE61F /* profile_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile_viewmodel.swift; sourceTree = "<group>"; };
+		48325BBF2B8FB65F00DCE61F /* settings_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings_viewmodel.swift; sourceTree = "<group>"; };
 		48325BC12B8FB66A00DCE61F /* register_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = register_viewmodel.swift; sourceTree = "<group>"; };
 		48325BC32B8FB67B00DCE61F /* remove_plant_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = remove_plant_viewmodel.swift; sourceTree = "<group>"; };
 		48325BC52B8FB68700DCE61F /* splash_screen_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = splash_screen_viewmodel.swift; sourceTree = "<group>"; };
 		48325BC72B8FB69300DCE61F /* user_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = user_model.swift; sourceTree = "<group>"; };
 		48325BC92B8FB69C00DCE61F /* bluetooth_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluetooth_model.swift; sourceTree = "<group>"; };
+		4879C5732B8FC67C008AEFAC /* main_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_view.swift; sourceTree = "<group>"; };
+		4879C5752B8FC686008AEFAC /* main_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_viewmodel.swift; sourceTree = "<group>"; };
+		4879C5772B91124D008AEFAC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		48DCF5652B83E39600F88996 /* AquaGrowthMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AquaGrowthMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaGrowthMobileApp.swift; sourceTree = "<group>"; };
 		48DCF56A2B83E39600F88996 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -120,6 +138,7 @@
 		48DCF57F2B83E39800F88996 /* AquaGrowthMobileUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AquaGrowthMobileUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48DCF5832B83E39800F88996 /* AquaGrowthMobileUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaGrowthMobileUITests.swift; sourceTree = "<group>"; };
 		48DCF5852B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaGrowthMobileUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		48F8662B2B97AC440045C2D5 /* custom_tab_bar_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = custom_tab_bar_view.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +146,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4879C5812B91130A008AEFAC /* FirebaseDatabase in Frameworks */,
+				4879C5832B91130A008AEFAC /* FirebaseFirestore in Frameworks */,
+				4879C57D2B91130A008AEFAC /* FirebaseAnalytics in Frameworks */,
+				4879C57F2B91130A008AEFAC /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,10 +187,14 @@
 				48325B912B8FB48700DCE61F /* individual_plant_view.swift */,
 				48325B932B8FB49300DCE61F /* login_view.swift */,
 				48325B952B8FB49E00DCE61F /* plant_view.swift */,
-				48325B972B8FB4AF00DCE61F /* profile_view.swift */,
+				48325B972B8FB4AF00DCE61F /* settings_view.swift */,
 				48325B992B8FB4B600DCE61F /* register_view.swift */,
 				48325B9B2B8FB4BE00DCE61F /* remove_plant_view.swift */,
 				48325B9D2B8FB4C600DCE61F /* splash_screen_view.swift */,
+				4879C5732B8FC67C008AEFAC /* main_view.swift */,
+				48192AAB2B918EB700F6F746 /* back_button_view.swift */,
+				48192AB12B93080C00F6F746 /* profile_view.swift */,
+				48F8662B2B97AC440045C2D5 /* custom_tab_bar_view.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -189,10 +216,11 @@
 				48325BB92B8FB64200DCE61F /* individual_plant_viewmodel.swift */,
 				48325BBB2B8FB64C00DCE61F /* login_viewmodel.swift */,
 				48325BBD2B8FB65300DCE61F /* plant_viewmodel.swift */,
-				48325BBF2B8FB65F00DCE61F /* profile_viewmodel.swift */,
+				48325BBF2B8FB65F00DCE61F /* settings_viewmodel.swift */,
 				48325BC12B8FB66A00DCE61F /* register_viewmodel.swift */,
 				48325BC32B8FB67B00DCE61F /* remove_plant_viewmodel.swift */,
 				48325BC52B8FB68700DCE61F /* splash_screen_viewmodel.swift */,
+				4879C5752B8FC686008AEFAC /* main_viewmodel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -229,6 +257,8 @@
 		48DCF5672B83E39600F88996 /* AquaGrowthMobile */ = {
 			isa = PBXGroup;
 			children = (
+				48192AB02B92F01700F6F746 /* Info.plist */,
+				4879C5772B91124D008AEFAC /* GoogleService-Info.plist */,
 				48325BA12B8FB5B500DCE61F /* Models */,
 				48325BA02B8FB5AF00DCE61F /* ViewModels */,
 				48325B7A2B8FB3F600DCE61F /* Views */,
@@ -281,6 +311,12 @@
 			dependencies = (
 			);
 			name = AquaGrowthMobile;
+			packageProductDependencies = (
+				4879C57C2B91130A008AEFAC /* FirebaseAnalytics */,
+				4879C57E2B91130A008AEFAC /* FirebaseAuth */,
+				4879C5802B91130A008AEFAC /* FirebaseDatabase */,
+				4879C5822B91130A008AEFAC /* FirebaseFirestore */,
+			);
 			productName = AquaGrowthMobile;
 			productReference = 48DCF5652B83E39600F88996 /* AquaGrowthMobile.app */;
 			productType = "com.apple.product-type.application";
@@ -353,6 +389,9 @@
 				Base,
 			);
 			mainGroup = 48DCF55C2B83E39600F88996;
+			packageReferences = (
+				4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 48DCF5662B83E39600F88996 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -371,6 +410,7 @@
 			files = (
 				48DCF5702B83E39700F88996 /* Preview Assets.xcassets in Resources */,
 				48DCF56D2B83E39700F88996 /* Assets.xcassets in Resources */,
+				4879C5782B91124D008AEFAC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,6 +418,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4879C5792B91124D008AEFAC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,6 +426,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4879C57A2B91124D008AEFAC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,11 +445,13 @@
 				48325BA32B8FB5C500DCE61F /* account_settings_viewmodel.swift in Sources */,
 				48325BCA2B8FB69C00DCE61F /* bluetooth_model.swift in Sources */,
 				48325BAF2B8FB5FB00DCE61F /* graph_day_viewmodel.swift in Sources */,
-				48325B982B8FB4AF00DCE61F /* profile_view.swift in Sources */,
+				48325B982B8FB4AF00DCE61F /* settings_view.swift in Sources */,
 				48325BA72B8FB5D700DCE61F /* change_password_viewmodel.swift in Sources */,
+				48F8662C2B97AC440045C2D5 /* custom_tab_bar_view.swift in Sources */,
 				48325B882B8FB45900DCE61F /* graph_day_view.swift in Sources */,
 				48325BA52B8FB5CE00DCE61F /* bluetooth_viewmodel.swift in Sources */,
 				48325BC62B8FB68700DCE61F /* splash_screen_viewmodel.swift in Sources */,
+				4879C5742B8FC67C008AEFAC /* main_view.swift in Sources */,
 				48325B802B8FB42D00DCE61F /* change_password_view.swift in Sources */,
 				48325B962B8FB49E00DCE61F /* plant_view.swift in Sources */,
 				48325B902B8FB47700DCE61F /* home_view.swift in Sources */,
@@ -418,7 +462,8 @@
 				48325BBE2B8FB65300DCE61F /* plant_viewmodel.swift in Sources */,
 				48325BC22B8FB66A00DCE61F /* register_viewmodel.swift in Sources */,
 				48325BAD2B8FB5F000DCE61F /* forgot_password_viewmodel.swift in Sources */,
-				48325BC02B8FB65F00DCE61F /* profile_viewmodel.swift in Sources */,
+				48192AAC2B918EB700F6F746 /* back_button_view.swift in Sources */,
+				48325BC02B8FB65F00DCE61F /* settings_viewmodel.swift in Sources */,
 				48325B942B8FB49300DCE61F /* login_view.swift in Sources */,
 				48325B922B8FB48700DCE61F /* individual_plant_view.swift in Sources */,
 				48325B822B8FB43B00DCE61F /* create_plant_view.swift in Sources */,
@@ -433,6 +478,8 @@
 				48325B9A2B8FB4B600DCE61F /* register_view.swift in Sources */,
 				48325BC42B8FB67B00DCE61F /* remove_plant_viewmodel.swift in Sources */,
 				48325BB82B8FB63500DCE61F /* home_viewmodel.swift in Sources */,
+				48192AB22B93080C00F6F746 /* profile_view.swift in Sources */,
+				4879C5762B8FC686008AEFAC /* main_viewmodel.swift in Sources */,
 				48325BAB2B8FB5E800DCE61F /* edit_plant_viewmodel.swift in Sources */,
 				48325BB62B8FB62900DCE61F /* home_info_viewmodel.swift in Sources */,
 			);
@@ -601,11 +648,15 @@
 				DEVELOPMENT_TEAM = 4V3YUZ72NK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AquaGrowthMobile/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = 1.0;
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "AquaGrowth request permission for bluetooth";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -630,11 +681,15 @@
 				DEVELOPMENT_TEAM = 4V3YUZ72NK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AquaGrowthMobile/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = 1.0;
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "AquaGrowth request permission for bluetooth";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -764,6 +819,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.21.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4879C57C2B91130A008AEFAC /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		4879C57E2B91130A008AEFAC /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		4879C5802B91130A008AEFAC /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		4879C5822B91130A008AEFAC /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 48DCF55D2B83E39600F88996 /* Project object */;
 }

@@ -1,5 +1,5 @@
 //
-//  account_settings_viewmodel.swift
+//  profile_viewmodel.swift
 //  AquaGrowthMobile
 //
 //  Created by Noah Jacinto on 2/28/24.
@@ -7,14 +7,9 @@
 
 import Foundation
 import FirebaseAuth
-
-class account_settings_viewmodel: ObservableObject{
-    @Published var email = ""
-    @Published var password = ""
-    @Published var username = ""
-
+class settings_viewmodel: ObservableObject{
     init(){}
-    
+
     func logOut(){
         ///  Signs out user in firebase authentication
         ///- Parameters: None
