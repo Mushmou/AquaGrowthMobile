@@ -49,6 +49,7 @@
 		48325BC62B8FB68700DCE61F /* splash_screen_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC52B8FB68700DCE61F /* splash_screen_viewmodel.swift */; };
 		48325BC82B8FB69300DCE61F /* user_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC72B8FB69300DCE61F /* user_model.swift */; };
 		48325BCA2B8FB69C00DCE61F /* bluetooth_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC92B8FB69C00DCE61F /* bluetooth_model.swift */; };
+		48461CF02B9E710600BF8A6C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48461CEF2B9E710600BF8A6C /* Extensions.swift */; };
 		4879C5742B8FC67C008AEFAC /* main_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4879C5732B8FC67C008AEFAC /* main_view.swift */; };
 		4879C5762B8FC686008AEFAC /* main_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4879C5752B8FC686008AEFAC /* main_viewmodel.swift */; };
 		4879C5782B91124D008AEFAC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4879C5772B91124D008AEFAC /* GoogleService-Info.plist */; };
@@ -128,6 +129,7 @@
 		48325BC52B8FB68700DCE61F /* splash_screen_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = splash_screen_viewmodel.swift; sourceTree = "<group>"; };
 		48325BC72B8FB69300DCE61F /* user_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = user_model.swift; sourceTree = "<group>"; };
 		48325BC92B8FB69C00DCE61F /* bluetooth_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluetooth_model.swift; sourceTree = "<group>"; };
+		48461CEF2B9E710600BF8A6C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4879C5732B8FC67C008AEFAC /* main_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_view.swift; sourceTree = "<group>"; };
 		4879C5752B8FC686008AEFAC /* main_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_viewmodel.swift; sourceTree = "<group>"; };
 		4879C5772B91124D008AEFAC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -238,6 +240,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		48461CEE2B9E70EB00BF8A6C /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				48461CEF2B9E710600BF8A6C /* Extensions.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
 		48DCF55C2B83E39600F88996 = {
 			isa = PBXGroup;
 			children = (
@@ -261,6 +271,7 @@
 		48DCF5672B83E39600F88996 /* AquaGrowthMobile */ = {
 			isa = PBXGroup;
 			children = (
+				48461CEE2B9E70EB00BF8A6C /* Other */,
 				48192AB02B92F01700F6F746 /* Info.plist */,
 				4879C5772B91124D008AEFAC /* GoogleService-Info.plist */,
 				0FF1FD022B9E40A1004CE5A5 /* Splash_screen.json */,
@@ -468,6 +479,7 @@
 				48325BBC2B8FB64C00DCE61F /* login_viewmodel.swift in Sources */,
 				48325BB32B8FB61A00DCE61F /* graph_week_viewmodel.swift in Sources */,
 				48325BBE2B8FB65300DCE61F /* plant_viewmodel.swift in Sources */,
+				48461CF02B9E710600BF8A6C /* Extensions.swift in Sources */,
 				48325BC22B8FB66A00DCE61F /* register_viewmodel.swift in Sources */,
 				48325BAD2B8FB5F000DCE61F /* forgot_password_viewmodel.swift in Sources */,
 				48192AAC2B918EB700F6F746 /* back_button_view.swift in Sources */,
@@ -653,7 +665,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AquaGrowthMobile/Preview Content\"";
-				DEVELOPMENT_TEAM = CB3UTRCDSQ;
+				DEVELOPMENT_TEAM = 4V3YUZ72NK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AquaGrowthMobile/Info.plist;
@@ -686,7 +698,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AquaGrowthMobile/Preview Content\"";
-				DEVELOPMENT_TEAM = CB3UTRCDSQ;
+				DEVELOPMENT_TEAM = 4V3YUZ72NK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AquaGrowthMobile/Info.plist;
@@ -755,6 +767,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4V3YUZ72NK;
@@ -773,6 +786,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4V3YUZ72NK;

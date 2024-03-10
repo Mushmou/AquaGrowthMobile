@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import Foundation
 import FirebaseAuth
+import FirebaseFirestore
 
 class register_viewmodel: ObservableObject{
     @Published var username = ""
@@ -49,9 +49,24 @@ class register_viewmodel: ObservableObject{
                 // Handle successful creation
                 print("File: register_viewmodel, Message: Registered account with", authResult.user.uid)
             }
+            
+            guard let userId = authResult?.user.uid else{
+                return
+            }
+            self.insertUserRecord(id: userId)
         }
     }
     
+    
+    private func insertUserRecord(id: String){
+        let newUser = User(id: id, username: username, email: email, password: password, signupDateTime: Date().timeIntervalSince1970)
+        
+        let db = Firestore.firestore()
+        db.collection("users")
+            .document(id)
+            .setData(newUser.asDictionary())
+        
+    }
     
     func validateUser() -> Bool{
         /// Validates the Usersname textfield on submission.
@@ -123,7 +138,7 @@ class register_viewmodel: ObservableObject{
         ///- Returns: A Boolean Value whether or not all validations are correct.
         guard !username.trimmingCharacters(in: .whitespaces).isEmpty,
               !email.trimmingCharacters(in: .whitespaces).isEmpty,
-              !password.trimmingCharacters(in: .whitespaces).isEmpty 
+              !password.trimmingCharacters(in: .whitespaces).isEmpty
         else{
             isUsernameValid = false
             isEmailValid = false
