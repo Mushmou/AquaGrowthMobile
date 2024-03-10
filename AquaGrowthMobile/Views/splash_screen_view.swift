@@ -1,4 +1,4 @@
-/
+//
 //  splash_screen_view.swift
 //  AquaGrowthMobile
 //
@@ -36,8 +36,8 @@ struct SplashScreen: UIViewRepresentable{
         return view
     }
 
-    func updateUIView( uiView: UIViewType, context: Context) {
-
+    func updateUIView(_ uiView: UIViewType, context: Context) {
+        
     }
 
 }

@@ -19,12 +19,12 @@ struct SettingsView: View {
                 ZStack{
                     Rectangle()
                         .fill(Color(red: 0.28, green: 0.59, blue: 0.17))
-                        .frame(width: 400, height: 500) // Change the size of the VStack
+                        .frame(width: UIScreen.main.bounds.width, height: 500) // Change the size of the VStack
                         .position(x: UIScreen.main.bounds.width / 2, y: 80)
                     
                     Rectangle()
                         .fill(.white)
-                        .frame(width: 400, height: 640) // Change the size of the VStack
+                        .frame(width: UIScreen.main.bounds.width, height: 640) // Change the size of the VStack
                         .position(x: UIScreen.main.bounds.width / 2, y: 550)
                     
                     Text("Settings")

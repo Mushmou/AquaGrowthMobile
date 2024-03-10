@@ -8,17 +8,43 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var isShowingSplashScreen = true
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            if isShowingSplashScreen {
+                SplashScreenView()
+                    .transition(.move(edge: .top))
+            } else {
+                MainView()
+            }
         }
-        .padding()
+        .onAppear {
+            performDelayedSplashScreenHide()
+        }
+    }
+
+    private func performDelayedSplashScreenHide() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.35) {
+            withAnimation {
+                self.isShowingSplashScreen = false
+            }
+        }
     }
 }
 
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
+
+struct SplashScreenView : View {
+    var body: some View {
+        ZStack {
+            Color(.systemBackground).ignoresSafeArea()
+            SplashScreen(filename: "Splash_screen")
+        }
+        .transition(.move(edge: .top)) // Added transition here too
+    }
 }
