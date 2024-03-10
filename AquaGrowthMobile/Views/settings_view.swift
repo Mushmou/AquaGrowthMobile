@@ -9,15 +9,10 @@ import Foundation
 import SwiftUI
     
 struct SettingsView: View {
+    
     @StateObject var viewModel = settings_viewmodel()
     @State private var showNavigationBar = true
 
-//    init() {
-//        // Make the navigation bar transparent
-//        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-//        UINavigationBar.appearance().shadowImage = UIImage()
-//        
-//    }
     var body: some View {
         NavigationStack{
             VStack{
@@ -37,68 +32,39 @@ struct SettingsView: View {
                         .bold()
                         .position(x: UIScreen.main.bounds.width / 2, y: 70)
                         .foregroundColor(.white)
-                                        
-                    
-//                    VStack {
-//                        List {
-//                            NavigationLink("Bluetooth Settings"){
-//                                BluetoothView()
-//                                    .navigationBarBackButtonHidden(true)
-//                            }
-//                            .bold()
-//                            
-//                            NavigationLink("Profile Settings"){
-//                                ProfileView()
-//                                    .navigationBarBackButtonHidden(true)
-//                            }
-//                            .bold()
-//                            
-//                            NavigationLink("Help and Support"){
-//                                EmptyView()
-//                                    .navigationBarBackButtonHidden(true)
-//                                    .navigationBarHidden(true) // Hide the navigation bar
-//                            }
-//                            .bold()
-//                            
-//                        }
-//                        .border(.red)
-//                        .background(.white)
-//                        .frame(width: 360, height: 200) // Adjust the size of the List
-//                        .listStyle(PlainListStyle()) // Apply GroupedListStyle
-//                    }
-//                    .cornerRadius(20)
                     
                     Form {
                         Section(header: Text("Global Settings")) {
-                            NavigationLink("Bluetooth Settings"){
+                            NavigationLink {
                                 BluetoothView()
-                                    .navigationBarBackButtonHidden(true)
                                     .toolbar(.hidden, for: .tabBar)
+
+                            } label: {
+                                Label("Bluetooth", systemImage: "antenna.radiowaves.left.and.right")
                             }
-                            NavigationLink("Account Settings"){
+                            
+                            NavigationLink {
                                 AccountView()
+                                    .toolbar(.hidden, for: .tabBar)
+
+                            } label: {
+                                Label("Account Settings", systemImage: "person.crop.circle")
+                            }
+                            
+                            NavigationLink {
+                                EmptyView()
+                                    .toolbar(.hidden, for: .tabBar)
+
+                            } label: {
+                                Label("Help and Support", systemImage: "gearshape")
                             }
                         }
                     }
                     .frame(width: 360, height: 400) // Adjust the size of the List
                     .cornerRadius(20)
-//                    
-//                    RoundedRectangle(cornerRadius: 50)
-//                        .frame(width: 300, height: 65)
-//                        .foregroundColor(.red)
-//                        .overlay(
-//                            Button("Logout?") {
-//                                viewModel.logOut()
-//                            }
-//                                .foregroundColor(.white)
-//                                .font(.system(size: 25))
-//                        )
-//                        .position(x: UIScreen.main.bounds.width / 2, y: 700)
                 }
             }
         }
-        .navigationBarTitle("")
-        .navigationBarHidden(true)
     }
 }
 
