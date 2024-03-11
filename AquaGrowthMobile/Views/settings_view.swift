@@ -58,7 +58,14 @@ struct SettingsView: View {
                             } label: {
                                 Label("Help and Support", systemImage: "gearshape")
                             }
+                            
                         }
+                        Section{
+                            Button(action: {viewModel.logOut()}){
+                                Text("Log Out").foregroundColor(.red)
+                                }
+                        }
+                    
                     }
                     .frame(width: 360, height: 400) // Adjust the size of the List
                     .cornerRadius(20)
