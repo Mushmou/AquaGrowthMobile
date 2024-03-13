@@ -9,10 +9,10 @@ import Foundation
 import SwiftUI
     
 struct SettingsView: View {
-    
+    @EnvironmentObject var bluetooth: bluetooth_viewmodel
     @StateObject var viewModel = settings_viewmodel()
     @State private var showNavigationBar = true
-
+    
     var body: some View {
         NavigationStack{
             VStack{
@@ -36,45 +36,46 @@ struct SettingsView: View {
                     Form {
                         Section(header: Text("Global Settings")) {
                             NavigationLink {
-                                BluetoothView()
-                                    .toolbar(.hidden, for: .tabBar)
-
+                                BluetoothView().toolbar(.hidden, for: .tabBar)
+                                
                             } label: {
                                 Label("Bluetooth", systemImage: "antenna.radiowaves.left.and.right")
                             }
                             
                             NavigationLink {
-                                AccountView()
-                                    .toolbar(.hidden, for: .tabBar)
-
+                                AccountView().toolbar(.hidden, for: .tabBar)
+                                
                             } label: {
                                 Label("Account Settings", systemImage: "person.crop.circle")
                             }
                             
                             NavigationLink {
-                                EmptyView()
+                                TestView()
+                                    .environmentObject(bluetooth)
                                     .toolbar(.hidden, for: .tabBar)
-
                             } label: {
-                                Label("Help and Support", systemImage: "gearshape")
+                                Label("Test Data", systemImage: "gearshape")
+                            }
+                            
+                            
+                            Section{
+                                Button(action: {viewModel.logOut()}){
+                                    Text("Log Out").foregroundColor(.red)
+                                }
                             }
                             
                         }
-                        Section{
-                            Button(action: {viewModel.logOut()}){
-                                Text("Log Out").foregroundColor(.red)
-                                }
-                        }
-                    
+                        .frame(width: 360, height: 400) // Adjust the size of the List
+                        .cornerRadius(20)
                     }
-                    .frame(width: 360, height: 400) // Adjust the size of the List
-                    .cornerRadius(20)
                 }
             }
         }
     }
 }
+    
+//#Preview {
+//    let viewModel = bluetooth_viewmodel()
+//    SettingsView(settingsBluetoothViewModel: viewModel)
+//}
 
-#Preview {
-    SettingsView()
-}

@@ -175,6 +175,9 @@ class bluetooth_viewmodel: NSObject, ObservableObject, CBPeripheralDelegate {
             break
         }
     }
+    func convertHexToDecimal(hexString: Data) -> Int {
+        return Int(hexString.map { String(format: "%02X", $0) }.joined(), radix: 16) ?? 0
+    }
 }
 
 

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct BluetoothView: View {
-    @ObservedObject var viewModel = bluetooth_viewmodel()
+    @EnvironmentObject var viewModel: bluetooth_viewmodel
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @Environment(\.colorScheme) var colorScheme
     @State private var showNavigationBar = true

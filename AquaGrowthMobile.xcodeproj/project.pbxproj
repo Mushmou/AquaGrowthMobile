@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FB8DF862BA20F7F00094ED7 /* test_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB8DF852BA20F7F00094ED7 /* test_view.swift */; };
+		0FB8DF882BA20F9000094ED7 /* test_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB8DF872BA20F9000094ED7 /* test_viewmodel.swift */; };
 		0FF1FD012B9E401F004CE5A5 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0FF1FD002B9E401F004CE5A5 /* Lottie */; };
 		0FF1FD032B9E40A1004CE5A5 /* Splash_screen.json in Resources */ = {isa = PBXBuildFile; fileRef = 0FF1FD022B9E40A1004CE5A5 /* Splash_screen.json */; };
 		48192AAC2B918EB700F6F746 /* back_button_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48192AAB2B918EB700F6F746 /* back_button_view.swift */; };
@@ -87,6 +89,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0FB8DF852BA20F7F00094ED7 /* test_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_view.swift; sourceTree = "<group>"; };
+		0FB8DF872BA20F9000094ED7 /* test_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_viewmodel.swift; sourceTree = "<group>"; };
 		0FF1FD022B9E40A1004CE5A5 /* Splash_screen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Splash_screen.json; sourceTree = "<group>"; };
 		48192AAB2B918EB700F6F746 /* back_button_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = back_button_view.swift; sourceTree = "<group>"; };
 		48192AB02B92F01700F6F746 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -201,6 +205,7 @@
 				48192AAB2B918EB700F6F746 /* back_button_view.swift */,
 				48192AB12B93080C00F6F746 /* profile_view.swift */,
 				48F8662B2B97AC440045C2D5 /* custom_tab_bar_view.swift */,
+				0FB8DF852BA20F7F00094ED7 /* test_view.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -227,6 +232,7 @@
 				48325BC32B8FB67B00DCE61F /* remove_plant_viewmodel.swift */,
 				48325BC52B8FB68700DCE61F /* splash_screen_viewmodel.swift */,
 				4879C5752B8FC686008AEFAC /* main_viewmodel.swift */,
+				0FB8DF872BA20F9000094ED7 /* test_viewmodel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -482,7 +488,9 @@
 				48461CF02B9E710600BF8A6C /* Extensions.swift in Sources */,
 				48325BC22B8FB66A00DCE61F /* register_viewmodel.swift in Sources */,
 				48325BAD2B8FB5F000DCE61F /* forgot_password_viewmodel.swift in Sources */,
+				0FB8DF882BA20F9000094ED7 /* test_viewmodel.swift in Sources */,
 				48192AAC2B918EB700F6F746 /* back_button_view.swift in Sources */,
+				0FB8DF862BA20F7F00094ED7 /* test_view.swift in Sources */,
 				48325BC02B8FB65F00DCE61F /* settings_viewmodel.swift in Sources */,
 				48325B942B8FB49300DCE61F /* login_view.swift in Sources */,
 				48325B922B8FB48700DCE61F /* individual_plant_view.swift in Sources */,
@@ -665,7 +673,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AquaGrowthMobile/Preview Content\"";
-				DEVELOPMENT_TEAM = 4V3YUZ72NK;
+				DEVELOPMENT_TEAM = CB3UTRCDSQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AquaGrowthMobile/Info.plist;
@@ -698,7 +706,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AquaGrowthMobile/Preview Content\"";
-				DEVELOPMENT_TEAM = 4V3YUZ72NK;
+				DEVELOPMENT_TEAM = CB3UTRCDSQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AquaGrowthMobile/Info.plist;

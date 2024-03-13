@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct MainView: View {
+    var bluetooth = bluetooth_viewmodel()
     @StateObject var viewModel = main_viewmodel()
  
     var body: some View {
@@ -23,7 +24,7 @@ struct MainView: View {
                     .tabItem {
                         Label("Plant", systemImage: "leaf")
                     }
-                SettingsView()
+                SettingsView().environmentObject(bluetooth)
                     .tabItem {
                         Label("Account", systemImage: "person.crop.circle.fill")
                     }
