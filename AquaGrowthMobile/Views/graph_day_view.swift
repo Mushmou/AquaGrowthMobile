@@ -3,13 +3,13 @@
 //  AquaGrowthMobile
 //
 //  Created by Noah Jacinto on 2/28/24.
-//
+// Edited by Jaxon 3/13/24
 
 import Foundation
 import SwiftUI
 
 struct GraphDay: View {
-    //@StateObject var viewModel = graph_week_viewmodel()
+    @StateObject var viewModel = GraphDayViewmodel()
     @State private var showNavigationBar = true
     @State private var selectedOption: String? = nil
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
@@ -48,6 +48,13 @@ struct GraphDay: View {
                         .stroke(Color.black, lineWidth: 2)
                         .frame(width: UIScreen.main.bounds.width - 100, height: 40)
                         .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 4.5)
+                    
+                    //Gray box on day
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(.gray)
+                        .frame(width: UIScreen.main.bounds.width / 5.5, height: 35) // Change the size of the VStack
+                        .position(x: UIScreen.main.bounds.width / 4.5, y: 189)
+                    
                     //Day Week Month
                     HStack (spacing: 40){
                         NavigationLink(destination: GraphDay(),
@@ -84,15 +91,36 @@ struct GraphDay: View {
                     .font(.system(size: 20))
                       
                 }
+                
                 // Back Button
-                // Back Button
+                //change to individual plant view when its ready
                 NavigationLink(destination: PlantView(),
                                tag: "Back", selection: $selectedOption) {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 30)) // Adjust the size as needed
                         .foregroundColor(colorScheme == .dark ? .white : .black)
                 }.isDetailLink(false)
-                    .position(x: UIScreen.main.bounds.width / 9, y: UIScreen.main.bounds.height / -2.2)
+                    .position(x: UIScreen.main.bounds.width / 9, y: UIScreen.main.bounds.height / -3.2)//-4.2)
+                
+                //Date range
+                Text(viewModel.dayDateRange)
+                    .padding()
+                    .foregroundColor(.black)
+                    .font(.system(size: 27))
+                    .bold()
+                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / -3.05)//-5.6)
+                /*
+                //Date calendar list in the graph
+                HStack(spacing:-25){
+                    // Display the week's dates
+                    ForEach(viewModel.dayDateList, id:\.self) { date in
+                        Text(date)
+                            .padding()
+                    }
+                }
+                .font(.system(size: 14))
+                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 24)
+                 */
             }
             
             .navigationBarHidden(true)
