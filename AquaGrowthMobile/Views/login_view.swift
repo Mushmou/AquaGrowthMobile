@@ -13,6 +13,7 @@ struct LoginView: View {
 
     @StateObject var viewModel = login_viewmodel()
     @State private var navigateBackToLogin = false
+    //Environment object for the color scheme
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
