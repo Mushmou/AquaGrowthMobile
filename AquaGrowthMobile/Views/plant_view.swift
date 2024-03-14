@@ -1,8 +1,10 @@
 import SwiftUI
 
 struct PlantView: View {
-    @State private var selectedOption: String? = nil
+    
     @State private var isShowingCreatePlantView = false
+    //temp var to go with more info button
+    @State private var selectedOption: String? = nil
     let plants = [
         Plant(plant_name: "Fern", plant_type: "fern", plant_description: "", plant_image: "Flower"),
         Plant(plant_name: "Cactus", plant_type: "cactus", plant_description: "", plant_image: "Flower"),
@@ -39,6 +41,8 @@ struct PlantView: View {
                     .padding(.vertical, 5) // Adds padding above and below each row for spacing
                     
                 }
+                
+                //temp more info button to go to graph page
                 VStack{
                     ZStack{
                         HStack (spacing: 0){
