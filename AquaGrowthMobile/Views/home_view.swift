@@ -110,3 +110,7 @@ func loadImageFromDocumentDirectory(name: String) -> UIImage? {
     let imageUrl = documentDirectory.appendingPathComponent(name)
     return UIImage(contentsOfFile: imageUrl.path)
 }
+
+#Preview {
+    HomeView();
+}

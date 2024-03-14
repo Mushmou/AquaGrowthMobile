@@ -1,7 +1,10 @@
 import SwiftUI
 
 struct PlantView: View {
+    
     @State private var isShowingCreatePlantView = false
+    //temp var to go with more info button
+    @State private var selectedOption: String? = nil
     let plants = [
         Plant(plant_name: "Fern", plant_type: "fern", plant_description: "", plant_image: "Flower"),
         Plant(plant_name: "Cactus", plant_type: "cactus", plant_description: "", plant_image: "Flower"),
@@ -11,7 +14,9 @@ struct PlantView: View {
     
     var body: some View {
         NavigationView {
+            
             List {
+                
                 ForEach(plants) { plant in
                     HStack {
                         Image(plant.plant_image) // Assumes you have an image named "Flower" in your assets
@@ -34,7 +39,28 @@ struct PlantView: View {
                     .background(RoundedRectangle(cornerRadius: 20).fill(Color(.systemBackground))) // Adds a white background with rounded corners
                     .shadow(color: .gray, radius: 2, x: 0, y: 1)
                     .padding(.vertical, 5) // Adds padding above and below each row for spacing
+                    
                 }
+                
+                //temp more info button to go to graph page
+                VStack{
+                    ZStack{
+                        HStack (spacing: 0){
+                            NavigationLink(destination: GraphWeek(),
+                                           tag: "More Info", selection: $selectedOption) {
+                                Text("More Info")
+                                    .bold()
+                                    .foregroundColor(.black)
+                                    .padding(8)
+                                    .overlay(RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.gray, lineWidth: selectedOption == "More Info" ? 2 : 0))
+                            }.isDetailLink(false)
+                        }
+                        .font(.system(size: 30))
+                    }
+                    
+                }
+                
             }
             .listStyle(PlainListStyle())
             .navigationBarItems(
@@ -51,13 +77,21 @@ struct PlantView: View {
                 }
             ).sheet(isPresented: $isShowingCreatePlantView) {
                 CreatePlantView()
+                
             }
+            
         }
+
     }
+    
     
     struct PlantView_Previews: PreviewProvider {
         static var previews: some View {
             PlantView()
         }
     }
+}
+
+#Preview{
+    PlantView()
 }
