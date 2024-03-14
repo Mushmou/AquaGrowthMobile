@@ -39,7 +39,7 @@ struct SettingsView: View {
                                 BluetoothView()
                                     .toolbar(.hidden, for: .tabBar)
 
-                            } label: {
+                            } label: {	
                                 Label("Bluetooth", systemImage: "antenna.radiowaves.left.and.right")
                             }
                             
@@ -79,6 +79,7 @@ struct SettingsView: View {
                     .cornerRadius(20)
                 }
             }
+            
         }
     }
 }
