@@ -86,5 +86,6 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .environmentObject(bluetooth_viewmodel()) // Provide a mock environment object
 }
 

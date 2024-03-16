@@ -54,13 +54,18 @@
 		48461CF02B9E710600BF8A6C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48461CEF2B9E710600BF8A6C /* Extensions.swift */; };
 		4879C5742B8FC67C008AEFAC /* main_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4879C5732B8FC67C008AEFAC /* main_view.swift */; };
 		4879C5762B8FC686008AEFAC /* main_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4879C5752B8FC686008AEFAC /* main_viewmodel.swift */; };
-		4879C5782B91124D008AEFAC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4879C5772B91124D008AEFAC /* GoogleService-Info.plist */; };
-		4879C5792B91124D008AEFAC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4879C5772B91124D008AEFAC /* GoogleService-Info.plist */; };
-		4879C57A2B91124D008AEFAC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4879C5772B91124D008AEFAC /* GoogleService-Info.plist */; };
 		4879C57D2B91130A008AEFAC /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C57C2B91130A008AEFAC /* FirebaseAnalytics */; };
 		4879C57F2B91130A008AEFAC /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C57E2B91130A008AEFAC /* FirebaseAuth */; };
 		4879C5812B91130A008AEFAC /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C5802B91130A008AEFAC /* FirebaseDatabase */; };
 		4879C5832B91130A008AEFAC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C5822B91130A008AEFAC /* FirebaseFirestore */; };
+		48B3FB112BA2ABC600393729 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 48B3FB102BA2ABC600393729 /* GoogleSignIn */; };
+		48B3FB132BA2ABC600393729 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 48B3FB122BA2ABC600393729 /* GoogleSignInSwift */; };
+		48B3FB1D2BA2AC6B00393729 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 48B3FB1C2BA2AC6A00393729 /* GoogleService-Info.plist */; };
+		48B3FB1E2BA2AC6B00393729 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 48B3FB1C2BA2AC6A00393729 /* GoogleService-Info.plist */; };
+		48B3FB1F2BA2AC6B00393729 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 48B3FB1C2BA2AC6A00393729 /* GoogleService-Info.plist */; };
+		48B3FB212BA2AE7100393729 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B3FB202BA2AE7100393729 /* Utilities.swift */; };
+		48B3FB222BA2AE7100393729 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B3FB202BA2AE7100393729 /* Utilities.swift */; };
+		48B3FB232BA2AE7100393729 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B3FB202BA2AE7100393729 /* Utilities.swift */; };
 		48DCF5692B83E39600F88996 /* AquaGrowthMobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */; };
 		48DCF56B2B83E39600F88996 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF56A2B83E39600F88996 /* ContentView.swift */; };
 		48DCF56D2B83E39700F88996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48DCF56C2B83E39700F88996 /* Assets.xcassets */; };
@@ -136,7 +141,8 @@
 		48461CEF2B9E710600BF8A6C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4879C5732B8FC67C008AEFAC /* main_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_view.swift; sourceTree = "<group>"; };
 		4879C5752B8FC686008AEFAC /* main_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_viewmodel.swift; sourceTree = "<group>"; };
-		4879C5772B91124D008AEFAC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		48B3FB1C2BA2AC6A00393729 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		48B3FB202BA2AE7100393729 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		48DCF5652B83E39600F88996 /* AquaGrowthMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AquaGrowthMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaGrowthMobileApp.swift; sourceTree = "<group>"; };
 		48DCF56A2B83E39600F88996 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -157,9 +163,11 @@
 			files = (
 				0FF1FD012B9E401F004CE5A5 /* Lottie in Frameworks */,
 				4879C5812B91130A008AEFAC /* FirebaseDatabase in Frameworks */,
+				48B3FB132BA2ABC600393729 /* GoogleSignInSwift in Frameworks */,
 				4879C5832B91130A008AEFAC /* FirebaseFirestore in Frameworks */,
 				4879C57D2B91130A008AEFAC /* FirebaseAnalytics in Frameworks */,
 				4879C57F2B91130A008AEFAC /* FirebaseAuth in Frameworks */,
+				48B3FB112BA2ABC600393729 /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				48461CEF2B9E710600BF8A6C /* Extensions.swift */,
+				48B3FB202BA2AE7100393729 /* Utilities.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -277,9 +286,9 @@
 		48DCF5672B83E39600F88996 /* AquaGrowthMobile */ = {
 			isa = PBXGroup;
 			children = (
+				48B3FB1C2BA2AC6A00393729 /* GoogleService-Info.plist */,
 				48461CEE2B9E70EB00BF8A6C /* Other */,
 				48192AB02B92F01700F6F746 /* Info.plist */,
-				4879C5772B91124D008AEFAC /* GoogleService-Info.plist */,
 				0FF1FD022B9E40A1004CE5A5 /* Splash_screen.json */,
 				48325BA12B8FB5B500DCE61F /* Models */,
 				48325BA02B8FB5AF00DCE61F /* ViewModels */,
@@ -339,6 +348,8 @@
 				4879C5802B91130A008AEFAC /* FirebaseDatabase */,
 				4879C5822B91130A008AEFAC /* FirebaseFirestore */,
 				0FF1FD002B9E401F004CE5A5 /* Lottie */,
+				48B3FB102BA2ABC600393729 /* GoogleSignIn */,
+				48B3FB122BA2ABC600393729 /* GoogleSignInSwift */,
 			);
 			productName = AquaGrowthMobile;
 			productReference = 48DCF5652B83E39600F88996 /* AquaGrowthMobile.app */;
@@ -415,6 +426,7 @@
 			packageReferences = (
 				4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				0FF1FCFF2B9E401F004CE5A5 /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				48B3FB0F2BA2ABC600393729 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 48DCF5662B83E39600F88996 /* Products */;
 			projectDirPath = "";
@@ -433,9 +445,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FF1FD032B9E40A1004CE5A5 /* Splash_screen.json in Resources */,
+				48B3FB1D2BA2AC6B00393729 /* GoogleService-Info.plist in Resources */,
 				48DCF5702B83E39700F88996 /* Preview Assets.xcassets in Resources */,
 				48DCF56D2B83E39700F88996 /* Assets.xcassets in Resources */,
-				4879C5782B91124D008AEFAC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,7 +455,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4879C5792B91124D008AEFAC /* GoogleService-Info.plist in Resources */,
+				48B3FB1E2BA2AC6B00393729 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,7 +463,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4879C57A2B91124D008AEFAC /* GoogleService-Info.plist in Resources */,
+				48B3FB1F2BA2AC6B00393729 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,6 +518,7 @@
 				48325B9A2B8FB4B600DCE61F /* register_view.swift in Sources */,
 				48325BC42B8FB67B00DCE61F /* remove_plant_viewmodel.swift in Sources */,
 				48325BB82B8FB63500DCE61F /* home_viewmodel.swift in Sources */,
+				48B3FB212BA2AE7100393729 /* Utilities.swift in Sources */,
 				48192AB22B93080C00F6F746 /* profile_view.swift in Sources */,
 				4879C5762B8FC686008AEFAC /* main_viewmodel.swift in Sources */,
 				48325BAB2B8FB5E800DCE61F /* edit_plant_viewmodel.swift in Sources */,
@@ -517,6 +530,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48B3FB222BA2AE7100393729 /* Utilities.swift in Sources */,
 				48DCF57A2B83E39800F88996 /* AquaGrowthMobileTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -525,6 +539,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48B3FB232BA2AE7100393729 /* Utilities.swift in Sources */,
 				48DCF5842B83E39800F88996 /* AquaGrowthMobileUITests.swift in Sources */,
 				48DCF5862B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift in Sources */,
 			);
@@ -673,7 +688,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AquaGrowthMobile/Preview Content\"";
-				DEVELOPMENT_TEAM = CB3UTRCDSQ;
+				DEVELOPMENT_TEAM = 4V3YUZ72NK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AquaGrowthMobile/Info.plist;
@@ -706,7 +721,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AquaGrowthMobile/Preview Content\"";
-				DEVELOPMENT_TEAM = CB3UTRCDSQ;
+				DEVELOPMENT_TEAM = 4V3YUZ72NK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AquaGrowthMobile/Info.plist;
@@ -867,6 +882,14 @@
 				minimumVersion = 10.21.0;
 			};
 		};
+		48B3FB0F2BA2ABC600393729 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -894,6 +917,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		48B3FB102BA2ABC600393729 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48B3FB0F2BA2ABC600393729 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		48B3FB122BA2ABC600393729 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48B3FB0F2BA2ABC600393729 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
