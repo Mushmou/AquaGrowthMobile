@@ -38,7 +38,6 @@ struct LoginView: View {
                         .bold()
                 }
                 
-                //Fields for Email and Password.
                 VStack{
                     TextField("Email", text: $viewModel.email)
                         .padding()
@@ -70,6 +69,7 @@ struct LoginView: View {
                         .foregroundColor(.white)
                     }
                     //Field for ForgotPassword
+                    
                     NavigationLink {
                         ForgotPasswordView()
                             .navigationBarBackButtonHidden(true)
