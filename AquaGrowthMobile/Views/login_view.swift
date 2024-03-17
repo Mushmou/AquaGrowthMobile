@@ -12,16 +12,20 @@ import GoogleSignInSwift
 import FirebaseAuth
 
 struct LoginView: View {
+    //Viewmodels for Google and Login Backend
     @StateObject var google_viewModel = signIn_google_viewModel()
     @StateObject var viewModel = login_viewmodel()
-    @State private var navigateBackToLogin = false
-    //Environment object for the color scheme
+
+    //Color scheme for dark and light mode
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         VStack{
             NavigationStack{
                 Spacer()
+                
+                //Title for Logo
+                //TODO: Replace this set of HStack with an image of our logo.
                 HStack{
                     Text("AquaGr")
                         .font(.system(size: 50))
@@ -49,6 +53,7 @@ struct LoginView: View {
                         .background(Color.gray.opacity(0.20))
                         .cornerRadius(12)
                     
+                    //Starts loading icon, then waits to submit the login function using Email and Password.
                     if viewModel.isLoading {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle())
@@ -63,6 +68,7 @@ struct LoginView: View {
                         .cornerRadius(12)
                         .foregroundColor(.white)
                     }
+                    //Field for ForgotPassword
                     
                     NavigationLink {
                         ForgotPasswordView()
@@ -75,28 +81,29 @@ struct LoginView: View {
                             .foregroundColor(Color(red: 0.28, green: 0.59, blue: 0.17))
                     }
                 }.padding(.bottom, 50)
-                
+        
                 Spacer()
+                
                 VStack{
-                    
-                    HStack {
+                    VStack{
+                        HStack {
                             GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .light, style: .icon, state: .normal)) {
                                 google_viewModel.signInWithGoogle()
                             }
-                                .clipShape(Circle()) // Clip the button to a circle shape
-                                .shadow(radius: 4) // Optional: Add shadow to the button
-                    }.padding(.bottom, 20)
-                    
-                    ZStack{
+                            .clipShape(Circle()) // Set the button into a circle shape. It was originally a rectangle.
+                            .shadow(radius: 4) // Adds a shadow to the button.
+                        }
+                            .padding(.bottom, 20) //Set padding below the Google Icon
+                        
                         NavigationLink{
                             RegisterView()
                                 .navigationBarBackButtonHidden(true)
                         }
-                    label: {
-                        Text("Sign up using Email Address")
-                            .underline()
-                            .bold()
-                            .foregroundColor(Color(red: 0.28, green: 0.59, blue: 0.17))
+                        label: {
+                            Text("Sign up using Email Address")
+                                .underline()
+                                .bold()
+                                .foregroundColor(Color(red: 0.28, green: 0.59, blue: 0.17))
                         }
                     }
                 }
