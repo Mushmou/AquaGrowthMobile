@@ -8,6 +8,9 @@
 
 import Foundation
 import FirebaseAuth
+import GoogleSignIn
+import GoogleSignInSwift
+import FirebaseCore
 
 class login_viewmodel: ObservableObject{
     @Published var email = ""
@@ -66,4 +69,44 @@ class login_viewmodel: ObservableObject{
         return true
     }
     
+}
+
+class signIn_google_viewModel: ObservableObject{
+    @Published var isLoginSuccess = false
+    
+    func signInWithGoogle() {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        
+        // Create Google Sign In configuration object.
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+        
+        // Start the sign in flow!
+        GIDSignIn.sharedInstance.signIn(withPresenting: Application_utility.rootViewController) { [unowned self] result, error in
+            guard error == nil else {
+                return
+            }
+            
+            guard
+                let user = result?.user,
+                let idToken = user.idToken?.tokenString else {
+                return
+            }
+            
+            let accessToken = user.accessToken
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
+            
+            Auth.auth().signIn(with: credential) {res, error in
+                if let error = error{
+                    print(error.localizedDescription)
+                    return
+                }
+                guard let user = res?.user else{
+                    return
+                }
+                print(user)
+            }
+            
+        }
+    }
 }

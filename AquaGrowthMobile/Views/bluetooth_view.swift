@@ -1,4 +1,3 @@
-//
 //  bluetooth_view.swift
 //  AquaGrowthMobile
 //
@@ -104,4 +103,5 @@ struct BluetoothView: View {
 
 #Preview {
     BluetoothView()
+        .environmentObject(bluetooth_viewmodel())
 }
