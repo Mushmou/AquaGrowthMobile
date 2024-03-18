@@ -6,12 +6,13 @@ struct PlantView: View {
     //temp var to go with more info button
     @State private var selectedOption: String? = nil
     @StateObject var viewModel = plant_viewmodel()
+    @EnvironmentObject var bluetooth_viewModel: bluetooth_viewmodel
     
     var body: some View {
         NavigationStack {
             List {
                 ForEach(viewModel.plants) { plant in
-                    NavigationLink(destination: IndividualPlantView(my_plant: plant)) {
+                    NavigationLink(destination: IndividualPlantView(my_plant: plant).toolbar(.hidden, for: .tabBar)) {
                         HStack {
                             Image(plant.plant_image) // Assumes you have an image named "Flower" in your assets
                                 .resizable()
@@ -69,6 +70,7 @@ struct PlantView: View {
 
 #Preview{
     PlantView()
+        .environmentObject(bluetooth_viewmodel())
 }
 
 

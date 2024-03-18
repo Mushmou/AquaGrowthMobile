@@ -18,6 +18,8 @@ struct Plant: Identifiable {
 }
 
 class plant_viewmodel: ObservableObject{
+    
+    
     @Published var plants = [
         Plant(plant_name: "Fern", plant_type: "something what", plant_description: "I love ferns", plant_image: "Tomato"),
         Plant(plant_name: "Cactus", plant_type: "pincushion", plant_description: "Yea its a prickly cactus", plant_image: "Temperature"),
@@ -37,18 +39,18 @@ class plant_viewmodel: ObservableObject{
             return
         }
         
-        db.collection("users").document(uid).collection("plants").addDocument(data: [
-            "plant_name": plant.plant_name,
-            "plant_type": plant.plant_type,
-            "plant_description": plant.plant_description,
-            "plant_image": plant.plant_image
-        ]) { error in
-            if let error = error {
-                print("Error adding document: \(error)")
-            } else {
-                print("Document added successfully")
-            }
-        }
+//        Generate plant id
+        db.collection("users")
+            .document(uid)
+            .collection("plants")
+            .document(plant.id.uuidString)
+            .setData([
+                            "plant_id" : plant.id.uuidString,
+                            "plant_name": plant.plant_name,
+                            "plant_type": plant.plant_type,
+                            "plant_description": plant.plant_description,
+                            "plant_image": plant.plant_image
+                            ])
     }
     
     func fetchPlants() async {
