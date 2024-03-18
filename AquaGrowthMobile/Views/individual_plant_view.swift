@@ -9,12 +9,16 @@ import Foundation
 import SwiftUI
 
 struct IndividualPlantView: View {
+    @StateObject var viewmodel = individualplant_viewmodel()
+    @EnvironmentObject var bluetooth: bluetooth_viewmodel
     
     let my_plant: Plant
     
     init(my_plant: Plant) {
         self.my_plant = my_plant
     }
+    
+    
     @State var selectedOption: String? = nil
 
     var body: some View {
@@ -55,11 +59,15 @@ struct IndividualPlantView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                     
+                    
                     Text("Moisture")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                    if viewmodel.$moisture != nil{
+                        Text("Value: \(viewmodel.moisture)")
+                    }
                 }
                     .padding(.bottom, 30)
                 
@@ -106,6 +114,13 @@ struct IndividualPlantView: View {
                         .buttonStyle(PlainButtonStyle()) // Use PlainButtonStyle to remove the default button style
                     )
                     .padding(.top, 10)
+                
+                Button("Save Data"){
+                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 0
+                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 0
+                    
+                    viewmodel.SavedSensorInforamtion()
+                }
             }
 //            .navigationTitle(my_plant.plant_name)
 //            .navigationBarTitleDisplayMode(.inline)
@@ -128,6 +143,13 @@ struct IndividualPlantView: View {
 //                    }.border(.red)
 //            )
             
+            .onAppear(){
+                viewmodel.plant_id = my_plant.id.uuidString
+                viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 0
+                
+                
+                viewmodel.SavedSensorInforamtion()
+            }
             .toolbar {
                 ToolbarItemGroup() {
                     Button(action: {

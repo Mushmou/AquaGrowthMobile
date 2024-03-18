@@ -3,6 +3,7 @@ import SwiftUI
 struct PlantView: View {
     
     @State private var isShowingCreatePlantView = false
+    @EnvironmentObject var bluetooth: bluetooth_viewmodel
     //temp var to go with more info button
     @State private var selectedOption: String? = nil
     @StateObject var viewModel = plant_viewmodel()
@@ -11,7 +12,7 @@ struct PlantView: View {
         NavigationStack {
             List {
                 ForEach(viewModel.plants) { plant in
-                    NavigationLink(destination: IndividualPlantView(my_plant: plant)) {
+                    NavigationLink(destination: IndividualPlantView(my_plant: plant).environmentObject(bluetooth)) {
                         HStack {
                             Image(plant.plant_image) // Assumes you have an image named "Flower" in your assets
                                 .resizable()

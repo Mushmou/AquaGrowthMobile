@@ -162,15 +162,15 @@ class bluetooth_viewmodel: NSObject, ObservableObject, CBPeripheralDelegate {
     private func updateCharacteristicValue(characteristic: CBCharacteristic, value: Data?) {
         switch characteristic.uuid {
         case CBUUID(string: "759c8d51-2f75-4041-9ed8-c920c06cdbd0"):
-            bluetoothModel.ledCharacteristicValue = value
+            bluetoothModel.ledCharacteristicInt = value.map { convertHexToDecimal(hexString: $0) } ?? 0
         case CBUUID(string: "db4e8f1c-4a29-4a15-bc6d-cb4d1180cf46"):
-            bluetoothModel.moistureCharacteristicValue = value
+            bluetoothModel.moistureCharacteristicInt = value.map { convertHexToDecimal(hexString: $0) } ?? 0
         case CBUUID(string: "f691c6b2-73f3-4743-a344-1eeca53ab9eb"):
-            bluetoothModel.humidityCharacteristicValue = value
+            bluetoothModel.humidityCharacteristicInt = value.map { convertHexToDecimal(hexString: $0) } ?? 0
         case CBUUID(string: "0c1c7c47-b159-4e19-9d0f-f5f717445549"):
-            bluetoothModel.fahrenheitCharacteristicValue = value
+            bluetoothModel.fahrenheitCharacteristicInt = value.map { convertHexToDecimal(hexString: $0) } ?? 0
         case CBUUID(string: "5be60d98-5e69-4863-96a1-28a46cf73536"):
-            bluetoothModel.heatIndexCharacteristicValue = value
+            bluetoothModel.heatIndexCharacteristicInt = value.map { convertHexToDecimal(hexString: $0) } ?? 0
         default:
             break
         }
