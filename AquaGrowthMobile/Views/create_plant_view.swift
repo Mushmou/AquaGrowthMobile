@@ -13,6 +13,9 @@ struct CreatePlantView: View {
     @State private var plantDescription: String = ""
     @State private var plantImage: UIImage?
     @State private var isImagePickerDisplayed = false
+    @Environment(\.presentationMode) var presentationMode
+
+    @EnvironmentObject var plantViewModel: plant_viewmodel
     
     var body: some View {
         NavigationView {
@@ -45,7 +48,9 @@ struct CreatePlantView: View {
                 
                 Button("Save Plant") {
                     // Here you would include the code to save the plant data
-                    savePlantData()
+                    plantViewModel.savePlant(Plant(plant_name: plantName, plant_type: plantType, plant_description: plantDescription, plant_image: "Flower"))
+                    plantViewModel.savePlantDatabase(Plant(plant_name: plantName, plant_type: plantType, plant_description: plantDescription, plant_image: "Flower"))
+                    presentationMode.wrappedValue.dismiss() // Dismiss the view after saving the plant
                 }
             }
             .navigationBarTitle("Add Plant Information", displayMode: .inline)
@@ -54,18 +59,21 @@ struct CreatePlantView: View {
             }
         }
     }
-    
-    func savePlantData() {
-        // Your code to save the data would go here.
-        // This might involve writing to a database, saving to UserDefaults,
-        // or sending the data to a server depending on your app's architecture.
-    }
 }
+
+//I removed this, this preview provider is Deprecated (Noah)
 // The preview provider
-struct AddPlantView_Previews: PreviewProvider {
-    static var previews: some View {
-        CreatePlantView()
-    }
+//struct AddPlantView_Previews: PreviewProvider {
+//    @StateObject var viewModel = plant_viewmodel()
+//    static var previews: some View {
+//        CreatePlantView()
+//            .environmentObject(viewModel)
+//    }
+//}
+
+#Preview {
+    CreatePlantView()
+        .environmentObject(plant_viewmodel())
 }
 
 func saveImage(_ image: UIImage, withName name: String) {
