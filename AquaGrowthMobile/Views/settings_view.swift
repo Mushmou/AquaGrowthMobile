@@ -10,22 +10,28 @@ import SwiftUI
     
 struct SettingsView: View {
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
+
     @StateObject var viewModel = settings_viewmodel()
     @State private var showNavigationBar = true
     
     var body: some View {
+        //We're experiencing a bug with navigation stack that 
+        //pushes view down, leading to rough transition.. However,
+        //if we use the deprecated function navigation view
+        //then it will smoothen the transitions.
         NavigationStack{
             VStack{
                 ZStack{
+                    //Set the green rectangle
                     Rectangle()
-                        .fill(Color(red: 0.28, green: 0.59, blue: 0.17))
+                        .fill(Color(red: 0.28, green: 0.59, blue: 0.17)) //Set the green color
                         .frame(width: UIScreen.main.bounds.width, height: 500) // Change the size of the VStack
-                        .position(x: UIScreen.main.bounds.width / 2, y: 80)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 80) //Set the position (were using figma)
                     
                     Rectangle()
-                        .fill(.white)
+                        .fill(.white) //Set the white color
                         .frame(width: UIScreen.main.bounds.width, height: 640) // Change the size of the VStack
-                        .position(x: UIScreen.main.bounds.width / 2, y: 550)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 550) //Set the position (were using figma)
                     
                     Text("Settings")
                         .font(.system(size: 50))
@@ -85,5 +91,6 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .environmentObject(bluetooth_viewmodel()) // Provide a mock environment object
 }
 
