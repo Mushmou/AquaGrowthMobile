@@ -57,8 +57,6 @@ struct AccountView: View {
                         Rectangle()
                             .fill(Color.white)
                             .frame(maxWidth: .infinity)
-                            .border(.red)
-                        
                         
                         VStack{
                             Spacer()

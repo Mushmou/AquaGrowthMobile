@@ -28,15 +28,16 @@ struct LoginView: View {
                 //TODO: Replace this set of HStack with an image of our logo.
                 HStack{
                     Text("AquaGr")
-                        .font(.system(size: 50))
+                        .font(.system(size: 55))
                         .bold()
                     Text("🍅")
                         .font(.system(size: 40))
                         .padding(0)
                     Text("wth")
-                        .font(.system(size: 50))
+                        .font(.system(size: 55))
                         .bold()
                 }
+                .padding(.bottom, 80)
                 
                 VStack{
                     TextField("Email", text: $viewModel.email)
