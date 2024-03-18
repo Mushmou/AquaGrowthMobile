@@ -56,8 +56,7 @@ struct AccountView: View {
                     ZStack{
                         Rectangle()
                             .fill(Color.white)
-                            .frame(maxWidth: .infinity)
-                        
+                            .frame(maxWidth: .infinity)                        
                         VStack{
                             Spacer()
                             
