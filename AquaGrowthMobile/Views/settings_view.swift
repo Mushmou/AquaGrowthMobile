@@ -45,7 +45,7 @@ struct SettingsView: View {
                                 BluetoothView()
                                     .toolbar(.hidden, for: .tabBar)
 
-                            } label: {	
+                            } label: {
                                 Label("Bluetooth", systemImage: "antenna.radiowaves.left.and.right")
                             }
                             
@@ -77,8 +77,9 @@ struct SettingsView: View {
                         Section{
                             Button(action: {viewModel.logOut()}){
                                 Text("Log Out").foregroundColor(.red)
-                            }
+                                }
                         }
+                    
                     }
                     .frame(width: 360, height: 400) // Adjust the size of the List
                     .cornerRadius(20)

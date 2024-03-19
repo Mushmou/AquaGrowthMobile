@@ -18,8 +18,8 @@ struct TestView : View{
                 if my_peripheral != nil{
                     Text("Status: \(bluetooth.bluetoothModel.connectedPeripheral!)")
                 }
-                if bluetooth.bluetoothModel.ledCharacteristicValue != nil{
-                    Text("Value: \(bluetooth.bluetoothModel.ledCharacteristicValue!)")
+                if bluetooth.bluetoothModel.ledCharacteristicInt != nil{
+                    Text("Value: \(bluetooth.bluetoothModel.ledCharacteristicInt!)")
                 }
                 Button("Read LED Characteristic") {
                     if (my_peripheral != nil) {
@@ -27,19 +27,16 @@ struct TestView : View{
                     }
                 }
                 
-                if bluetooth.bluetoothModel.moistureCharacteristicValue != nil{
-                    Text("Value: \(bluetooth.bluetoothModel.moistureCharacteristicValue!)")
+                if bluetooth.bluetoothModel.moistureCharacteristicInt != nil{
+                    Text("Value: \(bluetooth.bluetoothModel.moistureCharacteristicInt!)")
                 }
                 Button("Read Moisture Characteristic") {
                     if (my_peripheral != nil) {
                         bluetooth.readMoistureCharacteristic()
                     }
                 }
-                if let humidityValueHex = bluetooth.bluetoothModel.humidityCharacteristicValue {
-                    let humidity = bluetooth.convertHexToDecimal(hexString: humidityValueHex)
-                    Text("Value: \(humidity)")
-                } else {
-                    Text("Humidity data not available")
+                if bluetooth.bluetoothModel.humidityCharacteristicInt != nil{
+                    Text("Value: \(bluetooth.bluetoothModel.humidityCharacteristicInt!)")
                 }
                 
                 Button("Read Humidity Characteristic") {
@@ -47,20 +44,29 @@ struct TestView : View{
                         bluetooth.readHumidityCharacteristic  ()
                     }
                 }
-                if bluetooth.bluetoothModel.fahrenheitCharacteristicValue != nil{
-                    Text("Value: \(bluetooth.bluetoothModel.fahrenheitCharacteristicValue!)")
+                if bluetooth.bluetoothModel.fahrenheitCharacteristicInt != nil{
+                    Text("Value: \(bluetooth.bluetoothModel.fahrenheitCharacteristicInt!)")
                 }
                 Button("Read Fahrenheit Characteristic") {
                     if (my_peripheral != nil) {
                         bluetooth.readFahrenheitCharacteristic()
                     }
                 }
-                if bluetooth.bluetoothModel.heatIndexCharacteristicValue != nil{
-                    Text("Value: \(bluetooth.bluetoothModel.heatIndexCharacteristicValue!)")
+                if bluetooth.bluetoothModel.heatIndexCharacteristicInt != nil{
+                    Text("Value: \(bluetooth.bluetoothModel.heatIndexCharacteristicInt!)")
                 }
                 Button("Read Heat Index Characteristic") {
                     if (my_peripheral != nil) {
                         bluetooth.readHeatIndexCharacteristic()
+                    }
+                }
+                
+                if bluetooth.bluetoothModel.lightCharacteristicInt != nil{
+                    Text("Value: \(bluetooth.bluetoothModel.lightCharacteristicInt!)")
+                }
+                Button("Read Light Index Characteristic") {
+                    if (my_peripheral != nil) {
+                        bluetooth.readLightCharacteristic()
                     }
                 }
             }

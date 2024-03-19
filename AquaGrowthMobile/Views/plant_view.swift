@@ -3,16 +3,16 @@ import SwiftUI
 struct PlantView: View {
     
     @State private var isShowingCreatePlantView = false
+    @EnvironmentObject var bluetooth: bluetooth_viewmodel
     //temp var to go with more info button
     @State private var selectedOption: String? = nil
     @StateObject var viewModel = plant_viewmodel()
-    @EnvironmentObject var bluetooth_viewModel: bluetooth_viewmodel
     
     var body: some View {
         NavigationStack {
             List {
                 ForEach(viewModel.plants) { plant in
-                    NavigationLink(destination: IndividualPlantView(my_plant: plant).toolbar(.hidden, for: .tabBar)) {
+                    NavigationLink(destination: IndividualPlantView(my_plant: plant).environmentObject(bluetooth).toolbar(.hidden, for: .tabBar)) {
                         HStack {
                             Image(plant.plant_image) // Assumes you have an image named "Flower" in your assets
                                 .resizable()
@@ -55,39 +55,15 @@ struct PlantView: View {
                 CreatePlantView()
                     .environmentObject(viewModel)
             }
-            
-        }
-
-    }
-    
-    
-    struct PlantView_Previews: PreviewProvider {
-        static var previews: some View {
-            PlantView()
+            .onAppear {
+                viewModel.fetchPlants() // Call fetchPlants() when the view appears
+            }
         }
     }
+    
 }
 
 #Preview{
     PlantView()
         .environmentObject(bluetooth_viewmodel())
 }
-
-
-//TODO: JAXONS OLD BUTTON THAT WAS MOVED INTO INDIVIDUAL PLANT VIEW
-//                VStack{
-//                    ZStack{
-//                        HStack (spacing: 0){
-//                            NavigationLink(destination: GraphWeek(),
-//                                           tag: "More Info", selection: $selectedOption) {
-//                                Text("More Info")
-//                                    .bold()
-//                                    .foregroundColor(.black)
-//                                    .padding(8)
-//                                    .overlay(RoundedRectangle(cornerRadius: 8)
-//                                        .stroke(Color.gray, lineWidth: selectedOption == "More Info" ? 2 : 0))
-//                            }.isDetailLink(false)
-//                        }
-//                        .font(.system(size: 30))
-//                    }
-//                }
