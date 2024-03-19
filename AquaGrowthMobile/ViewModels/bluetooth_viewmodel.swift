@@ -158,6 +158,28 @@ class bluetooth_viewmodel: NSObject, ObservableObject, CBPeripheralDelegate {
             }
         }
     }
+    
+    func readLightCharacteristic(){
+        print("Reading light characteristic")
+        // Check if the connectedPeripheral is valid
+        guard let peripheral = bluetoothModel.connectedPeripheral else {
+            print("Connected peripheral is nil")
+            return
+        }
+        
+        // Check if the peripheral is connected
+        guard peripheral.state == .connected else {
+            print("Peripheral is not connected")
+            return
+        }
+        
+        for c in bluetoothModel.discoveredCharacteristics{
+            if c.uuid == CBUUID(string: "4ef5b009-76bb-4a64-9dd6-4ea40097f43e"){
+                readValue(characteristic: c)
+            }
+        }
+    }
+    
     // Update characteristic values in the BluetoothModel
     private func updateCharacteristicValue(characteristic: CBCharacteristic, value: Data?) {
         switch characteristic.uuid {
@@ -171,6 +193,8 @@ class bluetooth_viewmodel: NSObject, ObservableObject, CBPeripheralDelegate {
             bluetoothModel.fahrenheitCharacteristicInt = value.map { convertHexToDecimal(hexString: $0) } ?? 0
         case CBUUID(string: "5be60d98-5e69-4863-96a1-28a46cf73536"):
             bluetoothModel.heatIndexCharacteristicInt = value.map { convertHexToDecimal(hexString: $0) } ?? 0
+        case CBUUID(string: "4ef5b009-76bb-4a64-9dd6-4ea40097f43e"):
+            bluetoothModel.lightCharacteristicInt = value.map { convertHexToDecimal(hexString: $0) } ?? 0
         default:
             break
         }

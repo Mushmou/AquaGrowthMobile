@@ -60,6 +60,15 @@ struct TestView : View{
                         bluetooth.readHeatIndexCharacteristic()
                     }
                 }
+                
+                if bluetooth.bluetoothModel.lightCharacteristicInt != nil{
+                    Text("Value: \(bluetooth.bluetoothModel.lightCharacteristicInt!)")
+                }
+                Button("Read Light Index Characteristic") {
+                    if (my_peripheral != nil) {
+                        bluetooth.readLightCharacteristic()
+                    }
+                }
             }
         }
     }

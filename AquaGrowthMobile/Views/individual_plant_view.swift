@@ -11,15 +11,9 @@ import SwiftUI
 struct IndividualPlantView: View {
     @StateObject var viewmodel = individualplant_viewmodel()
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
-    
-    let my_plant: Plant
-    
-    init(my_plant: Plant) {
-        self.my_plant = my_plant
-    }
-    
-    
     @State var selectedOption: String? = nil
+
+    let my_plant: Plant
 
     var body: some View {
         NavigationStack{
@@ -58,16 +52,13 @@ struct IndividualPlantView: View {
                     Image("Water")
                         .resizable()
                         .frame(width: 30, height: 30)
-                    
-                    
-                    Text("Moisture")
+                        
+                    Text("Moisture: \(viewmodel.moisture)")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    if viewmodel.$moisture != nil{
-                        Text("Value: \(viewmodel.moisture)")
-                    }
+                
                 }
                     .padding(.bottom, 30)
                 
@@ -77,7 +68,7 @@ struct IndividualPlantView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                     
-                    Text("Temperature")
+                    Text("Temperature: \(viewmodel.fahrenheit-7)")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
@@ -91,7 +82,7 @@ struct IndividualPlantView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                     
-                    Text("Humidity")
+                    Text("Humidity: \(viewmodel.humidity)")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
@@ -111,44 +102,35 @@ struct IndividualPlantView: View {
                                 .bold()
                                 .font(.system(size: 25))
                         }
-                        .buttonStyle(PlainButtonStyle()) // Use PlainButtonStyle to remove the default button style
+                        .buttonStyle(PlainButtonStyle())
                     )
                     .padding(.top, 10)
-                
+
                 Button("Save Data"){
-                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 0
-                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 0
-                    
+                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 999
+                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 999
+                    viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
+                    viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
+                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
                     viewmodel.SavedSensorInforamtion()
                 }
             }
-//            .navigationTitle(my_plant.plant_name)
-//            .navigationBarTitleDisplayMode(.inline)
-//            .navigationBarItems(
-//                leading:
-//                    HStack{
-//                        Spacer()
-//                        Text(my_plant.plant_name)
-//                            .font(.system(size: 32))
-//                            .bold()
-//                        Spacer()
-//                        
-//                        Button(action: {
-//                            // Action for adding a new plant
-//                            print("Add Plant Clicked")
-//                            
-//                        }) {
-//                            Image(systemName: "plus")
-//                        }
-//                    }.border(.red)
-//            )
-            
             .onAppear(){
                 viewmodel.plant_id = my_plant.id.uuidString
-                viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 0
-                
-                
-                viewmodel.SavedSensorInforamtion()
+                let my_peripheral = bluetooth.bluetoothModel.connectedPeripheral
+                if (my_peripheral != nil) {
+                    bluetooth.readLEDCharacteristic()
+                    bluetooth.readMoistureCharacteristic()
+                    bluetooth.readHumidityCharacteristic()
+                    bluetooth.readFahrenheitCharacteristic()
+                    bluetooth.readHeatIndexCharacteristic()
+                    
+                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 999
+                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 999
+                    viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
+                    viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
+                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
+                }
             }
             .toolbar {
                 ToolbarItemGroup() {
@@ -159,8 +141,6 @@ struct IndividualPlantView: View {
                     }
                 }
             }
-//            .navigationBarTitleDisplayMode(.inline)
-//            .navigationBarTitle(Text("Dashboard").font(.subheadline), displayMode: .large)
         }
     }
 }
@@ -172,7 +152,7 @@ struct IndividualPlantView: View {
     struct PreviewWrapper: View {
         var body: some View {
             let testPlant = Plant(plant_name: "Cactus", plant_type: "Pincushion", plant_description: "My indoor prickly cactus", plant_image: "Flower")
-            IndividualPlantView(my_plant: testPlant)
+            IndividualPlantView(my_plant: testPlant).environmentObject(bluetooth_viewmodel())
         }
     }
     return PreviewWrapper()
