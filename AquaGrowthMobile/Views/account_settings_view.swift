@@ -101,15 +101,15 @@ struct AccountView: View {
                     
                     RoundedRectangle(cornerRadius: 50)
                         .frame(width: 300, height: 65)
-                        .foregroundColor(.red)
+                        .foregroundColor(Color(red: 0.28, green: 0.59, blue: 0.17))
                         .overlay(
-                            Button("Logout?") {
+                            Button("Update Profile") {
                                 viewModel.logOut()
                             }
                                 .foregroundColor(.white)
                                 .font(.system(size: 25))
                         )
-                        .padding(.top, 10)
+                        .padding(.top, 20)
                     Spacer()
                 }
             }

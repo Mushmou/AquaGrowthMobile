@@ -60,16 +60,22 @@ struct SettingsView: View {
                             }
                             
                         }
-                        Section{
-                            Button(action: {viewModel.logOut()}){
-                                Text("Log Out").foregroundColor(.red)
-                                }
-                        }
-                    
                     }
                     .frame(width: 360, height: 400) // Adjust the size of the List
                     .cornerRadius(20)
+                    RoundedRectangle(cornerRadius: 50)
+                        .frame(width: 300, height: 65)
+                        .foregroundColor(.red)
+                        .overlay(
+                            Button("Logout?") {
+                                viewModel.logOut()
+                            }
+                                .foregroundColor(.white)
+                                .font(.system(size: 25))
+                        )
+                        .padding(.top, 600)
                 }
+
             }
         }
     }
