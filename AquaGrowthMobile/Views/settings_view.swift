@@ -58,7 +58,7 @@ struct SettingsView: View {
                             }
                             
                             NavigationLink {
-                                EmptyView()
+                                EditPlantView()
                                     .toolbar(.hidden, for: .tabBar)
 
                             } label: {

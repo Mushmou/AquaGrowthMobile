@@ -58,6 +58,7 @@ struct PlantView: View {
             .onAppear {
                 viewModel.fetchPlants() // Call fetchPlants() when the view appears
             }
+            .tint(.black)
         }
     }
     
