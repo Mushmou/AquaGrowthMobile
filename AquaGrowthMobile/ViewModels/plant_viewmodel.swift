@@ -26,7 +26,7 @@ class plant_viewmodel: ObservableObject{
 //    ]
     
     @Published var plants = [Plant]()
-    
+        
     
     func savePlant(_ plant: Plant) {
         plants.append(plant)
