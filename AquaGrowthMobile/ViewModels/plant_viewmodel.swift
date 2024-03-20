@@ -19,14 +19,14 @@ struct Plant: Identifiable {
 }
 
 class plant_viewmodel: ObservableObject{
-    @Published var plants = [
-        Plant(plant_name: "Fern", plant_type: "something what", plant_description: "I love ferns", plant_image: "Tomato"),
-        Plant(plant_name: "Cactus", plant_type: "pincushion", plant_description: "Yea its a prickly cactus", plant_image: "Temperature"),
-        Plant(plant_name: "Orchid", plant_type: "colorful flower", plant_description: "Colorful and stuff", plant_image: "Water"),
-    ]
+//    @Published var plants = [
+//        Plant(plant_name: "Fern", plant_type: "something what", plant_description: "I love ferns", plant_image: "Tomato"),
+//        Plant(plant_name: "Cactus", plant_type: "pincushion", plant_description: "Yea its a prickly cactus", plant_image: "Temperature"),
+//        Plant(plant_name: "Orchid", plant_type: "colorful flower", plant_description: "Colorful and stuff", plant_image: "Water"),
+//    ]
     
-//    @Published var plants = [Plant]()
-    
+    @Published var plants = [Plant]()
+        
     
     func savePlant(_ plant: Plant) {
         plants.append(plant)
