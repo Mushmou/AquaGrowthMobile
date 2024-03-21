@@ -23,9 +23,10 @@ struct MainView: View {
                         Label("Home", systemImage: "house")
                     }
                 PlantView()
+                    .environmentObject(bluetooth)
                     .tabItem {
                         Label("Plant", systemImage: "leaf")
-                    }
+                    }.environmentObject(bluetooth)
                 SettingsView()
                     .environmentObject(bluetooth)
                     .tabItem {

@@ -16,60 +16,97 @@ struct CreatePlantView: View {
     @Environment(\.presentationMode) var presentationMode
 
     @EnvironmentObject var plantViewModel: plant_viewmodel
-    
+    @State private var showAlert = false
+    @State private var showNavigationBar = true
     var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Upload Image").font(.headline)) {
-                    Button(action: {
-                        self.isImagePickerDisplayed.toggle()
-                    }) {
-                        if let plantImage = plantImage {
-                            Image(uiImage: plantImage)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 200)
-                                .clipShape(Circle())
-                        } else {
-                            Image(systemName: "photo.on.rectangle.angled")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 200)
-                                .foregroundColor(.gray)
-                        }
+        NavigationStack{
+            Color.clear.frame(width: 1, height:1)
+                .navigationBarBackButtonHidden(true)
+                .toolbar{
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button (action: {
+                            plantViewModel.savePlant(Plant(plant_name: plantName, plant_type: plantType, plant_description: plantDescription, plant_image: "Flower"))
+                            plantViewModel.savePlantDatabase(Plant(plant_name: plantName, plant_type: plantType, plant_description: plantDescription, plant_image: "Flower"))
+                            presentationMode.wrappedValue.dismiss() // Dismiss the view after saving the plant
+                        }, label: {
+                            Image(systemName: "checkmark")
+                                .font(.system(size: 20)) // Adjust the size as needed
+                                .foregroundColor(.black)
+                        })
                     }
                 }
-                
-                Section(header: Text("Plant Information").font(.headline)) {
+            
+            VStack(spacing: 0){
+                Text("Create your plant")
+                    .bold()
+                    .font(.system(size: 32))
+                    .padding(.bottom, 20)
+                VStack(spacing: 0){
+                    Button(action: {self.isImagePickerDisplayed.toggle()})
+                    {
+                        if let my_image = plantImage {
+                            Image(uiImage: my_image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 300, height: 300)
+                                .clipShape(Circle())
+                        } else {
+                            Image("Upload")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 300, height: 300)
+                                .foregroundColor(.gray)
+                                .clipShape(Circle())
+                        }
+                    }
+                    .sheet(isPresented: $isImagePickerDisplayed) {
+                        ImagePicker(selectedImage: $plantImage)
+                    }
+                }
+            }
+            
+            VStack{
+                VStack(spacing: 0){
+                    Text("Plant Name")
+                        .bold()
+                        .frame(maxWidth: 360, alignment: .leading)
+                        .font(.system(size: 32))
                     TextField("Display name...", text: $plantName)
-                    TextField("Type of plant...", text: $plantType)
-                    TextField("Enter a description...", text: $plantDescription)
+                        .frame(width: 360, height: 60)
+                        .background(Color(red: 0.94, green: 0.94, blue: 0.94))
+                        .cornerRadius(12)
+                        .textInputAutocapitalization(.never)
                 }
                 
-                Button("Save Plant") {
-                    // Here you would include the code to save the plant data
-                    plantViewModel.savePlant(Plant(plant_name: plantName, plant_type: plantType, plant_description: plantDescription, plant_image: "Flower"))
-                    plantViewModel.savePlantDatabase(Plant(plant_name: plantName, plant_type: plantType, plant_description: plantDescription, plant_image: "Flower"))
-                    presentationMode.wrappedValue.dismiss() // Dismiss the view after saving the plant
+                VStack(spacing: 0){
+                    Text("Plant Type")
+                        .bold()
+                        .frame(maxWidth: 360, alignment: .leading)
+                        .font(.system(size: 32))
+                    TextField(" Type of plant...", text: $plantType)
+                        .frame(width: 360, height: 50, alignment: .center)
+                        .background(Color(red: 0.94, green: 0.94, blue: 0.94))
+                        .cornerRadius(12)
+                        .textInputAutocapitalization(.never)
+                }
+                
+                VStack(spacing: 0){
+                    Text("Plant Description")
+                        .bold()
+                        .frame(maxWidth: 360, alignment: .leading)
+                        .font(.system(size: 32))
+                    TextField(" Enter a description", text: $plantDescription)
+                        .frame(width: 360, height: 50, alignment: .center)
+                        .background(Color(red: 0.94, green: 0.94, blue: 0.94))
+                        .cornerRadius(12)
+                        .textInputAutocapitalization(.never)
                 }
             }
-            .navigationBarTitle("Add Plant Information", displayMode: .inline)
-            .sheet(isPresented: $isImagePickerDisplayed) {
-                ImagePicker(selectedImage: $plantImage)
-            }
+            Spacer()
+                .navigationBarBackButtonHidden(true)
         }
     }
 }
-
-//I removed this, this preview provider is Deprecated (Noah)
-// The preview provider
-//struct AddPlantView_Previews: PreviewProvider {
-//    @StateObject var viewModel = plant_viewmodel()
-//    static var previews: some View {
-//        CreatePlantView()
-//            .environmentObject(viewModel)
-//    }
-//}
 
 #Preview {
     CreatePlantView()
