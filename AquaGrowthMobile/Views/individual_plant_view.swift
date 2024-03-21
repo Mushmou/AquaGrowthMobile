@@ -96,7 +96,7 @@ struct IndividualPlantView: View {
                     .frame(width: 200, height: 40)
                     .foregroundColor(.gray)
                     .overlay(
-                        NavigationLink(destination: GraphWeek()) {
+                        NavigationLink(destination: GraphWeek(my_plant: my_plant)) {
                             Text("More Info")
                                 .foregroundColor(.black)
                                 .bold()
