@@ -3,7 +3,7 @@
 //  AquaGrowthMobile
 //
 //  Created by Noah Jacinto on 2/28/24.
-// Edited by Jaxon on 3/13/24
+// Edited by Jaxon on 3/13/24 | 3/20
 
 import Foundation
 import SwiftUI
@@ -15,26 +15,32 @@ struct GraphMonth: View {
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @Environment(\.colorScheme) var colorScheme
     
+    let my_plant: Plant
+    
+    init(my_plant: Plant) {
+        self.my_plant = my_plant
+    }
+    
     var body: some View {
         NavigationStack{
-            VStack{
+            ZStack{
                 ZStack{
                     Rectangle()
                         .fill(Color(red: 0.28, green: 0.59, blue: 0.17))
-                        .frame(width: UIScreen.main.bounds.width, height: 250) // Change the size of the VStack
+                        .frame(width: UIScreen.main.bounds.width, height: 250)
                         .position(x: UIScreen.main.bounds.width / 2, y: 30)
                     
                     Rectangle()
                         .fill(.white)
-                        .frame(width: UIScreen.main.bounds.width, height: 640) // Change the size of the VStack
+                        .frame(width: UIScreen.main.bounds.width, height: 640)
                         .position(x: UIScreen.main.bounds.width / 2, y: 550)
-                    
-                    Text("Plant Name")
+                    Text(my_plant.plant_name)
                         .font(.system(size: 50))
                         .bold()
                         .position(x: UIScreen.main.bounds.width / 2, y: 50)
                         .foregroundColor(.white)
-                    Text("Plant Type")
+                    
+                    Text(my_plant.plant_type)
                         .font(.system(size: 20))
                         .position(x: UIScreen.main.bounds.width / 2, y: 90)
                         .foregroundColor(.white)
@@ -42,91 +48,117 @@ struct GraphMonth: View {
                     Rectangle() //Graph Box
                         .stroke(Color.black, lineWidth: 2)
                         .frame(width: UIScreen.main.bounds.width - 40, height: 325)
-                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.85)
-                    
+                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.72)
+                        
                     Rectangle() //Date Box
                         .stroke(Color.black, lineWidth: 2)
                         .frame(width: UIScreen.main.bounds.width - 100, height: 40)
                         .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 4.5)
-                    
-                    //Gray box on month
+
+                    //Gray box on day
                     RoundedRectangle(cornerRadius: 8)
                         .fill(.gray)
                         .frame(width: UIScreen.main.bounds.width / 5, height: 35) // Change the size of the VStack
-                        .position(x: UIScreen.main.bounds.width / 1.325, y: 189)
-                    
-                    //Day Week Month
-                    HStack (spacing: 40){
-                        NavigationLink(destination: GraphDay(),
-                                       tag: "Day", selection: $selectedOption) {
-                            Text("Day")
-                                .bold()
-                                .foregroundColor(.black)
-                                .padding(8)
-                                .overlay(RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray, lineWidth: selectedOption == "Day" ? 2 : 0))
-                        }.isDetailLink(false)
-                        
-                        NavigationLink(destination: GraphWeek(),
-                                       tag: "Week", selection: $selectedOption) {
-                            Text("Week")
-                                .bold()
-                                .foregroundColor(.black)
-                                .padding(8)
-                                .overlay(RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray, lineWidth: selectedOption == "Week" ? 2 : 0))
-                        }.isDetailLink(false)
-                        
-                        NavigationLink(destination: GraphMonth(),
-                                       tag: "Month", selection: $selectedOption) {
-                            Text("Month")
-                                .bold()
-                                .foregroundColor(.black)
-                                .padding(8)
-                                .overlay(RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray, lineWidth: selectedOption == "Month" ? 2 : 0))
-                        }.isDetailLink(false)
-                    }
-                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 4.5)
-                    .font(.system(size: 20))
+                        .position(x: UIScreen.main.bounds.width / 1.303, y: 189)
                 }
-                // Back Button
-                //change to individual plant view when its ready
-                NavigationLink(destination: PlantView(),
-                               tag: "Back", selection: $selectedOption) {
-                    Image(systemName: "chevron.backward")
-                        .font(.system(size: 30)) // Adjust the size as needed
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                }.isDetailLink(false)
-                    .position(x: UIScreen.main.bounds.width / 9, y: UIScreen.main.bounds.height / -4.2)
                 
-                //Date range
-                Text(viewModel.monthDateRange)
-                    .padding()
-                    .foregroundColor(.black)
-                    .font(.system(size: 27))
-                    .bold()
-                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / -5.6)
-                
-                //Date calendar list in the graph
-                HStack(spacing:-25){
-                    // Display the months's dates
-                    ForEach(viewModel.monthDateList, id:\.self) { date in
-                        Text(date)
-                            .padding()
+                //Day Week Month
+                ZStack{
+                    VStack{
+                        HStack (spacing: 40){
+                            NavigationLink(
+                                destination: GraphDay(my_plant: my_plant),
+                                tag: "Day",
+                                selection: $selectedOption
+                            ) {
+                                Text("Day")
+                                    .bold()
+                                    .foregroundColor(.black)
+                                    .padding(8)
+                                    .overlay(RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.gray, lineWidth: selectedOption == "Day" ? 2 : 0))
+                            }
+                            .isDetailLink(false)
+                            
+                            NavigationLink(destination: GraphWeek(my_plant:my_plant),
+                                           tag: "Week", selection: $selectedOption) {
+                                Text("Week")
+                                    .bold()
+                                    .foregroundColor(.black)
+                                    .padding(8)
+                                    .overlay(RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.gray, lineWidth: selectedOption == "Week" ? 2 : 0))
+                            }.isDetailLink(false)
+                            
+                            NavigationLink(destination: GraphMonth(my_plant:my_plant),
+                                           tag: "Month", selection: $selectedOption) {
+                                Text("Month")
+                                    .bold()
+                                    .foregroundColor(.black)
+                                    .padding(8)
+                                    .overlay(RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.gray, lineWidth: selectedOption == "Month" ? 2 : 0))
+                            }.isDetailLink(false)
+                        }
+                        .font(.system(size: 23))
+                        .padding(.top,168)
                     }
                 }
-                .font(.system(size: 14))
-                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 24)
             }
-            
-            .navigationBarHidden(true)
+            ZStack{
+                VStack(spacing:148){
+                //Date range at top
+                    Text(viewModel.monthDateRange)
+                        .padding(.bottom,220)
+                        .foregroundColor(.black)
+                        .font(.system(size: 27))
+                        .bold()
+                    
+                //Date calendar list in the graph
+                    HStack(spacing:-26){
+                        // Display the week's dates
+                        ForEach(viewModel.monthDateList, id:\.self) { date in
+                            Text(date)
+                                .padding()
+                        }
+                    }
+                    .font(.system(size: 14))
+                }
+                .padding(.bottom,125)
+            }
         }
+        
+        //Back button to plant page
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    selectedOption = "Back"
+                }) {
+                    Image(systemName: "chevron.backward")
+                        .font(.system(size: 30))
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                }
+            }
+        }
+        .background(
+            NavigationLink(
+                destination: IndividualPlantView(my_plant: my_plant), // Change this to your desired destination
+                tag: "Back",
+                selection: $selectedOption,
+                label: { EmptyView() }
+            )
+        )
     }
 }
 
 #Preview {
-    GraphMonth()
+    struct PreviewWrapper: View {
+        var body: some View {
+            let testPlant = Plant(plant_name: "Cactus", plant_type: "Pincushion", plant_description: "My indoor prickly cactus", plant_image: "Flower")
+            GraphMonth(my_plant: testPlant)
+        }
+    }
+    return PreviewWrapper()
 }
-
                 
