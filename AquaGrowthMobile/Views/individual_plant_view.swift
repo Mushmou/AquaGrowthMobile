@@ -12,6 +12,8 @@ struct IndividualPlantView: View {
     @StateObject var viewmodel = individualplant_viewmodel()
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
     @State var selectedOption: String? = nil
+    @State private var isActive = false
+    @Environment(\.colorScheme) var colorScheme
 
     let my_plant: Plant
 
@@ -52,15 +54,15 @@ struct IndividualPlantView: View {
                     Image("Water")
                         .resizable()
                         .frame(width: 30, height: 30)
-                        
+                    
                     Text("Moisture: \(viewmodel.moisture)")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                
+                    
                 }
-                    .padding(.bottom, 30)
+                .padding(.bottom, 30)
                 
                 
                 HStack{
@@ -74,8 +76,8 @@ struct IndividualPlantView: View {
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                    .padding(.bottom, 30)
-
+                .padding(.bottom, 30)
+                
                 
                 HStack{
                     Image("Humidity")
@@ -88,8 +90,8 @@ struct IndividualPlantView: View {
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                    .padding(.bottom, 30)
-
+                .padding(.bottom, 30)
+                
                 Spacer()
                 
                 RoundedRectangle(cornerRadius: 50)
@@ -102,10 +104,10 @@ struct IndividualPlantView: View {
                                 .bold()
                                 .font(.system(size: 25))
                         }
-                        .buttonStyle(PlainButtonStyle())
+                            .buttonStyle(PlainButtonStyle())
                     )
                     .padding(.top, 10)
-
+                
                 Button("Save Data"){
                     viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 999
                     viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 999
@@ -141,9 +143,32 @@ struct IndividualPlantView: View {
                     }
                 }
             }
+            
+            //Back button to plant page
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        selectedOption = "PlantView"
+                        isActive = true
+                    }) {
+                        Image(systemName: "chevron.backward")
+                            .font(.system(size: 30))
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                    }
+                }
+            }
+            .background(
+                NavigationLink(
+                    destination: PlantView(), // Change this to your desired destination
+                    isActive: $isActive,
+                    label: { EmptyView() }
+                )
+            )   
         }
     }
 }
+    
 
 
 // Noah worked on this. I found a solution in stack overflow to preview with passing arguments. I'm not sure if its a bug but we have to return the preview. Otherwise we can use environment variables.
