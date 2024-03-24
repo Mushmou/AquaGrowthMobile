@@ -11,9 +11,14 @@ import SwiftUI
 struct GraphMonth: View {
     @StateObject var viewModel = GraphMonthViewmodel()
     @State private var showNavigationBar = true
-    @State private var selectedOption: String? = nil
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @Environment(\.colorScheme) var colorScheme
+    
+    @State private var selectedOption: String? = nil
+    //vars for drop down
+    @State private var isExpanded = false
+    @State private var selectedItem: String? = "Moisture"
+    let options = ["Moisture", "Humidity", "Temperature", "Sun"]
     
     let my_plant: Plant
     
@@ -60,6 +65,65 @@ struct GraphMonth: View {
                         .fill(.gray)
                         .frame(width: UIScreen.main.bounds.width / 5, height: 35) // Change the size of the VStack
                         .position(x: UIScreen.main.bounds.width / 1.303, y: 189)
+                }
+                //drop down box
+                ZStack{
+                    VStack{
+                        RoundedRectangle(cornerRadius: 40)
+                            .frame(width: 200, height: 35)
+                            .foregroundColor(.gray)
+                            .overlay(
+                                VStack{
+                                    if let selectedItem = selectedItem {
+                                        Text(selectedItem)
+                                            .bold()
+                                            .font(.system(size: 23))
+                                            .padding(.vertical, 5)
+                                    }
+                                }
+                            )
+                            .onTapGesture {
+                                withAnimation {
+                                    isExpanded.toggle()
+                                }
+                            }
+                            .position(x: UIScreen.main.bounds.width / 2, y: 360)
+
+                        if isExpanded {
+                            RoundedRectangle(cornerRadius: 20)
+                                .frame(width: 200, height: CGFloat((options.count) * 40))
+                                .foregroundColor(.gray)
+                                //current option
+                                .overlay(
+                                    VStack{
+                                        if let selectedItem = selectedItem {
+                                            Text(selectedItem)
+                                                .bold()
+                                                .font(.system(size: 23))
+                                                .padding(.bottom, 126)
+                                        }
+                                    }
+                                )
+                                //list options
+                                .overlay(
+                                    VStack(spacing:10){
+                                        ForEach(options.filter { $0 != selectedItem }, id: \.self) { option in
+                                            Button(action: {
+                                                selectedItem = option
+                                                isExpanded.toggle()
+                                            }) {
+                                                Text(option)
+                                            }
+                                            .foregroundColor(.black)
+                                            .bold()
+                                            .font(.system(size: 23))
+                                        }
+                                    }
+                                        .padding(.top, 18)
+                                )
+                                .position(x: UIScreen.main.bounds.width / 2, y: 313)
+                        }
+                    }
                 }
                 
                 //Day Week Month
@@ -142,14 +206,14 @@ struct GraphMonth: View {
             }
         }
         .background(
-            NavigationLink(
-                destination: IndividualPlantView(my_plant: my_plant), // Change this to your desired destination
+            NavigationLink(destination: IndividualPlantView(my_plant: my_plant), // Change this to your desired destination
                 tag: "Back",
                 selection: $selectedOption,
                 label: { EmptyView() }
             )
         )
     }
+    
 }
 
 #Preview {

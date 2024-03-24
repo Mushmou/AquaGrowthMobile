@@ -12,9 +12,16 @@ struct GraphWeek: View {
     
     @StateObject var viewModel = GraphWeekViewmodel()
     @State private var showNavigationBar = true
-    @State private var selectedOption: String? = nil
+    @State private var isActive = false
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @Environment(\.colorScheme) var colorScheme
+    
+    @State private var selectedOption: String? = nil
+    //vars for drop down
+    @State private var isExpanded = false
+    @State private var selectedItem: String? = "Moisture"
+    let options = ["Moisture", "Humidity", "Temperature", "Sun"]
+
     
     let my_plant: Plant
     
@@ -63,10 +70,69 @@ struct GraphWeek: View {
                         .frame(width: UIScreen.main.bounds.width / 4.45, height: 35)
                         .position(x: UIScreen.main.bounds.width / 2.15, y: 189)
                 }
-                
+                //drop down box
                 ZStack{
                     VStack{
-                        //Day Week Month
+                        RoundedRectangle(cornerRadius: 40)
+                            .frame(width: 200, height: 35)
+                            .foregroundColor(.gray)
+                            .overlay(
+                                VStack{
+                                    if let selectedItem = selectedItem {
+                                        Text(selectedItem)
+                                            .bold()
+                                            .font(.system(size: 23))
+                                            .padding(.vertical, 5)
+                                    }
+                                }
+                            )
+                            .onTapGesture {
+                                withAnimation {
+                                    isExpanded.toggle()
+                                }
+                            }
+                            .position(x: UIScreen.main.bounds.width / 2, y: 360)
+
+                        if isExpanded {
+                            RoundedRectangle(cornerRadius: 20)
+                                .frame(width: 200, height: CGFloat((options.count) * 40))
+                                .foregroundColor(.gray)
+                                //current option
+                                .overlay(
+                                    VStack{
+                                        if let selectedItem = selectedItem {
+                                            Text(selectedItem)
+                                                .bold()
+                                                .font(.system(size: 23))
+                                                .padding(.bottom, 126)
+                                        }
+                                    }
+                                )
+                                //list options
+                                .overlay(
+                                    VStack(spacing:10){
+                                        ForEach(options.filter { $0 != selectedItem }, id: \.self) { option in
+                                            Button(action: {
+                                                selectedItem = option
+                                                isExpanded.toggle()
+                                            }) {
+                                                Text(option)
+                                            }
+                                            .foregroundColor(.black)
+                                            .bold()
+                                            .font(.system(size: 23))
+                                        }
+                                    }
+                                        .padding(.top, 18)
+                                )
+                                .position(x: UIScreen.main.bounds.width / 2, y: 313)
+                        }
+                    }
+                }
+                
+                //Day Week Month
+                ZStack{
+                    VStack{
                         HStack (spacing: 40){
                             NavigationLink(
                                 destination: GraphDay(my_plant: my_plant),
@@ -129,6 +195,8 @@ struct GraphWeek: View {
                 .padding(.bottom,125)
                 
             }
+            
+            
         }
     
         //Back button to plant page
@@ -136,7 +204,8 @@ struct GraphWeek: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
-                    selectedOption = "Back"
+                    selectedOption = "IndividualPlantView"
+                    isActive = true
                 }) {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 30))
@@ -146,12 +215,13 @@ struct GraphWeek: View {
         }
         .background(
             NavigationLink(
-                destination: IndividualPlantView(my_plant: my_plant), // Change this to your desired destination
-                tag: "Back",
-                selection: $selectedOption,
+                destination: IndividualPlantView(my_plant:my_plant), // Change this to your desired destination
+                isActive: $isActive,
                 label: { EmptyView() }
             )
         )
+        
+        
     }
 }
 
