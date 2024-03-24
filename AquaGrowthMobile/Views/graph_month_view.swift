@@ -3,7 +3,7 @@
 //  AquaGrowthMobile
 //
 //  Created by Noah Jacinto on 2/28/24.
-// Edited by Jaxon on 3/13/24 | 3/20
+// Edited by Jaxon on 3/13/24 | 3/20 |3/23 | 3/24
 
 import Foundation
 import SwiftUI
@@ -66,6 +66,46 @@ struct GraphMonth: View {
                         .frame(width: UIScreen.main.bounds.width / 5, height: 35) // Change the size of the VStack
                         .position(x: UIScreen.main.bounds.width / 1.303, y: 189)
                 }
+                
+                //Data Averages
+                ZStack{
+                    HStack(spacing: 15){
+                        VStack(spacing:5){
+                            Text("Avg. Moi.")
+                            //TODO: AVG
+                            Text("00 %")
+                            Image("Water")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                        VStack(spacing:5){
+                            Text("Avg. Temp.")
+                            //TODO: AVG
+                            Text("00 °F")
+                            Image("Temperature")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                        VStack(spacing:5){
+                            Text("Avg. Hum.")
+                            //TODO: AVG
+                            Text("00 %")
+                            Image("Humidity")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                        VStack(spacing:5){
+                            Text("Avg. Sun")
+                            //TODO: AVG
+                            Text("00 %")
+                            Image("Sun")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                    }
+                    .position(x: UIScreen.main.bounds.width / 2, y: 290)
+                }
+                
                 //drop down box
                 ZStack{
                     VStack{

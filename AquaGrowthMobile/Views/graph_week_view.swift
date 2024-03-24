@@ -3,7 +3,7 @@
 //  AquaGrowthMobile
 //
 //  Created by Noah Jacinto on 2/28/24.
-//  Edited by Jaxon on 3/13/2024 | 3/20
+//  Edited by Jaxon on 3/13/2024 | 3/20 | 3/23 | 3/34
 
 import Foundation
 import SwiftUI
@@ -20,7 +20,7 @@ struct GraphWeek: View {
     //vars for drop down
     @State private var isExpanded = false
     @State private var selectedItem: String? = "Moisture"
-    let options = ["Moisture", "Humidity", "Temperature", "Sun"]
+    let options = ["Moisture", "Temperature", "Humidity", "Sun"]
 
     
     let my_plant: Plant
@@ -57,7 +57,7 @@ struct GraphWeek: View {
                     Rectangle() //Graph Box
                         .stroke(Color.black, lineWidth: 2)
                         .frame(width: UIScreen.main.bounds.width - 40, height: 325)
-                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.72)
+                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.71)
                         
                     Rectangle() //Date Box
                         .stroke(Color.black, lineWidth: 2)
@@ -70,6 +70,46 @@ struct GraphWeek: View {
                         .frame(width: UIScreen.main.bounds.width / 4.45, height: 35)
                         .position(x: UIScreen.main.bounds.width / 2.15, y: 189)
                 }
+                
+                //Data Averages
+                ZStack{
+                    HStack(spacing: 15){
+                        VStack(spacing:5){
+                            Text("Avg. Moi.")
+                            //TODO: AVG
+                            Text("00 %")
+                            Image("Water")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                        VStack(spacing:5){
+                            Text("Avg. Temp.")
+                            //TODO: AVG
+                            Text("00 °F")
+                            Image("Temperature")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                        VStack(spacing:5){
+                            Text("Avg. Hum.")
+                            //TODO: AVG
+                            Text("00 %")
+                            Image("Humidity")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                        VStack(spacing:5){
+                            Text("Avg. Sun")
+                            //TODO: AVG
+                            Text("00 %")
+                            Image("Sun")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                    }
+                    .position(x: UIScreen.main.bounds.width / 2, y: 290)
+                }
+                
                 //drop down box
                 ZStack{
                     VStack{
