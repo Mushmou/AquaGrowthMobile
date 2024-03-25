@@ -1,16 +1,13 @@
 // VERSION #2
 import Foundation
 import SwiftUI
-
-
-
 /// SwiftUI View for the Home Screen
 struct HomeView: View {
     // State to hold the selected image
     @State private var isImagePickerDisplayed = false
     @State private var selectedUIImage: UIImage?
     
-    /// Displays the content of the view.
+    @State private var isInfoWindowPresented = false
     var body: some View {
         NavigationView {
             VStack {
@@ -35,9 +32,38 @@ struct HomeView: View {
                 .navigationBarTitleDisplayMode(.large)
                 
                 Spacer()
-            }
-
-            
+                
+                HStack {
+                    Text("Today") // Add your text aligned to the left
+                        .foregroundColor(.black) // Customize text color
+                        .font(.system(size: 30, weight: .bold)) // Adjust font size and weight as needed
+                        .padding(.leading, 18) // Adjust leading padding if needed
+                    
+                    Spacer() // Add a spacer to push the button to the right
+                    
+                    Button(action: {
+                        // Set the state to true to present the info window
+                        isInfoWindowPresented.toggle()
+                    }) {
+                        Image(systemName: "info.circle") // Example of a button with a plus icon
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30) // Adjust size as needed
+                            .foregroundColor(.black) // Customize button color
+                    }
+                    
+                    .padding([.bottom], 400) // Adjust the bottom padding if needed
+                    
+                    .sheet(isPresented: $isInfoWindowPresented) {
+                        // Content of the info window goes here
+//                        InfoWindow()
+                        Text("Test")
+                    }
+                    
+                    Spacer() // Add a spacer to push the button to the right
+                        .frame(maxWidth: 40) // Occupy all available space to the right
+                } // End of HStack
+            }// End of VStack
             
             .sheet(isPresented: $isImagePickerDisplayed) {
                 ImagePicker(selectedImage: $selectedUIImage)
@@ -45,8 +71,8 @@ struct HomeView: View {
             .onAppear {
                 loadSavedImage()
             }
-        }
-    }
+        }// End of NavigationView
+    }// End of Body View
     
     /// Load the previously saved image from UserDefaults.
     private func loadSavedImage() {
@@ -55,8 +81,7 @@ struct HomeView: View {
             self.selectedUIImage = loadedImage
         }
     }
-}
-
+} // End of HomeView
 /// Coordinator to handle communication between SwiftUI and UIKit
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
@@ -76,21 +101,17 @@ struct ImagePicker: UIViewControllerRepresentable {
     ///   - uiViewController: The UIImagePickerController to update.
     ///   - context: The context for this view.
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
-
     /// Creates and returns the coordinator for this view.
     /// - Returns: The coordinator for this view.
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-
     /// Coordinator class to handle image picking events
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
         var parent: ImagePicker
-
         init(_ parent: ImagePicker) {
             self.parent = parent
         }
-
         /// Handles the selection of an image.
         /// - Parameters:
         ///   - picker: The UIImagePickerController.
@@ -103,16 +124,13 @@ struct ImagePicker: UIViewControllerRepresentable {
             }
             parent.presentationMode.wrappedValue.dismiss()
         }
-
         /// Handles the cancellation of image picking.
         /// - Parameter picker: The UIImagePickerController.
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             parent.presentationMode.wrappedValue.dismiss()
         }
-
     }
 }
-
 /// Utility functions for saving and loading images from the document directory
 func saveImageToDocumentDirectory(image: UIImage) -> String {
     let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -123,7 +141,6 @@ func saveImageToDocumentDirectory(image: UIImage) -> String {
     }
     return imageName
 }
-
 /// Load an image from the document directory.
 /// - Parameter name: The name of the image file.
 /// - Returns: The loaded UIImage.
@@ -132,144 +149,84 @@ func loadImageFromDocumentDirectory(name: String) -> UIImage? {
     let imageUrl = documentDirectory.appendingPathComponent(name)
     return UIImage(contentsOfFile: imageUrl.path)
 }
-
-
-// VERSION #1
-//import SwiftUI
-//import UIKit
-//
+/// SwiftUI View for displaying a preview of the Home Screen
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        HomeView()
+    }
+}
+// FIXME: semi working code
 ///// SwiftUI View for the Home Screen
 //struct HomeView: View {
 //    // State to hold the selected image
-//    @State private var selectedImage: UIImage? = nil
-//    // State to control whether the image picker is shown
-//    @State private var isShowingImagePicker = false
+//    @State private var isImagePickerDisplayed = false
+//    @State private var selectedUIImage: UIImage?
 //
-//    /// Displays the content of the view.
+//    @State private var isInfoWindowPresented = false
+//
 //    var body: some View {
-//        ZStack {
-//            // Display the selected image if available
-//            if let image = selectedImage {
-//                GeometryReader { geometry in
-//                    Image(uiImage: image)
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fill)
-//                        .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.33)
-//                        .clipped()
-//                        .cornerRadius(20) // Apply corner radius to the image
-//                        .shadow(radius: 5)
-//                        .padding(.horizontal, (geometry.size.width - (geometry.size.width * 0.90)) / 2) // Add horizontal padding to center the image
-//                }
-//                .edgesIgnoringSafeArea(.top)
-//            }
-//
+//        NavigationView {
 //            VStack {
-//                if selectedImage == nil {
-//        
-//                    Button(action: {
-//                        self.isShowingImagePicker.toggle()
-//                    }) {
-//                        Image(systemName: "photo")
+//                Group {
+//                    if let selectedUIImage = selectedUIImage {
+//                        Image(uiImage: selectedUIImage)
 //                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 315, height: 185)
-//                            .padding()
-//                            .background(Color.white)
-//                            .clipShape(RoundedRectangle(cornerRadius: 20))
-//                            .shadow(radius: 5)
+//                            .scaledToFill()
+//                            .padding([.top,.bottom], 30)
+//                    } else {
+//                        Text("Tap to choose image")
+//                            .frame(maxWidth: .infinity, minHeight: 200)
+//                            .background(Color.gray)
 //                    }
-//                    .padding()
 //                }
+//                .frame(width: UIScreen.main.bounds.width - 20, height: 200)
+//                .cornerRadius(20)
+//                .onTapGesture {
+//                    isImagePickerDisplayed = true
+//                }
+//                .navigationBarTitle("Home")
+//                .navigationBarTitleDisplayMode(.large)
 //
 //                Spacer()
 //
+//                HStack {
+//                    Text("Today") // Add your text aligned to the left
+//                        .foregroundColor(.black) // Customize text color
+//                        .font(.system(size: 30, weight: .bold)) // Adjust font size and weight as needed
+//                        .padding(.leading, 18) // Adjust leading padding if needed
+//
+//                    Spacer() // Add a spacer to push the button to the right
+//
+//                    Button(action: {
+//                        // Set the state to true to present the info window
+//                        isInfoWindowPresented.toggle()
+//                    }) {
+//                        Image(systemName: "info.circle") // Example of a button with a plus icon
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .frame(width: 30, height: 30) // Adjust size as needed
+//                            .foregroundColor(.black) // Customize button color
+//                    }
+//
+//                    .padding([.bottom], 400) // Adjust the bottom padding if needed
+//
+//                    .sheet(isPresented: $isInfoWindowPresented) {
+//                        // Content of the info window goes here
+////                        InfoWindow()
+//                        Text("Test")
+//                    }
+//
+//                    Spacer() // Add a spacer to push the button to the right
+//                        .frame(maxWidth: 40) // Occupy all available space to the right
+//                } // End of HStack
+//            }// End of VStack
+//
+//            .sheet(isPresented: $isImagePickerDisplayed) {
+//                ImagePicker(selectedImage: $selectedUIImage)
 //            }
-//
-//            VStack {
-//                // Button to select a new image
-//                Button(action: {
-//                    self.isShowingImagePicker.toggle()
-//                }) {
-//                    Text("Select New Image")
-//                        .foregroundColor(.blue)
-//                        .padding(.horizontal, 10) // Add horizontal padding
-//                        .padding(.vertical, 10) // Add vertical padding
-//                        .background(Color.white)
-//                        .cornerRadius(8) // Reduce corner radius
-//                        .font(.subheadline) // Set smaller font size
-//                        .shadow(radius: 3) // Reduce shadow radius
-//                }
-//                .padding(.bottom)
-//
-//                
+//            .onAppear {
+//                loadSavedImage()
 //            }
-//
-//
-//
-//
-//
-//        }
-//        .padding(.top) // Add padding to the top to push the image input box to the top
-//        .sheet(isPresented: $isShowingImagePicker) {
-//            ImagePicker(selectedImage: self.$selectedImage, isPresented: self.$isShowingImagePicker)
-//        }
-//    }
-//}
-//
-///// SwiftUI View for displaying a preview of the Home Screen
-//struct HomeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HomeView()
-//    }
-//}
-//
-///// Coordinator to handle communication between SwiftUI and UIKit
-//struct ImagePicker: UIViewControllerRepresentable {
-//    @Binding var selectedImage: UIImage? // Binding to update the selected image
-//    @Binding var isPresented: Bool // Binding to control the presentation of the image picker
-//
-//    /// Creates and configures the UIImagePickerController.
-//    /// - Parameter context: The context in which this view was created.
-//    /// - Returns: The configured UIImagePickerController.
-//    func makeUIViewController(context: Context) -> UIImagePickerController {
-//        let picker = UIImagePickerController()
-//        picker.delegate = context.coordinator // Set the coordinator as the delegate
-//        return picker
-//    }
-//
-//    /// Updates the UIImagePickerController.
-//    /// - Parameters:
-//    ///   - uiViewController: The UIImagePickerController to update.
-//    ///   - context: The context for this view.
-//    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
-//    }
-//
-//    /// Creates and returns the coordinator for this view.
-//    /// - Returns: The coordinator for this view.
-//    func makeCoordinator() -> Coordinator {
-//        Coordinator(parent: self)
-//    }
-//
-//    /// Coordinator class to handle image picking events
-//    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-//        let parent: ImagePicker
-//
-//        init(parent: ImagePicker) {
-//            self.parent = parent
-//        }
-//
-//        /// Handles the selection of an image.
-//        /// - Parameters:
-//        ///   - picker: The UIImagePickerController.
-//        ///   - info: A dictionary containing the original image.
-//        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//            // Check if the selected item is an image
-//            if let image = info[.originalImage] as? UIImage {
-//                // Update the selected image in the parent view
-//                parent.selectedImage = image
-//                // Dismiss the image picker
-//                parent.isPresented = false
-//            }
-//        }
-//    }
-//}
+//        }// End of NavigationView
+//    }// End of Body View
+
