@@ -2,11 +2,14 @@
 import Foundation
 import SwiftUI
 /// SwiftUI View for the Home Screen
+
+
 struct HomeView: View {
     // State to hold the selected image
     @State private var isImagePickerDisplayed = false
     @State private var selectedUIImage: UIImage?
     @State private var isInfoWindowPresented = false
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -33,10 +36,11 @@ struct HomeView: View {
                 Spacer()
                 
                 HStack {
-//                    Text("Today") // Add your text aligned to the left
-//                        .foregroundColor(.black) // Customize text color
-//                        .font(.system(size: 30, weight: .bold)) // Adjust font size and weight as needed
-//                        .padding(.leading, 18) // Adjust leading padding if needed
+                    Text("Today") // Add your text aligned to the left
+                        .padding(.bottom, 405)
+                        .foregroundColor(.black) // Customize text color
+                        .font(.system(size: 30, weight: .bold)) // Adjust font size and weight as needed
+                        .padding(.leading, 18) // Adjust leading padding if needed
 //
                     Spacer() // Add a spacer to push the button to the right
                     
@@ -56,44 +60,53 @@ struct HomeView: View {
                     
                     // Info Window Pop Up Data
                     .sheet(isPresented: $isInfoWindowPresented) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Image("Sun - Bright") // Example of an image to the left of the text
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 50, height: 50) // Adjust size as needed
-                                    .padding(.bottom, 35) // Adjust bottom padding to align with text
+
+                        VStack {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Image("Sun - Bright")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 50, height: 50)
+                                        .padding(.bottom, 35)
+                                    
+                                    Image("Sun - Dim")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 50, height: 50)
+                                        .padding(.bottom, 35)
+                                }
                                 
-                                Image("Sun - Dim") // Example of an image to the left of the text
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 50, height: 50) // Adjust size as needed
-                                    .padding(.bottom, 35) // Adjust bottom padding to align with text
+                                VStack(alignment: .leading) {
+                                    Text("GOOD: Needs NO Attention")
+                                        .foregroundColor(.black)
+                                        .font(.system(size: 20, weight: .bold))
+                                        .padding(.top, 15)
+                                        .padding(.bottom, 55)
+                                    
+                                    Text("BAD: Needs Attention !!")
+                                        .foregroundColor(.black)
+                                        .font(.system(size: 20, weight: .bold))
+                                        .padding(.top, 10)
+                                        .padding(.bottom, 55)
+                            
+                                }
+                                .presentationDetents([.fraction(0.40)])
+
                             }
                             
-                            VStack(alignment: .leading) {
-                                Text("GOOD: Needs NO Attention")
-                                    .foregroundColor(.black)
-                                    .font(.system(size: 20, weight: .bold))
-                                    .padding(.top, 15)
-                                    .padding(.bottom, 55) // Adjust bottom padding to separate from the text below
-                                
-                                Text("BAD: Needs Attention !!")
-                                    .foregroundColor(.black)
-                                    .font(.system(size: 20, weight: .bold))
-                                    .padding(.top, 10)
-                                    .padding(.bottom, 55) // Adjust bottom padding to separate from the text above
-                            }
+                        
                         }
+
                     }
 
-                    
                     
                     Spacer() // Add a spacer to push the button to the right
                         .frame(maxWidth: 40) // Occupy all available space to the right
                 } // End of HStack
             }// End of VStack
             
+        
             .sheet(isPresented: $isImagePickerDisplayed) {
                 ImagePicker(selectedImage: $selectedUIImage)
             }
@@ -103,6 +116,7 @@ struct HomeView: View {
         }// End of NavigationView
     }// End of Body View
     
+    
     /// Load the previously saved image from UserDefaults.
     private func loadSavedImage() {
         if let imagePath = UserDefaults.standard.string(forKey: "savedImagePath"),
@@ -111,6 +125,9 @@ struct HomeView: View {
         }
     }
 } // End of HomeView
+
+
+
 /// Coordinator to handle communication between SwiftUI and UIKit
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
@@ -184,78 +201,4 @@ struct HomeView_Previews: PreviewProvider {
         HomeView()
     }
 }
-// FIXME: semi working code
-///// SwiftUI View for the Home Screen
-//struct HomeView: View {
-//    // State to hold the selected image
-//    @State private var isImagePickerDisplayed = false
-//    @State private var selectedUIImage: UIImage?
-//
-//    @State private var isInfoWindowPresented = false
-//
-//    var body: some View {
-//        NavigationView {
-//            VStack {
-//                Group {
-//                    if let selectedUIImage = selectedUIImage {
-//                        Image(uiImage: selectedUIImage)
-//                            .resizable()
-//                            .scaledToFill()
-//                            .padding([.top,.bottom], 30)
-//                    } else {
-//                        Text("Tap to choose image")
-//                            .frame(maxWidth: .infinity, minHeight: 200)
-//                            .background(Color.gray)
-//                    }
-//                }
-//                .frame(width: UIScreen.main.bounds.width - 20, height: 200)
-//                .cornerRadius(20)
-//                .onTapGesture {
-//                    isImagePickerDisplayed = true
-//                }
-//                .navigationBarTitle("Home")
-//                .navigationBarTitleDisplayMode(.large)
-//
-//                Spacer()
-//
-//                HStack {
-//                    Text("Today") // Add your text aligned to the left
-//                        .foregroundColor(.black) // Customize text color
-//                        .font(.system(size: 30, weight: .bold)) // Adjust font size and weight as needed
-//                        .padding(.leading, 18) // Adjust leading padding if needed
-//
-//                    Spacer() // Add a spacer to push the button to the right
-//
-//                    Button(action: {
-//                        // Set the state to true to present the info window
-//                        isInfoWindowPresented.toggle()
-//                    }) {
-//                        Image(systemName: "info.circle") // Example of a button with a plus icon
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 30, height: 30) // Adjust size as needed
-//                            .foregroundColor(.black) // Customize button color
-//                    }
-//
-//                    .padding([.bottom], 400) // Adjust the bottom padding if needed
-//
-//                    .sheet(isPresented: $isInfoWindowPresented) {
-//                        // Content of the info window goes here
-////                        InfoWindow()
-//                        Text("Test")
-//                    }
-//
-//                    Spacer() // Add a spacer to push the button to the right
-//                        .frame(maxWidth: 40) // Occupy all available space to the right
-//                } // End of HStack
-//            }// End of VStack
-//
-//            .sheet(isPresented: $isImagePickerDisplayed) {
-//                ImagePicker(selectedImage: $selectedUIImage)
-//            }
-//            .onAppear {
-//                loadSavedImage()
-//            }
-//        }// End of NavigationView
-//    }// End of Body View
 
