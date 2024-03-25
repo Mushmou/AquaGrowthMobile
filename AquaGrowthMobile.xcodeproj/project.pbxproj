@@ -1,0 +1,858 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		48192AAC2B918EB700F6F746 /* back_button_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48192AAB2B918EB700F6F746 /* back_button_view.swift */; };
+		48192AB22B93080C00F6F746 /* profile_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48192AB12B93080C00F6F746 /* profile_view.swift */; };
+		48325B7C2B8FB41300DCE61F /* account_settings_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B7B2B8FB41300DCE61F /* account_settings_view.swift */; };
+		48325B7E2B8FB42300DCE61F /* bluetooth_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B7D2B8FB42300DCE61F /* bluetooth_view.swift */; };
+		48325B802B8FB42D00DCE61F /* change_password_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B7F2B8FB42D00DCE61F /* change_password_view.swift */; };
+		48325B822B8FB43B00DCE61F /* create_plant_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B812B8FB43B00DCE61F /* create_plant_view.swift */; };
+		48325B842B8FB44600DCE61F /* edit_plant_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B832B8FB44600DCE61F /* edit_plant_view.swift */; };
+		48325B862B8FB45100DCE61F /* forgot_password_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B852B8FB45100DCE61F /* forgot_password_view.swift */; };
+		48325B882B8FB45900DCE61F /* graph_day_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B872B8FB45900DCE61F /* graph_day_view.swift */; };
+		48325B8A2B8FB46000DCE61F /* graph_month_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B892B8FB46000DCE61F /* graph_month_view.swift */; };
+		48325B8C2B8FB46800DCE61F /* graph_week_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B8B2B8FB46800DCE61F /* graph_week_view.swift */; };
+		48325B8E2B8FB47000DCE61F /* home_info_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B8D2B8FB47000DCE61F /* home_info_view.swift */; };
+		48325B902B8FB47700DCE61F /* home_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B8F2B8FB47700DCE61F /* home_view.swift */; };
+		48325B922B8FB48700DCE61F /* individual_plant_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B912B8FB48700DCE61F /* individual_plant_view.swift */; };
+		48325B942B8FB49300DCE61F /* login_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B932B8FB49300DCE61F /* login_view.swift */; };
+		48325B962B8FB49E00DCE61F /* plant_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B952B8FB49E00DCE61F /* plant_view.swift */; };
+		48325B982B8FB4AF00DCE61F /* settings_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B972B8FB4AF00DCE61F /* settings_view.swift */; };
+		48325B9A2B8FB4B600DCE61F /* register_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B992B8FB4B600DCE61F /* register_view.swift */; };
+		48325B9C2B8FB4BE00DCE61F /* remove_plant_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B9B2B8FB4BE00DCE61F /* remove_plant_view.swift */; };
+		48325B9E2B8FB4C600DCE61F /* splash_screen_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325B9D2B8FB4C600DCE61F /* splash_screen_view.swift */; };
+		48325BA32B8FB5C500DCE61F /* account_settings_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BA22B8FB5C500DCE61F /* account_settings_viewmodel.swift */; };
+		48325BA52B8FB5CE00DCE61F /* bluetooth_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BA42B8FB5CE00DCE61F /* bluetooth_viewmodel.swift */; };
+		48325BA72B8FB5D700DCE61F /* change_password_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BA62B8FB5D700DCE61F /* change_password_viewmodel.swift */; };
+		48325BA92B8FB5E000DCE61F /* create_plant_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BA82B8FB5E000DCE61F /* create_plant_viewmodel.swift */; };
+		48325BAB2B8FB5E800DCE61F /* edit_plant_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BAA2B8FB5E800DCE61F /* edit_plant_viewmodel.swift */; };
+		48325BAD2B8FB5F000DCE61F /* forgot_password_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BAC2B8FB5F000DCE61F /* forgot_password_viewmodel.swift */; };
+		48325BAF2B8FB5FB00DCE61F /* graph_day_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BAE2B8FB5FB00DCE61F /* graph_day_viewmodel.swift */; };
+		48325BB12B8FB60F00DCE61F /* graph_month_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BB02B8FB60F00DCE61F /* graph_month_viewmodel.swift */; };
+		48325BB32B8FB61A00DCE61F /* graph_week_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BB22B8FB61A00DCE61F /* graph_week_viewmodel.swift */; };
+		48325BB62B8FB62900DCE61F /* home_info_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BB52B8FB62900DCE61F /* home_info_viewmodel.swift */; };
+		48325BB82B8FB63500DCE61F /* home_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BB72B8FB63500DCE61F /* home_viewmodel.swift */; };
+		48325BBA2B8FB64200DCE61F /* individual_plant_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BB92B8FB64200DCE61F /* individual_plant_viewmodel.swift */; };
+		48325BBC2B8FB64C00DCE61F /* login_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BBB2B8FB64C00DCE61F /* login_viewmodel.swift */; };
+		48325BBE2B8FB65300DCE61F /* plant_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BBD2B8FB65300DCE61F /* plant_viewmodel.swift */; };
+		48325BC02B8FB65F00DCE61F /* settings_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BBF2B8FB65F00DCE61F /* settings_viewmodel.swift */; };
+		48325BC22B8FB66A00DCE61F /* register_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC12B8FB66A00DCE61F /* register_viewmodel.swift */; };
+		48325BC42B8FB67B00DCE61F /* remove_plant_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC32B8FB67B00DCE61F /* remove_plant_viewmodel.swift */; };
+		48325BC62B8FB68700DCE61F /* splash_screen_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC52B8FB68700DCE61F /* splash_screen_viewmodel.swift */; };
+		48325BC82B8FB69300DCE61F /* user_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC72B8FB69300DCE61F /* user_model.swift */; };
+		48325BCA2B8FB69C00DCE61F /* bluetooth_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48325BC92B8FB69C00DCE61F /* bluetooth_model.swift */; };
+		4879C5742B8FC67C008AEFAC /* main_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4879C5732B8FC67C008AEFAC /* main_view.swift */; };
+		4879C5762B8FC686008AEFAC /* main_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4879C5752B8FC686008AEFAC /* main_viewmodel.swift */; };
+		4879C57D2B91130A008AEFAC /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C57C2B91130A008AEFAC /* FirebaseAnalytics */; };
+		4879C57F2B91130A008AEFAC /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C57E2B91130A008AEFAC /* FirebaseAuth */; };
+		4879C5812B91130A008AEFAC /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C5802B91130A008AEFAC /* FirebaseDatabase */; };
+		4879C5832B91130A008AEFAC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 4879C5822B91130A008AEFAC /* FirebaseFirestore */; };
+		48DCF5692B83E39600F88996 /* AquaGrowthMobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */; };
+		48DCF56B2B83E39600F88996 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF56A2B83E39600F88996 /* ContentView.swift */; };
+		48DCF56D2B83E39700F88996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48DCF56C2B83E39700F88996 /* Assets.xcassets */; };
+		48DCF5702B83E39700F88996 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48DCF56F2B83E39700F88996 /* Preview Assets.xcassets */; };
+		48DCF57A2B83E39800F88996 /* AquaGrowthMobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF5792B83E39800F88996 /* AquaGrowthMobileTests.swift */; };
+		48DCF5842B83E39800F88996 /* AquaGrowthMobileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF5832B83E39800F88996 /* AquaGrowthMobileUITests.swift */; };
+		48DCF5862B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF5852B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift */; };
+		48F8662C2B97AC440045C2D5 /* custom_tab_bar_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F8662B2B97AC440045C2D5 /* custom_tab_bar_view.swift */; };
+		73C64FA42B99734B00788DDD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 73C64FA32B99734A00788DDD /* GoogleService-Info.plist */; };
+		73C64FA52B99734B00788DDD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 73C64FA32B99734A00788DDD /* GoogleService-Info.plist */; };
+		73C64FA62B99734B00788DDD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 73C64FA32B99734A00788DDD /* GoogleService-Info.plist */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		48DCF5762B83E39800F88996 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 48DCF55D2B83E39600F88996 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 48DCF5642B83E39600F88996;
+			remoteInfo = AquaGrowthMobile;
+		};
+		48DCF5802B83E39800F88996 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 48DCF55D2B83E39600F88996 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 48DCF5642B83E39600F88996;
+			remoteInfo = AquaGrowthMobile;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		48192AAB2B918EB700F6F746 /* back_button_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = back_button_view.swift; sourceTree = "<group>"; };
+		48192AB02B92F01700F6F746 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		48192AB12B93080C00F6F746 /* profile_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile_view.swift; sourceTree = "<group>"; };
+		48325B7B2B8FB41300DCE61F /* account_settings_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = account_settings_view.swift; sourceTree = "<group>"; };
+		48325B7D2B8FB42300DCE61F /* bluetooth_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluetooth_view.swift; sourceTree = "<group>"; };
+		48325B7F2B8FB42D00DCE61F /* change_password_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = change_password_view.swift; sourceTree = "<group>"; };
+		48325B812B8FB43B00DCE61F /* create_plant_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = create_plant_view.swift; sourceTree = "<group>"; };
+		48325B832B8FB44600DCE61F /* edit_plant_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = edit_plant_view.swift; sourceTree = "<group>"; };
+		48325B852B8FB45100DCE61F /* forgot_password_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgot_password_view.swift; sourceTree = "<group>"; };
+		48325B872B8FB45900DCE61F /* graph_day_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = graph_day_view.swift; sourceTree = "<group>"; };
+		48325B892B8FB46000DCE61F /* graph_month_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = graph_month_view.swift; sourceTree = "<group>"; };
+		48325B8B2B8FB46800DCE61F /* graph_week_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = graph_week_view.swift; sourceTree = "<group>"; };
+		48325B8D2B8FB47000DCE61F /* home_info_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = home_info_view.swift; sourceTree = "<group>"; };
+		48325B8F2B8FB47700DCE61F /* home_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = home_view.swift; sourceTree = "<group>"; };
+		48325B912B8FB48700DCE61F /* individual_plant_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = individual_plant_view.swift; sourceTree = "<group>"; };
+		48325B932B8FB49300DCE61F /* login_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = login_view.swift; sourceTree = "<group>"; };
+		48325B952B8FB49E00DCE61F /* plant_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = plant_view.swift; sourceTree = "<group>"; };
+		48325B972B8FB4AF00DCE61F /* settings_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings_view.swift; sourceTree = "<group>"; };
+		48325B992B8FB4B600DCE61F /* register_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = register_view.swift; sourceTree = "<group>"; };
+		48325B9B2B8FB4BE00DCE61F /* remove_plant_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = remove_plant_view.swift; sourceTree = "<group>"; };
+		48325B9D2B8FB4C600DCE61F /* splash_screen_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = splash_screen_view.swift; sourceTree = "<group>"; };
+		48325BA22B8FB5C500DCE61F /* account_settings_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = account_settings_viewmodel.swift; sourceTree = "<group>"; };
+		48325BA42B8FB5CE00DCE61F /* bluetooth_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluetooth_viewmodel.swift; sourceTree = "<group>"; };
+		48325BA62B8FB5D700DCE61F /* change_password_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = change_password_viewmodel.swift; sourceTree = "<group>"; };
+		48325BA82B8FB5E000DCE61F /* create_plant_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = create_plant_viewmodel.swift; sourceTree = "<group>"; };
+		48325BAA2B8FB5E800DCE61F /* edit_plant_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = edit_plant_viewmodel.swift; sourceTree = "<group>"; };
+		48325BAC2B8FB5F000DCE61F /* forgot_password_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgot_password_viewmodel.swift; sourceTree = "<group>"; };
+		48325BAE2B8FB5FB00DCE61F /* graph_day_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = graph_day_viewmodel.swift; sourceTree = "<group>"; };
+		48325BB02B8FB60F00DCE61F /* graph_month_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = graph_month_viewmodel.swift; sourceTree = "<group>"; };
+		48325BB22B8FB61A00DCE61F /* graph_week_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = graph_week_viewmodel.swift; sourceTree = "<group>"; };
+		48325BB52B8FB62900DCE61F /* home_info_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = home_info_viewmodel.swift; sourceTree = "<group>"; };
+		48325BB72B8FB63500DCE61F /* home_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = home_viewmodel.swift; sourceTree = "<group>"; };
+		48325BB92B8FB64200DCE61F /* individual_plant_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = individual_plant_viewmodel.swift; sourceTree = "<group>"; };
+		48325BBB2B8FB64C00DCE61F /* login_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = login_viewmodel.swift; sourceTree = "<group>"; };
+		48325BBD2B8FB65300DCE61F /* plant_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = plant_viewmodel.swift; sourceTree = "<group>"; };
+		48325BBF2B8FB65F00DCE61F /* settings_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings_viewmodel.swift; sourceTree = "<group>"; };
+		48325BC12B8FB66A00DCE61F /* register_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = register_viewmodel.swift; sourceTree = "<group>"; };
+		48325BC32B8FB67B00DCE61F /* remove_plant_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = remove_plant_viewmodel.swift; sourceTree = "<group>"; };
+		48325BC52B8FB68700DCE61F /* splash_screen_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = splash_screen_viewmodel.swift; sourceTree = "<group>"; };
+		48325BC72B8FB69300DCE61F /* user_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = user_model.swift; sourceTree = "<group>"; };
+		48325BC92B8FB69C00DCE61F /* bluetooth_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluetooth_model.swift; sourceTree = "<group>"; };
+		4879C5732B8FC67C008AEFAC /* main_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_view.swift; sourceTree = "<group>"; };
+		4879C5752B8FC686008AEFAC /* main_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_viewmodel.swift; sourceTree = "<group>"; };
+		48DCF5652B83E39600F88996 /* AquaGrowthMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AquaGrowthMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaGrowthMobileApp.swift; sourceTree = "<group>"; };
+		48DCF56A2B83E39600F88996 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		48DCF56C2B83E39700F88996 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		48DCF56F2B83E39700F88996 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		48DCF5752B83E39800F88996 /* AquaGrowthMobileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AquaGrowthMobileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		48DCF5792B83E39800F88996 /* AquaGrowthMobileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaGrowthMobileTests.swift; sourceTree = "<group>"; };
+		48DCF57F2B83E39800F88996 /* AquaGrowthMobileUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AquaGrowthMobileUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		48DCF5832B83E39800F88996 /* AquaGrowthMobileUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaGrowthMobileUITests.swift; sourceTree = "<group>"; };
+		48DCF5852B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaGrowthMobileUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		48F8662B2B97AC440045C2D5 /* custom_tab_bar_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = custom_tab_bar_view.swift; sourceTree = "<group>"; };
+		73C64FA32B99734A00788DDD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		48DCF5622B83E39600F88996 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4879C5812B91130A008AEFAC /* FirebaseDatabase in Frameworks */,
+				4879C5832B91130A008AEFAC /* FirebaseFirestore in Frameworks */,
+				4879C57D2B91130A008AEFAC /* FirebaseAnalytics in Frameworks */,
+				4879C57F2B91130A008AEFAC /* FirebaseAuth in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48DCF5722B83E39800F88996 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48DCF57C2B83E39800F88996 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		48325B7A2B8FB3F600DCE61F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				48325B7B2B8FB41300DCE61F /* account_settings_view.swift */,
+				48325B7D2B8FB42300DCE61F /* bluetooth_view.swift */,
+				48325B7F2B8FB42D00DCE61F /* change_password_view.swift */,
+				48325B812B8FB43B00DCE61F /* create_plant_view.swift */,
+				48325B832B8FB44600DCE61F /* edit_plant_view.swift */,
+				48325B852B8FB45100DCE61F /* forgot_password_view.swift */,
+				48325B872B8FB45900DCE61F /* graph_day_view.swift */,
+				48325B892B8FB46000DCE61F /* graph_month_view.swift */,
+				48325B8B2B8FB46800DCE61F /* graph_week_view.swift */,
+				48325B8D2B8FB47000DCE61F /* home_info_view.swift */,
+				48325B8F2B8FB47700DCE61F /* home_view.swift */,
+				48325B912B8FB48700DCE61F /* individual_plant_view.swift */,
+				48325B932B8FB49300DCE61F /* login_view.swift */,
+				48325B952B8FB49E00DCE61F /* plant_view.swift */,
+				48325B972B8FB4AF00DCE61F /* settings_view.swift */,
+				48325B992B8FB4B600DCE61F /* register_view.swift */,
+				48325B9B2B8FB4BE00DCE61F /* remove_plant_view.swift */,
+				48325B9D2B8FB4C600DCE61F /* splash_screen_view.swift */,
+				4879C5732B8FC67C008AEFAC /* main_view.swift */,
+				48192AAB2B918EB700F6F746 /* back_button_view.swift */,
+				48192AB12B93080C00F6F746 /* profile_view.swift */,
+				48F8662B2B97AC440045C2D5 /* custom_tab_bar_view.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		48325BA02B8FB5AF00DCE61F /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				48325BA22B8FB5C500DCE61F /* account_settings_viewmodel.swift */,
+				48325BA42B8FB5CE00DCE61F /* bluetooth_viewmodel.swift */,
+				48325BA62B8FB5D700DCE61F /* change_password_viewmodel.swift */,
+				48325BA82B8FB5E000DCE61F /* create_plant_viewmodel.swift */,
+				48325BAA2B8FB5E800DCE61F /* edit_plant_viewmodel.swift */,
+				48325BAC2B8FB5F000DCE61F /* forgot_password_viewmodel.swift */,
+				48325BAE2B8FB5FB00DCE61F /* graph_day_viewmodel.swift */,
+				48325BB02B8FB60F00DCE61F /* graph_month_viewmodel.swift */,
+				48325BB22B8FB61A00DCE61F /* graph_week_viewmodel.swift */,
+				48325BB52B8FB62900DCE61F /* home_info_viewmodel.swift */,
+				48325BB72B8FB63500DCE61F /* home_viewmodel.swift */,
+				48325BB92B8FB64200DCE61F /* individual_plant_viewmodel.swift */,
+				48325BBB2B8FB64C00DCE61F /* login_viewmodel.swift */,
+				48325BBD2B8FB65300DCE61F /* plant_viewmodel.swift */,
+				48325BBF2B8FB65F00DCE61F /* settings_viewmodel.swift */,
+				48325BC12B8FB66A00DCE61F /* register_viewmodel.swift */,
+				48325BC32B8FB67B00DCE61F /* remove_plant_viewmodel.swift */,
+				48325BC52B8FB68700DCE61F /* splash_screen_viewmodel.swift */,
+				4879C5752B8FC686008AEFAC /* main_viewmodel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		48325BA12B8FB5B500DCE61F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				48325BC72B8FB69300DCE61F /* user_model.swift */,
+				48325BC92B8FB69C00DCE61F /* bluetooth_model.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		48DCF55C2B83E39600F88996 = {
+			isa = PBXGroup;
+			children = (
+				48DCF5672B83E39600F88996 /* AquaGrowthMobile */,
+				48DCF5782B83E39800F88996 /* AquaGrowthMobileTests */,
+				48DCF5822B83E39800F88996 /* AquaGrowthMobileUITests */,
+				48DCF5662B83E39600F88996 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		48DCF5662B83E39600F88996 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				48DCF5652B83E39600F88996 /* AquaGrowthMobile.app */,
+				48DCF5752B83E39800F88996 /* AquaGrowthMobileTests.xctest */,
+				48DCF57F2B83E39800F88996 /* AquaGrowthMobileUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		48DCF5672B83E39600F88996 /* AquaGrowthMobile */ = {
+			isa = PBXGroup;
+			children = (
+				48192AB02B92F01700F6F746 /* Info.plist */,
+				73C64FA32B99734A00788DDD /* GoogleService-Info.plist */,
+				48325BA12B8FB5B500DCE61F /* Models */,
+				48325BA02B8FB5AF00DCE61F /* ViewModels */,
+				48325B7A2B8FB3F600DCE61F /* Views */,
+				48DCF5682B83E39600F88996 /* AquaGrowthMobileApp.swift */,
+				48DCF56A2B83E39600F88996 /* ContentView.swift */,
+				48DCF56C2B83E39700F88996 /* Assets.xcassets */,
+				48DCF56E2B83E39700F88996 /* Preview Content */,
+			);
+			path = AquaGrowthMobile;
+			sourceTree = "<group>";
+		};
+		48DCF56E2B83E39700F88996 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				48DCF56F2B83E39700F88996 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		48DCF5782B83E39800F88996 /* AquaGrowthMobileTests */ = {
+			isa = PBXGroup;
+			children = (
+				48DCF5792B83E39800F88996 /* AquaGrowthMobileTests.swift */,
+			);
+			path = AquaGrowthMobileTests;
+			sourceTree = "<group>";
+		};
+		48DCF5822B83E39800F88996 /* AquaGrowthMobileUITests */ = {
+			isa = PBXGroup;
+			children = (
+				48DCF5832B83E39800F88996 /* AquaGrowthMobileUITests.swift */,
+				48DCF5852B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift */,
+			);
+			path = AquaGrowthMobileUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		48DCF5642B83E39600F88996 /* AquaGrowthMobile */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48DCF5892B83E39800F88996 /* Build configuration list for PBXNativeTarget "AquaGrowthMobile" */;
+			buildPhases = (
+				48DCF5612B83E39600F88996 /* Sources */,
+				48DCF5622B83E39600F88996 /* Frameworks */,
+				48DCF5632B83E39600F88996 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AquaGrowthMobile;
+			packageProductDependencies = (
+				4879C57C2B91130A008AEFAC /* FirebaseAnalytics */,
+				4879C57E2B91130A008AEFAC /* FirebaseAuth */,
+				4879C5802B91130A008AEFAC /* FirebaseDatabase */,
+				4879C5822B91130A008AEFAC /* FirebaseFirestore */,
+			);
+			productName = AquaGrowthMobile;
+			productReference = 48DCF5652B83E39600F88996 /* AquaGrowthMobile.app */;
+			productType = "com.apple.product-type.application";
+		};
+		48DCF5742B83E39800F88996 /* AquaGrowthMobileTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48DCF58C2B83E39800F88996 /* Build configuration list for PBXNativeTarget "AquaGrowthMobileTests" */;
+			buildPhases = (
+				48DCF5712B83E39800F88996 /* Sources */,
+				48DCF5722B83E39800F88996 /* Frameworks */,
+				48DCF5732B83E39800F88996 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				48DCF5772B83E39800F88996 /* PBXTargetDependency */,
+			);
+			name = AquaGrowthMobileTests;
+			productName = AquaGrowthMobileTests;
+			productReference = 48DCF5752B83E39800F88996 /* AquaGrowthMobileTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		48DCF57E2B83E39800F88996 /* AquaGrowthMobileUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48DCF58F2B83E39800F88996 /* Build configuration list for PBXNativeTarget "AquaGrowthMobileUITests" */;
+			buildPhases = (
+				48DCF57B2B83E39800F88996 /* Sources */,
+				48DCF57C2B83E39800F88996 /* Frameworks */,
+				48DCF57D2B83E39800F88996 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				48DCF5812B83E39800F88996 /* PBXTargetDependency */,
+			);
+			name = AquaGrowthMobileUITests;
+			productName = AquaGrowthMobileUITests;
+			productReference = 48DCF57F2B83E39800F88996 /* AquaGrowthMobileUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		48DCF55D2B83E39600F88996 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					48DCF5642B83E39600F88996 = {
+						CreatedOnToolsVersion = 15.0.1;
+					};
+					48DCF5742B83E39800F88996 = {
+						CreatedOnToolsVersion = 15.0.1;
+						TestTargetID = 48DCF5642B83E39600F88996;
+					};
+					48DCF57E2B83E39800F88996 = {
+						CreatedOnToolsVersion = 15.0.1;
+						TestTargetID = 48DCF5642B83E39600F88996;
+					};
+				};
+			};
+			buildConfigurationList = 48DCF5602B83E39600F88996 /* Build configuration list for PBXProject "AquaGrowthMobile" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 48DCF55C2B83E39600F88996;
+			packageReferences = (
+				4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
+			productRefGroup = 48DCF5662B83E39600F88996 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				48DCF5642B83E39600F88996 /* AquaGrowthMobile */,
+				48DCF5742B83E39800F88996 /* AquaGrowthMobileTests */,
+				48DCF57E2B83E39800F88996 /* AquaGrowthMobileUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		48DCF5632B83E39600F88996 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48DCF5702B83E39700F88996 /* Preview Assets.xcassets in Resources */,
+				73C64FA42B99734B00788DDD /* GoogleService-Info.plist in Resources */,
+				48DCF56D2B83E39700F88996 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48DCF5732B83E39800F88996 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73C64FA52B99734B00788DDD /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48DCF57D2B83E39800F88996 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73C64FA62B99734B00788DDD /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		48DCF5612B83E39600F88996 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48325B842B8FB44600DCE61F /* edit_plant_view.swift in Sources */,
+				48325B9C2B8FB4BE00DCE61F /* remove_plant_view.swift in Sources */,
+				48325B8E2B8FB47000DCE61F /* home_info_view.swift in Sources */,
+				48325B9E2B8FB4C600DCE61F /* splash_screen_view.swift in Sources */,
+				48325BB12B8FB60F00DCE61F /* graph_month_viewmodel.swift in Sources */,
+				48325BA32B8FB5C500DCE61F /* account_settings_viewmodel.swift in Sources */,
+				48325BCA2B8FB69C00DCE61F /* bluetooth_model.swift in Sources */,
+				48325BAF2B8FB5FB00DCE61F /* graph_day_viewmodel.swift in Sources */,
+				48325B982B8FB4AF00DCE61F /* settings_view.swift in Sources */,
+				48325BA72B8FB5D700DCE61F /* change_password_viewmodel.swift in Sources */,
+				48F8662C2B97AC440045C2D5 /* custom_tab_bar_view.swift in Sources */,
+				48325B882B8FB45900DCE61F /* graph_day_view.swift in Sources */,
+				48325BA52B8FB5CE00DCE61F /* bluetooth_viewmodel.swift in Sources */,
+				48325BC62B8FB68700DCE61F /* splash_screen_viewmodel.swift in Sources */,
+				4879C5742B8FC67C008AEFAC /* main_view.swift in Sources */,
+				48325B802B8FB42D00DCE61F /* change_password_view.swift in Sources */,
+				48325B962B8FB49E00DCE61F /* plant_view.swift in Sources */,
+				48325B902B8FB47700DCE61F /* home_view.swift in Sources */,
+				48325B862B8FB45100DCE61F /* forgot_password_view.swift in Sources */,
+				48DCF56B2B83E39600F88996 /* ContentView.swift in Sources */,
+				48325BBC2B8FB64C00DCE61F /* login_viewmodel.swift in Sources */,
+				48325BB32B8FB61A00DCE61F /* graph_week_viewmodel.swift in Sources */,
+				48325BBE2B8FB65300DCE61F /* plant_viewmodel.swift in Sources */,
+				48325BC22B8FB66A00DCE61F /* register_viewmodel.swift in Sources */,
+				48325BAD2B8FB5F000DCE61F /* forgot_password_viewmodel.swift in Sources */,
+				48192AAC2B918EB700F6F746 /* back_button_view.swift in Sources */,
+				48325BC02B8FB65F00DCE61F /* settings_viewmodel.swift in Sources */,
+				48325B942B8FB49300DCE61F /* login_view.swift in Sources */,
+				48325B922B8FB48700DCE61F /* individual_plant_view.swift in Sources */,
+				48325B822B8FB43B00DCE61F /* create_plant_view.swift in Sources */,
+				48325BC82B8FB69300DCE61F /* user_model.swift in Sources */,
+				48325B8C2B8FB46800DCE61F /* graph_week_view.swift in Sources */,
+				48DCF5692B83E39600F88996 /* AquaGrowthMobileApp.swift in Sources */,
+				48325B7C2B8FB41300DCE61F /* account_settings_view.swift in Sources */,
+				48325BA92B8FB5E000DCE61F /* create_plant_viewmodel.swift in Sources */,
+				48325B8A2B8FB46000DCE61F /* graph_month_view.swift in Sources */,
+				48325BBA2B8FB64200DCE61F /* individual_plant_viewmodel.swift in Sources */,
+				48325B7E2B8FB42300DCE61F /* bluetooth_view.swift in Sources */,
+				48325B9A2B8FB4B600DCE61F /* register_view.swift in Sources */,
+				48325BC42B8FB67B00DCE61F /* remove_plant_viewmodel.swift in Sources */,
+				48325BB82B8FB63500DCE61F /* home_viewmodel.swift in Sources */,
+				48192AB22B93080C00F6F746 /* profile_view.swift in Sources */,
+				4879C5762B8FC686008AEFAC /* main_viewmodel.swift in Sources */,
+				48325BAB2B8FB5E800DCE61F /* edit_plant_viewmodel.swift in Sources */,
+				48325BB62B8FB62900DCE61F /* home_info_viewmodel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48DCF5712B83E39800F88996 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48DCF57A2B83E39800F88996 /* AquaGrowthMobileTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48DCF57B2B83E39800F88996 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48DCF5842B83E39800F88996 /* AquaGrowthMobileUITests.swift in Sources */,
+				48DCF5862B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		48DCF5772B83E39800F88996 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 48DCF5642B83E39600F88996 /* AquaGrowthMobile */;
+			targetProxy = 48DCF5762B83E39800F88996 /* PBXContainerItemProxy */;
+		};
+		48DCF5812B83E39800F88996 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 48DCF5642B83E39600F88996 /* AquaGrowthMobile */;
+			targetProxy = 48DCF5802B83E39800F88996 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		48DCF5872B83E39800F88996 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		48DCF5882B83E39800F88996 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		48DCF58A2B83E39800F88996 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AquaGrowthMobile/Preview Content\"";
+				DEVELOPMENT_TEAM = 4V3YUZ72NK;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AquaGrowthMobile/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "$(MARKETING_VERSION)";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "AquaGrowth request permission for bluetooth";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = teamAqua.AquaGrowthMobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		48DCF58B2B83E39800F88996 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AquaGrowthMobile/Preview Content\"";
+				DEVELOPMENT_TEAM = 4V3YUZ72NK;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AquaGrowthMobile/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "$(MARKETING_VERSION)";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "AquaGrowth request permission for bluetooth";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = teamAqua.AquaGrowthMobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		48DCF58D2B83E39800F88996 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V3YUZ72NK;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = teamAqua.AquaGrowthMobileTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AquaGrowthMobile.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AquaGrowthMobile";
+			};
+			name = Debug;
+		};
+		48DCF58E2B83E39800F88996 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V3YUZ72NK;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = teamAqua.AquaGrowthMobileTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AquaGrowthMobile.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AquaGrowthMobile";
+			};
+			name = Release;
+		};
+		48DCF5902B83E39800F88996 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V3YUZ72NK;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = teamAqua.AquaGrowthMobileUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = AquaGrowthMobile;
+			};
+			name = Debug;
+		};
+		48DCF5912B83E39800F88996 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V3YUZ72NK;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = teamAqua.AquaGrowthMobileUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = AquaGrowthMobile;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		48DCF5602B83E39600F88996 /* Build configuration list for PBXProject "AquaGrowthMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48DCF5872B83E39800F88996 /* Debug */,
+				48DCF5882B83E39800F88996 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48DCF5892B83E39800F88996 /* Build configuration list for PBXNativeTarget "AquaGrowthMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48DCF58A2B83E39800F88996 /* Debug */,
+				48DCF58B2B83E39800F88996 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48DCF58C2B83E39800F88996 /* Build configuration list for PBXNativeTarget "AquaGrowthMobileTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48DCF58D2B83E39800F88996 /* Debug */,
+				48DCF58E2B83E39800F88996 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48DCF58F2B83E39800F88996 /* Build configuration list for PBXNativeTarget "AquaGrowthMobileUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48DCF5902B83E39800F88996 /* Debug */,
+				48DCF5912B83E39800F88996 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.21.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4879C57C2B91130A008AEFAC /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		4879C57E2B91130A008AEFAC /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		4879C5802B91130A008AEFAC /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		4879C5822B91130A008AEFAC /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 48DCF55D2B83E39600F88996 /* Project object */;
+}
