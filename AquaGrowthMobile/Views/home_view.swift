@@ -6,7 +6,6 @@ struct HomeView: View {
     // State to hold the selected image
     @State private var isImagePickerDisplayed = false
     @State private var selectedUIImage: UIImage?
-    
     @State private var isInfoWindowPresented = false
     var body: some View {
         NavigationView {
@@ -34,11 +33,11 @@ struct HomeView: View {
                 Spacer()
                 
                 HStack {
-                    Text("Today") // Add your text aligned to the left
-                        .foregroundColor(.black) // Customize text color
-                        .font(.system(size: 30, weight: .bold)) // Adjust font size and weight as needed
-                        .padding(.leading, 18) // Adjust leading padding if needed
-                    
+//                    Text("Today") // Add your text aligned to the left
+//                        .foregroundColor(.black) // Customize text color
+//                        .font(.system(size: 30, weight: .bold)) // Adjust font size and weight as needed
+//                        .padding(.leading, 18) // Adjust leading padding if needed
+//
                     Spacer() // Add a spacer to push the button to the right
                     
                     Button(action: {
@@ -54,11 +53,41 @@ struct HomeView: View {
                     
                     .padding([.bottom], 400) // Adjust the bottom padding if needed
                     
+                    
+                    // Info Window Pop Up Data
                     .sheet(isPresented: $isInfoWindowPresented) {
-                        // Content of the info window goes here
-//                        InfoWindow()
-                        Text("Test")
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Image("Sun - Bright") // Example of an image to the left of the text
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 50, height: 50) // Adjust size as needed
+                                    .padding(.bottom, 35) // Adjust bottom padding to align with text
+                                
+                                Image("Sun - Dim") // Example of an image to the left of the text
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 50, height: 50) // Adjust size as needed
+                                    .padding(.bottom, 35) // Adjust bottom padding to align with text
+                            }
+                            
+                            VStack(alignment: .leading) {
+                                Text("GOOD: Needs NO Attention")
+                                    .foregroundColor(.black)
+                                    .font(.system(size: 20, weight: .bold))
+                                    .padding(.top, 15)
+                                    .padding(.bottom, 55) // Adjust bottom padding to separate from the text below
+                                
+                                Text("BAD: Needs Attention !!")
+                                    .foregroundColor(.black)
+                                    .font(.system(size: 20, weight: .bold))
+                                    .padding(.top, 10)
+                                    .padding(.bottom, 55) // Adjust bottom padding to separate from the text above
+                            }
+                        }
                     }
+
+                    
                     
                     Spacer() // Add a spacer to push the button to the right
                         .frame(maxWidth: 40) // Occupy all available space to the right
