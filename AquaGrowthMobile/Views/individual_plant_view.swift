@@ -112,7 +112,8 @@ struct IndividualPlantView: View {
                     viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
                     viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
                     viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
-                    viewmodel.SavedSensorInforamtion()
+                    viewmodel.saveData()
+//                    viewmodel.SavedSensorInforamtion()
                 }
             }
             .onAppear(){
