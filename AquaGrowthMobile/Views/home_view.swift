@@ -1,4 +1,4 @@
-// VERSION #2
+/// WORKING VERSION WITH POP UP AND 3 MIDDLE BUTTONS
 import Foundation
 import SwiftUI
 /// SwiftUI View for the Home Screen
@@ -36,13 +36,14 @@ struct HomeView: View {
                 Spacer()
                 
                 HStack {
+                    
                     Text("Today") // Add your text aligned to the left
-                        .padding(.bottom, 405)
+                        .padding(.top, 10)
                         .foregroundColor(.black) // Customize text color
                         .font(.system(size: 30, weight: .bold)) // Adjust font size and weight as needed
-                        .padding(.leading, 18) // Adjust leading padding if needed
-//
-                    Spacer() // Add a spacer to push the button to the right
+                        .padding(.leading, 1) // Adjust leading padding if needed
+                    
+                    Spacer()
                     
                     Button(action: {
                         // Set the state to true to present the info window
@@ -54,59 +55,91 @@ struct HomeView: View {
                             .frame(width: 30, height: 30) // Adjust size as needed
                             .foregroundColor(.black) // Customize button color
                     }
+                    .padding(.trailing, 18)
+                }
+                .padding(.bottom, 20)
+                
+                // Three buttons centered vertically
+                VStack {
                     
-                    .padding([.bottom], 400) // Adjust the bottom padding if needed
-                    
-                    
-                    // Info Window Pop Up Data
-                    .sheet(isPresented: $isInfoWindowPresented) {
-
-                        VStack {
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Image("Sun - Bright")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 50, height: 50)
-                                        .padding(.bottom, 35)
-                                    
-                                    Image("Sun - Dim")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 50, height: 50)
-                                        .padding(.bottom, 35)
-                                }
-                                
-                                VStack(alignment: .leading) {
-                                    Text("GOOD: Needs NO Attention")
-                                        .foregroundColor(.black)
-                                        .font(.system(size: 20, weight: .bold))
-                                        .padding(.top, 15)
-                                        .padding(.bottom, 55)
-                                    
-                                    Text("BAD: Needs Attention !!")
-                                        .foregroundColor(.black)
-                                        .font(.system(size: 20, weight: .bold))
-                                        .padding(.top, 10)
-                                        .padding(.bottom, 55)
-                            
-                                }
-                                .presentationDetents([.fraction(0.40)])
-
-                            }
-                            
-                        
-                        }
-
+                    Button(action: {
+                        // Action for the first button
+                    }) {
+                        Text("Button 1")
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 30) // Increase vertical padding
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(20)
                     }
+                    Spacer().frame(height: 25) // Add space between buttons
 
                     
-                    Spacer() // Add a spacer to push the button to the right
-                        .frame(maxWidth: 40) // Occupy all available space to the right
-                } // End of HStack
-            }// End of VStack
-            
-        
+                    Button(action: {
+                        // Action for the second button
+                    }) {
+                        Text("Button 2")
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 30) // Increase vertical padding
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(20)
+                    }
+                    Spacer().frame(height: 25) // Add space between buttons
+
+                    Button(action: {
+                        // Action for the third button
+                    }) {
+                        Text("Button 3")
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 30) // Increase vertical padding
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(20)
+                    }
+                    
+                    Spacer()
+                }
+                
+                Spacer()
+            }
+            .padding()
+            .background(Color.white)
+            .edgesIgnoringSafeArea(.bottom)
+            .sheet(isPresented: $isInfoWindowPresented) { // Start of Pop Up Window
+                VStack {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Image("Sun - Bright")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 50, height: 50)
+                                .padding(.bottom, 35)
+                            
+                            Image("Sun - Dim")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 50, height: 50)
+                                .padding(.bottom, 35)
+                        }
+                        
+                        VStack(alignment: .leading) {
+                            Text("GOOD: Needs NO Attention")
+                                .foregroundColor(.black)
+                                .font(.system(size: 20, weight: .bold))
+                                .padding(.top, 15)
+                                .padding(.bottom, 55)
+                            
+                            Text("BAD: Needs Attention !!")
+                                .foregroundColor(.black)
+                                .font(.system(size: 20, weight: .bold))
+                                .padding(.top, 10)
+                                .padding(.bottom, 55)
+                        }
+                        .presentationDetents([.fraction(0.40)])
+                    }
+                }
+            } // End of Pop Up Window
             .sheet(isPresented: $isImagePickerDisplayed) {
                 ImagePicker(selectedImage: $selectedUIImage)
             }
@@ -115,7 +148,8 @@ struct HomeView: View {
             }
         }// End of NavigationView
     }// End of Body View
-    
+
+
     
     /// Load the previously saved image from UserDefaults.
     private func loadSavedImage() {
@@ -124,7 +158,9 @@ struct HomeView: View {
             self.selectedUIImage = loadedImage
         }
     }
+    
 } // End of HomeView
+
 
 
 
@@ -201,4 +237,3 @@ struct HomeView_Previews: PreviewProvider {
         HomeView()
     }
 }
-
