@@ -1,4 +1,3 @@
-/// WORKING VERSION WITH POP UP AND 3 MIDDLE BUTTONS
 import Foundation
 import SwiftUI
 /// SwiftUI View for the Home Screen
@@ -7,8 +6,11 @@ import SwiftUI
 struct HomeView: View {
     // State to hold the selected image
     @State private var isImagePickerDisplayed = false
+    @State private var isImagePickerDisplayedCircle = false
     @State private var selectedUIImage: UIImage?
     @State private var isInfoWindowPresented = false
+    @State private var selectedCircleImage: UIImage? // Declared at the top level of the struct
+
     
     var body: some View {
         NavigationView {
@@ -59,44 +61,184 @@ struct HomeView: View {
                 }
                 .padding(.bottom, 20)
                 
+                .sheet(isPresented: $isImagePickerDisplayed) {
+                      ImagePicker(selectedImage: $selectedUIImage)
+                  }
+                  .onAppear {
+                      loadSavedImage()
+                  }
+                
+                
+                
                 // Three buttons centered vertically
                 VStack {
                     
                     Button(action: {
                         // Action for the first button
                     }) {
-                        Text("Button 1")
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 30) // Increase vertical padding
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(20)
+                        ZStack {
+                            // Background of the button
+                            RoundedRectangle(cornerRadius: 20)
+                                .foregroundColor(Color.gray.opacity(0.1))
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 80) // Adjust height as needed
+                            
+                            // Image overlay
+                            Image("Sun - Bright")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 50, height: 50) // Adjust size of the image as needed
+                                .padding(.trailing, 150) // Adjust padding around the image as needed
+                                .offset(x: 7, y: 1) // Adjust position of the image relative to the button as needed
+                            
+                            // Image overlay
+                            Image("Water - Bright")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 70, height: 70) // Adjust size of the image as needed
+                                .padding(.leading) // Adjust padding around the image as needed
+                                .offset(x: 7, y: 1) // Adjust position of the image relative to the button as needed
+                            
+                            
+                            // Image overlay
+                            Image("Humidity - Bright")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 60, height: 60) // Adjust size of the image as needed
+                                .padding(.leading, 180) // Adjust padding around the image as needed
+                                .offset(x: 7, y: 1) // Adjust position of the image relative to the button as needed
+                            
+                            // Circular image input
+                            Image(systemName: "camera.circle.fill") // You can replace this with your image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(.gray)
+                                .frame(width: 60, height: 60)
+                                .offset(x: -140, y: 0)
+                                .onTapGesture {
+                                    isImagePickerDisplayedCircle.toggle()
+                                }
+                                .sheet(isPresented: $isImagePickerDisplayedCircle) {
+                                    ImagePicker(selectedImage: $selectedCircleImage)
+                                }
+                        }
+                        .cornerRadius(20)
                     }
-                    Spacer().frame(height: 25) // Add space between buttons
 
                     
-                    Button(action: {
-                        // Action for the second button
-                    }) {
-                        Text("Button 2")
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 30) // Increase vertical padding
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(20)
-                    }
+                    
+                    
                     Spacer().frame(height: 25) // Add space between buttons
 
                     Button(action: {
-                        // Action for the third button
+                        // Action for the first button
                     }) {
-                        Text("Button 3")
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 30) // Increase vertical padding
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(20)
+                        ZStack {
+                            // Background of the button
+                            RoundedRectangle(cornerRadius: 20)
+                                .foregroundColor(Color.gray.opacity(0.1))
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 80) // Adjust height as needed
+                            
+                            // Image overlay
+                            Image("Sun - Bright")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 50, height: 50) // Adjust size of the image as needed
+                                .padding(.trailing, 150) // Adjust padding around the image as needed
+                                .offset(x: 7, y: 1) // Adjust position of the image relative to the button as needed
+                            
+                            // Image overlay
+                            Image("Water - Bright")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 70, height: 70) // Adjust size of the image as needed
+                                .padding(.leading) // Adjust padding around the image as needed
+                                .offset(x: 7, y: 1) // Adjust position of the image relative to the button as needed
+                            
+                            
+                            // Image overlay
+                            Image("Humidity - Bright")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 60, height: 60) // Adjust size of the image as needed
+                                .padding(.leading, 180) // Adjust padding around the image as needed
+                                .offset(x: 7, y: 1) // Adjust position of the image relative to the button as needed
+                            
+                            // Circular image input
+                            Image(systemName: "camera.circle.fill") // You can replace this with your image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(.gray)
+                                .frame(width: 60, height: 60)
+                                .offset(x: -140, y: 0)
+                                .onTapGesture {
+                                    isImagePickerDisplayedCircle.toggle()
+                                }
+                                .sheet(isPresented: $isImagePickerDisplayedCircle) {
+                                    ImagePicker(selectedImage: $selectedCircleImage)
+                                }
+                        }
+                        .cornerRadius(20)
                     }
+                    
+                    
+                    
+                    
+                    Spacer().frame(height: 25) // Add space between buttons
+
+                    Button(action: {
+                        // Action for the first button
+                    }) {
+                        ZStack {
+                            // Background of the button
+                            RoundedRectangle(cornerRadius: 20)
+                                .foregroundColor(Color.gray.opacity(0.1))
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 80) // Adjust height as needed
+                            
+                            // Image overlay
+                            Image("Sun - Bright")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 50, height: 50) // Adjust size of the image as needed
+                                .padding(.trailing, 150) // Adjust padding around the image as needed
+                                .offset(x: 7, y: 1) // Adjust position of the image relative to the button as needed
+                            
+                            // Image overlay
+                            Image("Water - Bright")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 70, height: 70) // Adjust size of the image as needed
+                                .padding(.leading) // Adjust padding around the image as needed
+                                .offset(x: 7, y: 1) // Adjust position of the image relative to the button as needed
+                            
+                            
+                            // Image overlay
+                            Image("Humidity - Bright")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 60, height: 60) // Adjust size of the image as needed
+                                .padding(.leading, 180) // Adjust padding around the image as needed
+                                .offset(x: 7, y: 1) // Adjust position of the image relative to the button as needed
+                            
+                            // Circular image input
+                            Image(systemName: "camera.circle.fill") // You can replace this with your image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(.gray)
+                                .frame(width: 60, height: 60)
+                                .offset(x: -140, y: 0)
+                                .onTapGesture {
+                                    isImagePickerDisplayedCircle.toggle()
+                                }
+                                .sheet(isPresented: $isImagePickerDisplayedCircle) {
+                                    ImagePicker(selectedImage: $selectedCircleImage)
+                                }
+                        }
+                        .cornerRadius(20)
+                    }
+                    
                     
                     Spacer()
                 }
@@ -140,12 +282,12 @@ struct HomeView: View {
                     }
                 }
             } // End of Pop Up Window
-            .sheet(isPresented: $isImagePickerDisplayed) {
-                ImagePicker(selectedImage: $selectedUIImage)
-            }
-            .onAppear {
-                loadSavedImage()
-            }
+//            .sheet(isPresented: $isImagePickerDisplayed) {
+//                ImagePicker(selectedImage: $selectedUIImage)
+//            }
+//            .onAppear {
+//                loadSavedImage()
+//            }
         }// End of NavigationView
     }// End of Body View
 
@@ -237,3 +379,5 @@ struct HomeView_Previews: PreviewProvider {
         HomeView()
     }
 }
+
+
