@@ -13,6 +13,7 @@ struct IndividualPlantView: View {
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
     @State var selectedOption: String? = nil
     @State private var isActive = false
+    @State private var isEditingPlant = false
     @Environment(\.colorScheme) var colorScheme
 
     let my_plant: Plant
@@ -134,15 +135,26 @@ struct IndividualPlantView: View {
                     viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
                 }
             }
+            // Link to Edit Plant View
             .toolbar {
-                ToolbarItemGroup() {
-                    Button(action: {
-                        print("About tapped!")
-                    }) {
-                        Label("About", systemImage: "square.and.pencil")
-                    }
+                Button(action: {
+                    isEditingPlant = true
+                }) {
+                    Image(systemName: "square.and.pencil")
+                        .font(.system(size: 30))
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
                 }
             }
+            .sheet(isPresented: $isEditingPlant){
+                EditPlantView(plant: my_plant)
+            }
+//            .toolbar {
+//                ToolbarItemGroup() {
+//                    NavigationLink(destination: EditPlantView(plant: my_plant)){
+//                        Label("Edit", systemImage: "square.and.pencil")
+//                    }
+//                }
+//            }
             
             //Back button to plant page
             .navigationBarBackButtonHidden(true)
@@ -164,7 +176,7 @@ struct IndividualPlantView: View {
                     isActive: $isActive,
                     label: { EmptyView() }
                 )
-            )   
+            )
         }
     }
 }
@@ -182,5 +194,3 @@ struct IndividualPlantView: View {
     }
     return PreviewWrapper()
 }
-
-
