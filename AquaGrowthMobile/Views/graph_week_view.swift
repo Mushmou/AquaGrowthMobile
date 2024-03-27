@@ -12,7 +12,7 @@ struct GraphWeek: View {
     
     @StateObject var viewModel = GraphWeekViewmodel()
     @State private var showNavigationBar = true
-    @State private var isActive = false
+    
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @Environment(\.colorScheme) var colorScheme
     
@@ -42,16 +42,24 @@ struct GraphWeek: View {
                         .fill(.white)
                         .frame(width: UIScreen.main.bounds.width, height: 640)
                         .position(x: UIScreen.main.bounds.width / 2, y: 550)
-                    //Spacer()
+                   
+                    //bar to indicate you can swipe page down
+                    RoundedRectangle(cornerRadius: 40)
+                        .frame(width: 200, height: 5)
+                        .foregroundColor(.gray)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 40)
+                    
+                    //plant name
                     Text(my_plant.plant_name)
                         .font(.system(size: 50))
                         .bold()
-                        .position(x: UIScreen.main.bounds.width / 2, y: 50)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 70)
                         .foregroundColor(.white)
                     
+                    //plant type
                     Text(my_plant.plant_type)
                         .font(.system(size: 20))
-                        .position(x: UIScreen.main.bounds.width / 2, y: 90)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 100)
                         .foregroundColor(.white)
                     
                     Rectangle() //Graph Box
@@ -238,14 +246,14 @@ struct GraphWeek: View {
             
             
         }
-    
+        .navigationBarHidden(true)
+    /*
         //Back button to plant page
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
-                    selectedOption = "IndividualPlantView"
-                    isActive = true
+                    selectedOption = "Back"
                 }) {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 30))
@@ -254,13 +262,13 @@ struct GraphWeek: View {
             }
         }
         .background(
-            NavigationLink(
-                destination: IndividualPlantView(my_plant:my_plant), // Change this to your desired destination
-                isActive: $isActive,
+            NavigationLink(destination: IndividualPlantView(my_plant: my_plant), // Change this to your desired destination
+                tag: "Back",
+                selection: $selectedOption,
                 label: { EmptyView() }
             )
         )
-        
+        */
         
     }
 }

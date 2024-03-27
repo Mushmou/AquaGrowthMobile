@@ -14,6 +14,9 @@ struct IndividualPlantView: View {
     @State var selectedOption: String? = nil
     @State private var isActive = false
     @Environment(\.colorScheme) var colorScheme
+    
+    @State private var isShowingGraphPage = false // New state variable for showing Graph view
+
 
     let my_plant: Plant
 
@@ -98,7 +101,10 @@ struct IndividualPlantView: View {
                     .frame(width: 200, height: 40)
                     .foregroundColor(.gray)
                     .overlay(
-                        NavigationLink(destination: GraphWeek(my_plant: my_plant)) {
+                        Button(action: {
+                            // Show Graph view when "More Info" button is clicked
+                            isShowingGraphPage = true
+                        }) {
                             Text("More Info")
                                 .foregroundColor(.black)
                                 .bold()
@@ -107,6 +113,10 @@ struct IndividualPlantView: View {
                             .buttonStyle(PlainButtonStyle())
                     )
                     .padding(.top, 10)
+                    // Present GraphWeek as a modal sheet
+                    .sheet(isPresented: $isShowingGraphPage) {
+                                        GraphWeek(my_plant: my_plant)
+                                    }
                 
                 Button("Save Data"){
                     viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 999
@@ -144,27 +154,7 @@ struct IndividualPlantView: View {
                 }
             }
             
-            //Back button to plant page
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        selectedOption = "PlantView"
-                        isActive = true
-                    }) {
-                        Image(systemName: "chevron.backward")
-                            .font(.system(size: 30))
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
-                    }
-                }
-            }
-            .background(
-                NavigationLink(
-                    destination: PlantView(), // Change this to your desired destination
-                    isActive: $isActive,
-                    label: { EmptyView() }
-                )
-            )   
+            
         }
     }
 }

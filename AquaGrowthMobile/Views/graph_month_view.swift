@@ -39,15 +39,24 @@ struct GraphMonth: View {
                         .fill(.white)
                         .frame(width: UIScreen.main.bounds.width, height: 640)
                         .position(x: UIScreen.main.bounds.width / 2, y: 550)
+                    
+                    //bar to indicate you can swipe page down
+                    RoundedRectangle(cornerRadius: 40)
+                        .frame(width: 200, height: 5)
+                        .foregroundColor(.gray)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 40)
+                    
+                    //plant name
                     Text(my_plant.plant_name)
                         .font(.system(size: 50))
                         .bold()
-                        .position(x: UIScreen.main.bounds.width / 2, y: 50)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 70)
                         .foregroundColor(.white)
                     
+                    //plant type
                     Text(my_plant.plant_type)
                         .font(.system(size: 20))
-                        .position(x: UIScreen.main.bounds.width / 2, y: 90)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 100)
                         .foregroundColor(.white)
                     
                     Rectangle() //Graph Box
@@ -231,27 +240,7 @@ struct GraphMonth: View {
                 .padding(.bottom,125)
             }
         }
-        
-        //Back button to plant page
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    selectedOption = "Back"
-                }) {
-                    Image(systemName: "chevron.backward")
-                        .font(.system(size: 30))
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                }
-            }
-        }
-        .background(
-            NavigationLink(destination: IndividualPlantView(my_plant: my_plant), // Change this to your desired destination
-                tag: "Back",
-                selection: $selectedOption,
-                label: { EmptyView() }
-            )
-        )
+        .navigationBarHidden(true)
     }
     
 }
