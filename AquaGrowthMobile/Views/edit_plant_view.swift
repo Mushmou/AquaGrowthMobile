@@ -21,6 +21,9 @@ struct EditPlantView: View {
     
     @State private var showAlert = false
     @State private var showNavigationBar = true
+    
+    var plant: Plant
+    
     var body: some View {
         NavigationStack{
             
@@ -52,7 +55,7 @@ struct EditPlantView: View {
                         .alert(isPresented: $showAlert) {
                             Alert(
                                 title: Text("Delete Plant?"),
-                                message: Text("Are you sure you want to delete this plant?"),
+                                message: Text("Are you sure you want to delete \(plant.plant_name)?"),
                                 primaryButton: .default(
                                     Text("Cancel")
                                 ),
@@ -65,7 +68,7 @@ struct EditPlantView: View {
                 }
             
             Spacer()
-            Text("Editing Plant")
+            Text("Editing \(plant.plant_name)")
                 .bold()
                 .font(.system(size: 32))
             VStack{
@@ -96,7 +99,8 @@ struct EditPlantView: View {
                     .frame(maxWidth: 360, alignment: .leading)
                     .font(.system(size: 32))
                 
-                TextField("Change name", text: $name)
+                TextField("\(plant.plant_name)", text: $name)
+                    .padding(.horizontal)
                     .frame(width: 360, height: 50, alignment: .center)
                     .background(Color(red: 0.94, green: 0.94, blue: 0.94))
                     .cornerRadius(12)
@@ -107,7 +111,8 @@ struct EditPlantView: View {
                     .bold()
                     .frame(maxWidth: 360, alignment: .leading)
                     .font(.system(size: 32))
-                TextField("Change type", text: $type)
+                TextField("\(plant.plant_type)", text: $type)
+                    .padding(.horizontal)
                     .frame(width: 360, height: 50, alignment: .center)
                     .background(Color(red: 0.94, green: 0.94, blue: 0.94))
                     .cornerRadius(12)
@@ -117,7 +122,8 @@ struct EditPlantView: View {
                     .bold()
                     .frame(maxWidth: 360, alignment: .leading)
                     .font(.system(size: 32))
-                TextField("Change description", text: $description)
+                TextField("\(plant.plant_description)", text: $description)
+                    .padding(.horizontal)
                     .frame(width: 360, height: 50, alignment: .center)
                     .background(Color(red: 0.94, green: 0.94, blue: 0.94))
                     .cornerRadius(12)
@@ -130,5 +136,5 @@ struct EditPlantView: View {
 }
 
 #Preview {
-    EditPlantView()
+    EditPlantView(plant: Plant(plant_name: "Akimbo Cacti", plant_type: "Cactus", plant_description: "My double prickly cactus", plant_image: "Flower"))
 }
