@@ -115,6 +115,8 @@ struct RegisterView: View {
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
+        
+        //This set of code is our back button for now.
         Color.clear.frame(width: 1, height:1)
             .navigationBarBackButtonHidden(true)
             .toolbar{
@@ -130,9 +132,10 @@ struct RegisterView: View {
             }
         VStack{
             Text("Glad you're branching out with us. 🌳")
-                .font(.system(size: 40))
+                .font(.system(size: 50))
                 .bold()
                 .multilineTextAlignment(.center)
+                .padding(.bottom, 50)
 
             //Username Field and Error
             BasicField(name: "Username", type: $viewModel.username, validation: $viewModel.isUsernameValid)

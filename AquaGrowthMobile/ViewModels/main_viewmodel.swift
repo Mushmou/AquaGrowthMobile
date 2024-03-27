@@ -8,8 +8,10 @@
 import Foundation
 import FirebaseAuth
 
+class UserData: ObservableObject {
+    @Published var user = User(id: "userID", username: "username", email: "email@example.com", password: "password", signupDateTime: Date().timeIntervalSince1970)
+}
 class main_viewmodel: ObservableObject{
-    
     @Published var currentUserId: String = ""
     private var handler: AuthStateDidChangeListenerHandle?
     
