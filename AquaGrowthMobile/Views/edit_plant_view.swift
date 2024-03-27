@@ -35,7 +35,7 @@ struct EditPlantView: View {
                                 .font(.system(size: 30)) // Adjust the size as needed
                                 .foregroundColor(.black)
                         })
-                        .onTapGesture {
+               t         .onTapGesture {
                             withAnimation {
                                 showNavigationBar.toggle()
                             }
