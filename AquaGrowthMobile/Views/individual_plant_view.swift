@@ -15,6 +15,7 @@ struct IndividualPlantView: View {
     @State private var isActive = false
     @State private var isEditingPlant = false
     @Environment(\.colorScheme) var colorScheme
+    @State private var isShowingGraphPage = false
 
     let my_plant: Plant
 
@@ -99,15 +100,23 @@ struct IndividualPlantView: View {
                     .frame(width: 200, height: 40)
                     .foregroundColor(.gray)
                     .overlay(
-                        NavigationLink(destination: GraphWeek(my_plant: my_plant)) {
+                        Button(action: {
+                        // Show Graph view when "More Info" button is clicked
+                            isShowingGraphPage = true
+                        }) {
                             Text("More Info")
                                 .foregroundColor(.black)
                                 .bold()
                                 .font(.system(size: 25))
-                        }
+                            }
                             .buttonStyle(PlainButtonStyle())
                     )
                     .padding(.top, 10)
+                    // Present GraphWeek as a  sheet
+                    .sheet(isPresented: $isShowingGraphPage) {
+                        GraphWeek(my_plant: my_plant)
+                    }
+
                 
                 Button("Save Data"){
                     viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 999
