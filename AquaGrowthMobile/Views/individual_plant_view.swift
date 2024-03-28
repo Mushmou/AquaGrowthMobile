@@ -13,8 +13,9 @@ struct IndividualPlantView: View {
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
     @State var selectedOption: String? = nil
     @State private var isActive = false
+    @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @Environment(\.colorScheme) var colorScheme
-
+    @State private var showNavigationBar = true
     let my_plant: Plant
 
     var body: some View {
@@ -114,8 +115,6 @@ struct IndividualPlantView: View {
                     viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
                     viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
                     viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
-                    viewmodel.saveData()
-//                    viewmodel.SavedSensorInforamtion()
                 }
             }
             .onAppear(){
@@ -149,23 +148,20 @@ struct IndividualPlantView: View {
             .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        selectedOption = "PlantView"
-                        isActive = true
-                    }) {
+                    Button (action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }, label: {
                         Image(systemName: "chevron.backward")
-                            .font(.system(size: 30))
+                            .font(.system(size: 30)) // Adjust the size as needed
                             .foregroundColor(colorScheme == .dark ? .white : .black)
+                    })
+                    .onTapGesture {
+                        withAnimation {
+                            showNavigationBar.toggle()
+                        }
                     }
                 }
             }
-            .background(
-                NavigationLink(
-                    destination: PlantView(), // Change this to your desired destination
-                    isActive: $isActive,
-                    label: { EmptyView() }
-                )
-            )   
         }
     }
 }
