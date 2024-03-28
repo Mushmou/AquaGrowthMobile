@@ -164,28 +164,6 @@ struct IndividualPlantView: View {
 //                    }
 //                }
 //            }
-            
-            //Back button to plant page
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        selectedOption = "PlantView"
-                        isActive = true
-                    }) {
-                        Image(systemName: "chevron.backward")
-                            .font(.system(size: 30))
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
-                    }
-                }
-            }
-            .background(
-                NavigationLink(
-                    destination: PlantView(), // Change this to your desired destination
-                    isActive: $isActive,
-                    label: { EmptyView() }
-                )
-            )
         }
     }
 }
