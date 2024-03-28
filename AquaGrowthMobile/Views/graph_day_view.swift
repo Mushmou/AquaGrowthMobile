@@ -3,7 +3,7 @@
 //  AquaGrowthMobile
 //
 //  Created by Noah Jacinto on 2/28/24.
-// Edited by Jaxon 3/13/24 | 3/20
+// Edited by Jaxon 3/13/24 | 3/20 | 3/23 | 3/24
 
 import Foundation
 import SwiftUI
@@ -40,15 +40,23 @@ struct GraphDay: View {
                         .frame(width: UIScreen.main.bounds.width, height: 640)
                         .position(x: UIScreen.main.bounds.width / 2, y: 550)
                     
+                    //bar to indicate you can swipe page down
+                    RoundedRectangle(cornerRadius: 40)
+                        .frame(width: 200, height: 5)
+                        .foregroundColor(.gray)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 40)
+                    
+                    //plant name
                     Text(my_plant.plant_name)
                         .font(.system(size: 50))
                         .bold()
-                        .position(x: UIScreen.main.bounds.width / 2, y: 50)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 70)
                         .foregroundColor(.white)
                     
+                    //plant type
                     Text(my_plant.plant_type)
                         .font(.system(size: 20))
-                        .position(x: UIScreen.main.bounds.width / 2, y: 90)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 100)
                         .foregroundColor(.white)
                     
                     Rectangle() //Graph Box
@@ -67,6 +75,46 @@ struct GraphDay: View {
                         .frame(width: UIScreen.main.bounds.width / 6.5, height: 35)
                         .position(x: UIScreen.main.bounds.width / 4.8, y: 189)
                 }
+                
+                //Data Averages
+                ZStack{
+                    HStack(spacing: 15){
+                        VStack(spacing:5){
+                            Text("Avg. Moi.")
+                            //TODO: AVG
+                            Text("00 %")
+                            Image("Water")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                        VStack(spacing:5){
+                            Text("Avg. Temp.")
+                            //TODO: AVG
+                            Text("00 °F")
+                            Image("Temperature")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                        VStack(spacing:5){
+                            Text("Avg. Hum.")
+                            //TODO: AVG
+                            Text("00 %")
+                            Image("Humidity")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                        VStack(spacing:5){
+                            Text("Avg. Sun")
+                            //TODO: AVG
+                            Text("00 %")
+                            Image("Sun")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                    }
+                    .position(x: UIScreen.main.bounds.width / 2, y: 290)
+                }
+                
                 //drop down box
                 ZStack{
                     VStack{
@@ -192,29 +240,7 @@ struct GraphDay: View {
                 .padding(.bottom,125)
             }
         }
-        
-        //Back button to plant page
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    selectedOption = "Back"
-                }) {
-                    Image(systemName: "chevron.backward")
-                        .font(.system(size: 30))
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                }
-            }
-        }
-        .background(
-            NavigationLink(
-                destination: IndividualPlantView(my_plant: my_plant), // Change this to your desired destination
-                tag: "Back",
-                selection: $selectedOption,
-                label: { EmptyView() }
-            )
-        )
-
+        .navigationBarHidden(true)
     }
 }
 

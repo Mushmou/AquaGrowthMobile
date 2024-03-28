@@ -13,9 +13,11 @@ struct IndividualPlantView: View {
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
     @State var selectedOption: String? = nil
     @State private var isActive = false
-    @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+
+    @State private var isEditingPlant = false
     @Environment(\.colorScheme) var colorScheme
-    @State private var showNavigationBar = true
+    @State private var isShowingGraphPage = false
+
     let my_plant: Plant
 
     var body: some View {
@@ -99,15 +101,23 @@ struct IndividualPlantView: View {
                     .frame(width: 200, height: 40)
                     .foregroundColor(.gray)
                     .overlay(
-                        NavigationLink(destination: GraphWeek(my_plant: my_plant)) {
+                        Button(action: {
+                        // Show Graph view when "More Info" button is clicked
+                            isShowingGraphPage = true
+                        }) {
                             Text("More Info")
                                 .foregroundColor(.black)
                                 .bold()
                                 .font(.system(size: 25))
-                        }
+                            }
                             .buttonStyle(PlainButtonStyle())
                     )
                     .padding(.top, 10)
+                    // Present GraphWeek as a  sheet
+                    .sheet(isPresented: $isShowingGraphPage) {
+                        GraphWeek(my_plant: my_plant)
+                    }
+
                 
                 Button("Save Data"){
                     viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 999
@@ -134,34 +144,26 @@ struct IndividualPlantView: View {
                     viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
                 }
             }
+            // Link to Edit Plant View
             .toolbar {
-                ToolbarItemGroup() {
-                    Button(action: {
-                        print("About tapped!")
-                    }) {
-                        Label("About", systemImage: "square.and.pencil")
-                    }
+                Button(action: {
+                    isEditingPlant = true
+                }) {
+                    Image(systemName: "square.and.pencil")
+                        .font(.system(size: 30))
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
                 }
             }
-            
-            //Back button to plant page
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button (action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        Image(systemName: "chevron.backward")
-                            .font(.system(size: 30)) // Adjust the size as needed
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
-                    })
-                    .onTapGesture {
-                        withAnimation {
-                            showNavigationBar.toggle()
-                        }
-                    }
-                }
+            .sheet(isPresented: $isEditingPlant){
+                EditPlantView(plant: my_plant)
             }
+//            .toolbar {
+//                ToolbarItemGroup() {
+//                    NavigationLink(destination: EditPlantView(plant: my_plant)){
+//                        Label("Edit", systemImage: "square.and.pencil")
+//                    }
+//                }
+//            }
         }
     }
 }
@@ -179,5 +181,3 @@ struct IndividualPlantView: View {
     }
     return PreviewWrapper()
 }
-
-

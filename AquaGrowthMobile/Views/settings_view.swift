@@ -15,7 +15,7 @@ struct SettingsView: View {
     @State private var showNavigationBar = true
     
     var body: some View {
-        //We're experiencing a bug with navigation stack that 
+        //We're experiencing a bug with navigation stack that
         //pushes view down, leading to rough transition.. However,
         //if we use the deprecated function navigation view
         //then it will smoothen the transitions.
@@ -57,13 +57,13 @@ struct SettingsView: View {
                                 Label("Account Settings", systemImage: "person.crop.circle")
                             }
                             
-                            NavigationLink {
-                                EditPlantView()
-                                    .toolbar(.hidden, for: .tabBar)
-
-                            } label: {
-                                Label("Help and Support", systemImage: "gearshape")
-                            }
+//                            NavigationLink {
+//                                EditPlantView()
+//                                    .toolbar(.hidden, for: .tabBar)
+//
+//                            } label: {
+//                                Label("Help and Support", systemImage: "gearshape")
+//                            }
                             NavigationLink {
                                 TestView()
                                     .environmentObject(bluetooth)
@@ -93,4 +93,3 @@ struct SettingsView: View {
     SettingsView()
         .environmentObject(bluetooth_viewmodel()) // Provide a mock environment object
 }
-
