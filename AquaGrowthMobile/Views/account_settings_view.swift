@@ -14,6 +14,10 @@ struct AccountView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var showNavigationBar = true
     
+    @State private var username = ""
+    @State private var email = ""
+    @State private var password = ""
+    
     var body: some View {
         VStack {
             ZStack{
@@ -63,53 +67,53 @@ struct AccountView: View {
                         .bold()
                         .foregroundColor(.black)
                         .frame(maxWidth: 360, alignment: .leading)
-                        .padding(.top, 40)
-                    
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(Color(red: 0.94, green: 0.94, blue: 0.94))
+                        .padding(.top, 80)
+                    TextField("New Username", text: $viewModel.username)
+                        .padding()
                         .frame(width: 360, height: 65)
-                        .overlay(
-                            Text(" Username: \(viewModel.username)")
-                                .frame(maxWidth: 345, alignment: .leading)
-                        )
+                        .background(Color(red: 0.94, green: 0.94, blue: 0.94))
+                        .cornerRadius(12)
+                        .textInputAutocapitalization(.never)
+                        .onSubmit{viewModel.validateUser()}
                     
                     Text("Email")
                         .font(.system(size: 24))
                         .bold()
                         .foregroundColor(.black)
                         .frame(maxWidth: 360, alignment: .leading)
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(Color(red: 0.94, green: 0.94, blue: 0.94))
+                    TextField("New Email", text: $viewModel.email)
+                        .padding()
                         .frame(width: 360, height: 65)
-                        .overlay(
-                            Text(" Email: \(viewModel.email)")
-                                .frame(maxWidth: 345, alignment: .leading)
-                        )
+                        .background(Color(red: 0.94, green: 0.94, blue: 0.94))
+                        .cornerRadius(12)
+                        .textInputAutocapitalization(.never)
+                        .onSubmit{viewModel.validateEmail()}
                     
                     Text("Password")
                         .font(.system(size: 24))
                         .bold()
                         .foregroundColor(.black)
                         .frame(maxWidth: 360, alignment: .leading)
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(Color(red: 0.94, green: 0.94, blue: 0.94))
+                    SecureField("New Password", text: $viewModel.password)
+                        .padding()
                         .frame(width: 360, height: 65)
-                        .overlay(
-                            Text(" Password: \(viewModel.password)")
-                                .frame(maxWidth: 345, alignment: .leading)
-                        )
-                    
+                        .background(Color(red: 0.94, green: 0.94, blue: 0.94))
+                        .cornerRadius(12)
+                        .textInputAutocapitalization(.never)
+                        .onSubmit{viewModel.validatePassword()}
+
                     RoundedRectangle(cornerRadius: 50)
                         .frame(width: 300, height: 65)
                         .foregroundColor(Color(red: 0.28, green: 0.59, blue: 0.17))
                         .overlay(
                             Button("Update Profile") {
-                                viewModel.logOut()
+                                //viewModel.updateProfile(username: username, email: email, password: password)
+                                viewModel.updateUserProfile()
                             }
                                 .foregroundColor(.white)
                                 .font(.system(size: 25))
                         )
-                        .padding(.top, 20)
+                        .padding(.top, 40)
                     Spacer()
                 }
             }
@@ -118,42 +122,5 @@ struct AccountView: View {
 }
 
 #Preview{
-    AccountView()
+    AccountView() 
 }
-
-
-//    var body: some View {
-//        Text("Enter your name")
-//
-//        RoundedRectangle(cornerRadius: 10)
-//            .foregroundColor(Color(red: 0.94, green: 0.94, blue: 0.94))
-//            .frame(width: 300, height: 65)
-//            .overlay(
-//                Text("Username: \(viewModel.username)")
-//            )
-//        RoundedRectangle(cornerRadius: 10)
-//            .foregroundColor(Color(red: 0.94, green: 0.94, blue: 0.94))
-//            .frame(width: 300, height: 65)
-//
-//            .overlay(
-//                Text("Email: \(viewModel.email)")
-//            )
-//        RoundedRectangle(cornerRadius: 10)
-//            .foregroundColor(Color(red: 0.94, green: 0.94, blue: 0.94))
-//            .frame(width: 300, height: 65)
-//
-//            .overlay(
-//                Text("Password: \(viewModel.password)")
-//            )
-//
-//        RoundedRectangle(cornerRadius: 50)
-//            .frame(width: 300, height: 65)
-//            .foregroundColor(.red)
-//            .overlay(
-//                Button("Logout?") {
-//                    viewModel.logOut()
-//                }
-//                    .foregroundColor(.white)
-//                    .font(.system(size: 25))
-//            )
-//    }

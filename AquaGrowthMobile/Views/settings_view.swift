@@ -67,7 +67,7 @@ struct SettingsView: View {
                         .frame(width: 300, height: 65)
                         .foregroundColor(.red)
                         .overlay(
-                            Button("Logout?") {
+                            Button("Logout") {
                                 viewModel.logOut()
                             }
                                 .foregroundColor(.white)
