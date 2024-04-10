@@ -3,7 +3,7 @@
 //  AquaGrowthMobile
 //
 //  Created by Noah Jacinto on 2/28/24.
-//  Edited by Jaxon on 3/13/2024 | 3/20
+//  Edited by Jaxon on 3/13/2024 | 3/20 | 3/23 | 3/34
 
 import Foundation
 import SwiftUI
@@ -12,7 +12,7 @@ struct GraphWeek: View {
     
     @StateObject var viewModel = GraphWeekViewmodel()
     @State private var showNavigationBar = true
-    @State private var isActive = false
+    
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @Environment(\.colorScheme) var colorScheme
     
@@ -20,7 +20,7 @@ struct GraphWeek: View {
     //vars for drop down
     @State private var isExpanded = false
     @State private var selectedItem: String? = "Moisture"
-    let options = ["Moisture", "Humidity", "Temperature", "Sun"]
+    let options = ["Moisture", "Temperature", "Humidity", "Sun"]
 
     
     let my_plant: Plant
@@ -42,22 +42,30 @@ struct GraphWeek: View {
                         .fill(.white)
                         .frame(width: UIScreen.main.bounds.width, height: 640)
                         .position(x: UIScreen.main.bounds.width / 2, y: 550)
-                    //Spacer()
+                   
+                    //bar to indicate you can swipe page down
+                    RoundedRectangle(cornerRadius: 40)
+                        .frame(width: 200, height: 5)
+                        .foregroundColor(.gray)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 40)
+                    
+                    //plant name
                     Text(my_plant.plant_name)
                         .font(.system(size: 50))
                         .bold()
-                        .position(x: UIScreen.main.bounds.width / 2, y: 50)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 70)
                         .foregroundColor(.white)
                     
+                    //plant type
                     Text(my_plant.plant_type)
                         .font(.system(size: 20))
-                        .position(x: UIScreen.main.bounds.width / 2, y: 90)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 100)
                         .foregroundColor(.white)
                     
                     Rectangle() //Graph Box
                         .stroke(Color.black, lineWidth: 2)
                         .frame(width: UIScreen.main.bounds.width - 40, height: 325)
-                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.72)
+                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.71)
                         
                     Rectangle() //Date Box
                         .stroke(Color.black, lineWidth: 2)
@@ -70,6 +78,46 @@ struct GraphWeek: View {
                         .frame(width: UIScreen.main.bounds.width / 4.45, height: 35)
                         .position(x: UIScreen.main.bounds.width / 2.15, y: 189)
                 }
+                
+                //Data Averages
+                ZStack{
+                    HStack(spacing: 15){
+                        VStack(spacing:5){
+                            Text("Avg. Moi.")
+                            //TODO: AVG
+                            Text("00 %")
+                            Image("Water")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                        VStack(spacing:5){
+                            Text("Avg. Temp.")
+                            //TODO: AVG
+                            Text("00 °F")
+                            Image("Temperature")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                        VStack(spacing:5){
+                            Text("Avg. Hum.")
+                            //TODO: AVG
+                            Text("00 %")
+                            Image("Humidity")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                        VStack(spacing:5){
+                            Text("Avg. Sun")
+                            //TODO: AVG
+                            Text("00 %")
+                            Image("Sun")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                        }
+                    }
+                    .position(x: UIScreen.main.bounds.width / 2, y: 290)
+                }
+                
                 //drop down box
                 ZStack{
                     VStack{
@@ -198,14 +246,14 @@ struct GraphWeek: View {
             
             
         }
-    
+        .navigationBarHidden(true)
+    /*
         //Back button to plant page
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
-                    selectedOption = "IndividualPlantView"
-                    isActive = true
+                    selectedOption = "Back"
                 }) {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 30))
@@ -214,13 +262,13 @@ struct GraphWeek: View {
             }
         }
         .background(
-            NavigationLink(
-                destination: IndividualPlantView(my_plant:my_plant), // Change this to your desired destination
-                isActive: $isActive,
+            NavigationLink(destination: IndividualPlantView(my_plant: my_plant), // Change this to your desired destination
+                tag: "Back",
+                selection: $selectedOption,
                 label: { EmptyView() }
             )
         )
-        
+        */
         
     }
 }
