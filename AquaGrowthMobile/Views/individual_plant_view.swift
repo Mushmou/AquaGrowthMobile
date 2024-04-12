@@ -10,9 +10,11 @@ import SwiftUI
 
 struct IndividualPlantView: View {
     @StateObject var viewmodel = individualplant_viewmodel()
+    @StateObject var data = GraphDataViewmodel()
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
     @State var selectedOption: String? = nil
-    @State private var isActive = false
+    //@State private var isActive = false
+
     @State private var isEditingPlant = false
     @Environment(\.colorScheme) var colorScheme
     @State private var isShowingGraphPage = false
@@ -110,11 +112,13 @@ struct IndividualPlantView: View {
                                 .font(.system(size: 25))
                             }
                             .buttonStyle(PlainButtonStyle())
+                            
                     )
                     .padding(.top, 10)
                     // Present GraphWeek as a  sheet
                     .sheet(isPresented: $isShowingGraphPage) {
                         GraphWeek(my_plant: my_plant)
+                            //.onDisappear{data.isActive = false;}
                     }
 
                 
@@ -124,7 +128,8 @@ struct IndividualPlantView: View {
                     viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
                     viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
                     viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
-                    viewmodel.SavedSensorInforamtion()
+                    
+                    viewmodel.SavedSensorInformation()
                 }
             }
             .onAppear(){

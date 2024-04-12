@@ -74,6 +74,9 @@
 		82D405052BA8A63A00BFD98B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82D405042BA8A63A00BFD98B /* GoogleService-Info.plist */; };
 		82D405062BA8A63A00BFD98B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82D405042BA8A63A00BFD98B /* GoogleService-Info.plist */; };
 		82D405072BA8A63A00BFD98B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82D405042BA8A63A00BFD98B /* GoogleService-Info.plist */; };
+		82E315AF2BC3369500DD3AA1 /* graph_data_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E315AE2BC3369500DD3AA1 /* graph_data_viewmodel.swift */; };
+		82E315B02BC3369500DD3AA1 /* graph_data_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E315AE2BC3369500DD3AA1 /* graph_data_viewmodel.swift */; };
+		82E315B12BC3369500DD3AA1 /* graph_data_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E315AE2BC3369500DD3AA1 /* graph_data_viewmodel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +157,7 @@
 		48DCF5852B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaGrowthMobileUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		48F8662B2B97AC440045C2D5 /* custom_tab_bar_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = custom_tab_bar_view.swift; sourceTree = "<group>"; };
 		82D405042BA8A63A00BFD98B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		82E315AE2BC3369500DD3AA1 /* graph_data_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = graph_data_viewmodel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +231,7 @@
 				48325BA82B8FB5E000DCE61F /* create_plant_viewmodel.swift */,
 				48325BAA2B8FB5E800DCE61F /* edit_plant_viewmodel.swift */,
 				48325BAC2B8FB5F000DCE61F /* forgot_password_viewmodel.swift */,
+				82E315AE2BC3369500DD3AA1 /* graph_data_viewmodel.swift */,
 				48325BAE2B8FB5FB00DCE61F /* graph_day_viewmodel.swift */,
 				48325BB02B8FB60F00DCE61F /* graph_month_viewmodel.swift */,
 				48325BB22B8FB61A00DCE61F /* graph_week_viewmodel.swift */,
@@ -505,6 +510,7 @@
 				0FB8DF862BA20F7F00094ED7 /* test_view.swift in Sources */,
 				48325BC02B8FB65F00DCE61F /* settings_viewmodel.swift in Sources */,
 				48325B942B8FB49300DCE61F /* login_view.swift in Sources */,
+				82E315AF2BC3369500DD3AA1 /* graph_data_viewmodel.swift in Sources */,
 				48325B922B8FB48700DCE61F /* individual_plant_view.swift in Sources */,
 				48325B822B8FB43B00DCE61F /* create_plant_view.swift in Sources */,
 				48325BC82B8FB69300DCE61F /* user_model.swift in Sources */,
@@ -531,6 +537,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				48B3FB222BA2AE7100393729 /* Utilities.swift in Sources */,
+				82E315B02BC3369500DD3AA1 /* graph_data_viewmodel.swift in Sources */,
 				48DCF57A2B83E39800F88996 /* AquaGrowthMobileTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -542,6 +549,7 @@
 				48B3FB232BA2AE7100393729 /* Utilities.swift in Sources */,
 				48DCF5842B83E39800F88996 /* AquaGrowthMobileUITests.swift in Sources */,
 				48DCF5862B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift in Sources */,
+				82E315B12BC3369500DD3AA1 /* graph_data_viewmodel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

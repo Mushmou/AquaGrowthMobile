@@ -1,20 +1,19 @@
-//
-//  graph_week_viewmodel.swift
-//  AquaGrowthMobile
-//
-//  Created by Noah Jacinto on 2/28/24.
-//  Edited by Jaxon on 3/13/24
-
 import Foundation
 
-class GraphWeekViewmodel: ObservableObject{
+class GraphWeekViewmodel: ObservableObject {
+    @Published var data: GraphDataViewmodel
+    
     @Published var weekDateList: [String] = []
     @Published var weekDateRange: String = ""
+    //@Published var plantId: String=""
     
-    init(){
-        generateWeekDateList()
-        //generateWeekDateRange()
+    
+        
+    init() {
+        self.data = GraphDataViewmodel()
+        generateWeekDateList()  
     }
+    
     func generateWeekDateList() {
         var currentDate = Date()
         let dateFormatter = DateFormatter()
@@ -32,26 +31,8 @@ class GraphWeekViewmodel: ObservableObject{
         if let firstDate = weekDateList.first, let lastDate = weekDateList.last {
             self.weekDateRange = "\(firstDate) - \(lastDate)"
         }
-        
     }
-    /*
-    func generateWeekDateRange() {
-        var currentDate = Date()
-        // Find the last day of the week (today)
-        let endOfWeek = currentDate
-        
-        // Find the first day of the week (7 days ago)
-        if let startOfWeek = Calendar.current.date(byAdding: .day, value: -6, to: endOfWeek) {
-            // Format the dates
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MMM d" // Format to display month and day
-            
-            // Create the range string
-            let startDateString = dateFormatter.string(from: startOfWeek)
-            let endDateString = dateFormatter.string(from: endOfWeek)
-            
-            self.weekDateRange = "\(startDateString) - \(endDateString)"
-        }
-    }
-     */
+    
+    
+
 }
