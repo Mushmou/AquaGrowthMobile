@@ -13,6 +13,7 @@ struct IndividualPlantView: View {
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
     @State var selectedOption: String? = nil
     @State private var isActive = false
+
     @State private var isEditingPlant = false
     @Environment(\.colorScheme) var colorScheme
     @State private var isShowingGraphPage = false
@@ -124,7 +125,6 @@ struct IndividualPlantView: View {
                     viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
                     viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
                     viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
-                    viewmodel.SavedSensorInforamtion()
                 }
             }
             .onAppear(){
