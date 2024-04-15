@@ -7,44 +7,33 @@
 
 import Foundation
 
-class GraphWeekViewModel: ObservableObject {
+class GraphWeekViewmodel: ObservableObject{
     @Published var weekDateList: [String] = []
     @Published var weekDateRange: String = ""
-    @Published var temperatureData: [Double] = [22, 24, 21, 23, 25, 27, 26] // Example temperature data
     
-    private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d"
-        return formatter
-    }()
-    
-    init() {
-        generateWeekDates()
+    init(){
+        generateWeekDateList()
+        //generateWeekDateRange()
     }
-    
-    private func generateWeekDates() {
-        let calendar = Calendar.current
-        let today = Date()
-        var dateList: [String] = []
+    func generateWeekDateList() {
+        var currentDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d"
+        var dates: [String] = []
         
-        for dayOffset in (0..<7).reversed() {
-            if let date = calendar.date(byAdding: .day, value: -dayOffset, to: today) {
-                dateList.append(dateFormatter.string(from: date))
+        // Loop to get dates for the previous 7 days
+        for _ in 0..<7 {
+            dates.append(dateFormatter.string(from: currentDate))
+            if let nextDate = Calendar.current.date(byAdding: .day, value: -1, to: currentDate) {
+                currentDate = nextDate
             }
         }
-        
-        DispatchQueue.main.async {
-            self.weekDateList = dateList
-            self.updateWeekDateRange()
-        }
-    }
-    
-    private func updateWeekDateRange() {
+        self.weekDateList = dates.reversed()
         if let firstDate = weekDateList.first, let lastDate = weekDateList.last {
-            weekDateRange = "\(firstDate) - \(lastDate)"
+            self.weekDateRange = "\(firstDate) - \(lastDate)"
         }
+        
     }
-
     /*
     func generateWeekDateRange() {
         var currentDate = Date()
