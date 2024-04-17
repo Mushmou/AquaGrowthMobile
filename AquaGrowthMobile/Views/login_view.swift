@@ -91,16 +91,13 @@ struct LoginView: View {
                 
                 VStack{
                     VStack{
-                        HStack{
                             GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .light, style: .wide, state: .normal)) {
                                 google_viewModel.signInWithGoogle()
                             }
-                            .frame(width: 180, height: 45)
+                            .frame(width: 200, height: 45)
                             .cornerRadius(25)
                             .shadow(radius: 3)
 
-                            //Separate with Padding
-                            .padding(.trailing, 10) // Adjust the value as needed
                             //Separate with Padding
                             SignInWithAppleButton(.signIn) { request in
                                 let nonce = randomNonceString()
@@ -115,11 +112,9 @@ struct LoginView: View {
                                     print(error.localizedDescription)
                                 }
                             }
-                            .frame(width: 180, height: 45)
+                            .frame(width: 200, height: 45)
                             .cornerRadius(25)
                             .shadow(radius: 3)
-
-                        }
 
                         NavigationLink{
                             RegisterView()

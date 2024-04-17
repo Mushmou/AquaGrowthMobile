@@ -125,11 +125,18 @@ struct IndividualPlantView: View {
                     viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
                     viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
                     viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
+                    viewmodel.SavedSensorInformation()
                 }
             }
             .onAppear(){
                 viewmodel.plant_id = my_plant.id.uuidString
                 let my_peripheral = bluetooth.bluetoothModel.connectedPeripheral
+                if (my_peripheral != nil){
+                    print("true")
+                }
+                else{
+                    print("false")
+                }
                 if (my_peripheral != nil) {
                     bluetooth.readLEDCharacteristic()
                     bluetooth.readMoistureCharacteristic()
@@ -137,11 +144,20 @@ struct IndividualPlantView: View {
                     bluetooth.readFahrenheitCharacteristic()
                     bluetooth.readHeatIndexCharacteristic()
                     
-                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 999
+                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 0
                     viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 999
                     viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
                     viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
                     viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
+                }
+                else{
+                    viewmodel.fetchLatestDailyData()
+                    print("Latest Daily Data is fetched")
+                    
+                    print(viewmodel.fahrenheit)
+                    print(viewmodel.humidity)
+                    print(viewmodel.led)
+                    
                 }
             }
             // Link to Edit Plant View
