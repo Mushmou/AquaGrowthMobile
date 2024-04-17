@@ -91,45 +91,44 @@ struct LoginView: View {
                 
                 VStack{
                     VStack{
-                        HStack {
-                            GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .light, style: .icon, state: .normal)) {
+                            GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .light, style: .wide, state: .normal)) {
                                 google_viewModel.signInWithGoogle()
                             }
-                            .clipShape(Circle()) // Set the button into a circle shape. It was originally a rectangle.
-                            .shadow(radius: 4) // Adds a shadow to the button.
-                        }
-                        .padding(.bottom, 20) //Set padding below the Google Icon
-                        
-                        //Adding Sign in With Apple Button Here
-                            
-                        SignInWithAppleButton(.signIn) { request in
-                            
-                            let nonce = randomNonceString()
-                            self.nonce = nonce
-                            request.requestedScopes = [.email, .fullName]
-                            request.nonce = sha256(nonce)
-                        } onCompletion: { result in
-                            switch result {
-                            case .success(let authorization):
-                                signInWithApple(authorization)
-                            case .failure(let error):
-                                print(error.localizedDescription)
+                            .frame(width: 200, height: 45)
+                            .cornerRadius(25)
+                            .shadow(radius: 3)
+
+                            //Separate with Padding
+                            SignInWithAppleButton(.signIn) { request in
+                                let nonce = randomNonceString()
+                                self.nonce = nonce
+                                request.requestedScopes = [.email, .fullName]
+                                request.nonce = sha256(nonce)
+                            } onCompletion: { result in
+                                switch result {
+                                case .success(let authorization):
+                                    signInWithApple(authorization)
+                                case .failure(let error):
+                                    print(error.localizedDescription)
+                                }
                             }
-                            // Do something
-                        }
-                        .frame(width: 200, height: 45)
-                        .clipShape(.capsule)
-                        .padding(.top, 10)
+                            .frame(width: 200, height: 45)
+                            .cornerRadius(25)
+                            .shadow(radius: 3)
 
                         NavigationLink{
                             RegisterView()
                                 .navigationBarBackButtonHidden(true)
                         }
                         label: {
-                            Text("Sign up using Email Address")
-                                .underline()
+                            Text("Sign in with Email")
                                 .bold()
-                                .foregroundColor(Color(red: 0.28, green: 0.59, blue: 0.17))
+                                .foregroundColor(.black)
+                                .frame(width: 200, height: 45)
+                                .cornerRadius(25)
+                                .background{
+                                    Capsule().stroke(.black, lineWidth: 0.4).shadow(radius: 3)
+                                }
                         }
                     }
                 }

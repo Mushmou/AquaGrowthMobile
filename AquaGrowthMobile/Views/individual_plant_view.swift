@@ -1,9 +1,4 @@
-//
-//  individual_plant_view.swift
-//  AquaGrowthMobile
-//
-//  Created by Noah Jacinto on 2/28/24.
-//
+
 
 import Foundation
 import SwiftUI
@@ -125,18 +120,11 @@ struct IndividualPlantView: View {
                     viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
                     viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
                     viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
-                    viewmodel.SavedSensorInformation()
                 }
             }
             .onAppear(){
                 viewmodel.plant_id = my_plant.id.uuidString
                 let my_peripheral = bluetooth.bluetoothModel.connectedPeripheral
-                if (my_peripheral != nil){
-                    print("true")
-                }
-                else{
-                    print("false")
-                }
                 if (my_peripheral != nil) {
                     bluetooth.readLEDCharacteristic()
                     bluetooth.readMoistureCharacteristic()
@@ -144,42 +132,41 @@ struct IndividualPlantView: View {
                     bluetooth.readFahrenheitCharacteristic()
                     bluetooth.readHeatIndexCharacteristic()
                     
-                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 0
+                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 999
                     viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 999
                     viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
                     viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
                     viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
                 }
-                else{
-                    viewmodel.fetchLatestDailyData()
-                    print("Latest Daily Data is fetched")
-                    
-                    print(viewmodel.fahrenheit)
-                    print(viewmodel.humidity)
-                    print(viewmodel.led)
-                    
-                }
             }
             // Link to Edit Plant View
             .toolbar {
-                Button(action: {
-                    isEditingPlant = true
-                }) {
-                    Image(systemName: "square.and.pencil")
-                        .font(.system(size: 30))
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                }
-            }
+                            // Add favorite button --> Added by Danny 04/17
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button(action: {
+                                    viewmodel.setFavorite()
+                                    print("Clicked favorite")
+                                    
+                                }) {
+                                    Image(systemName: "heart")
+                                        .foregroundColor(.red)
+                                }
+                            }
+                            
+                            // Edit button
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button(action: {
+                                    isEditingPlant = true
+                                }) {
+                                    Image(systemName: "square.and.pencil")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                                }
+                            }
+                        }
             .sheet(isPresented: $isEditingPlant){
                 EditPlantView(plant: my_plant)
             }
-//            .toolbar {
-//                ToolbarItemGroup() {
-//                    NavigationLink(destination: EditPlantView(plant: my_plant)){
-//                        Label("Edit", systemImage: "square.and.pencil")
-//                    }
-//                }
-//            }
         }
     }
 }

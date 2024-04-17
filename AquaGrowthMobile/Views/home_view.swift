@@ -16,9 +16,16 @@ struct HomeView: View {
     @State private var isLoading = false
     
 
-    
+    @StateObject var viewModel = home_viewmodel()
+
     var body: some View {
         NavigationView {
+//            VStack{
+//                Button("Log in") {
+//                    viewModel.top_three()
+//                }
+//            }
+            
             VStack {
                 Group {
                     if isLoading {
@@ -297,7 +304,8 @@ struct HomeView: View {
                         .presentationDetents([.fraction(0.40)])
                     }
                 }
-            } // End of Pop Up Window
+            }
+// End of Pop Up Window
 //            .sheet(isPresented: $isImagePickerDisplayed) {
 //                ImagePicker(selectedImage: $selectedUIImage)
 //            }

@@ -39,25 +39,15 @@ class individualplant_viewmodel: ObservableObject {
             "timestamp": Date().timeIntervalSince1970
         ] as [String : Any]
         
-        // Current date as String for document ID
         let currentDate = Date()
-        
-        //        let daysToAdd = 30
-        //        // Get the Calendar
-        //        let calendar = Calendar.current
-        //        // Add the days
-        //        let newDate = calendar.date(byAdding: .day, value: daysToAdd, to: currentDate) ?? currentDate
-        
         let dailyId = formatDate(currentDate, format: "yyyy-MM-dd")
         let weeklyId = formatDate(currentDate, format: "yyyy-'W'ww")
         let monthlyId = formatDate(currentDate, format: "yyyy-MM")
         
-        
-        // Save data for daily, weekly, monthly collections
-        updateSensorData(db: db, userId: uid, collection: "daily", documentId: dailyId, data: sensorData)
-        updateSensorData(db: db, userId: uid, collection: "weekly", documentId: weeklyId, data: sensorData)
-        updateSensorData(db: db, userId: uid, collection: "monthly", documentId: monthlyId, data: sensorData)
-        updateLastSensorData(db: db, userId: uid, collection: "last", data: sensorData)
+        // Call the updated addSensorData method
+        addSensorData(db: db, userId: uid, collection: "daily", documentId: dailyId, data: sensorData)
+        addSensorData(db: db, userId: uid, collection: "weekly", documentId: weeklyId, data: sensorData)
+        addSensorData(db: db, userId: uid, collection: "monthly", documentId: monthlyId, data: sensorData)
     }
     
     func updateLastSensorData(db: Firestore, userId: String, collection: String, data: [String: Any]) {
@@ -67,7 +57,7 @@ class individualplant_viewmodel: ObservableObject {
             .document(self.plant_id)
             .collection(collection)
             .document("last")
-            
+        
         documentRef.updateData(["readings": [data]])
         { err in
             if let err = err {
@@ -78,24 +68,30 @@ class individualplant_viewmodel: ObservableObject {
         }
     }
     
-    func updateSensorData(db: Firestore, userId: String, collection: String, documentId: String, data: [String: Any]) {
-        let documentRef = db.collection("users")
+    func addSensorData(db: Firestore, userId: String, collection: String, documentId: String, data: [String: Any]) {
+        let plantCollectionRef = db.collection("users")
             .document(userId)
             .collection("plants")
             .document(self.plant_id)
             .collection(collection)
             .document(documentId)
-            
         
-        documentRef.updateData(["readings": FieldValue.arrayUnion([data])])
-        { err in
-            if let err = err {
-                // If the document does not exist, create a new one
-                documentRef.setData(["readings" : data])
-                print("Error - \(err) Occured Saving to FireBase")
+        // Iterate over each key-value pair in the data dictionary
+        for (key, value) in data {
+            let sensorDataRef = plantCollectionRef.collection(key)
+            // Each sensor's data is stored in its own document, named by the key
+            let sensorData = sensorDataRef.document(UUID().uuidString)
+            // Assuming all data values are of a type that can be directly stored in Firestore
+            sensorData.setData([key: value]) { error in
+                if let error = error {
+                    print("Error adding data for \(key): \(error)")
+                } else {
+                    print("Successfully added data for \(key)")
+                }
             }
         }
     }
+    
     
     // Helper function to format dates
     func formatDate(_ date: Date, format: String) -> String {
@@ -110,7 +106,7 @@ class individualplant_viewmodel: ObservableObject {
             print("User not logged in")
             return
         }
-
+        
         // Reference to 'last' document within the 'plants' collection
         let lastDocumentRef = db.collection("users")
             .document(uid)
@@ -118,7 +114,7 @@ class individualplant_viewmodel: ObservableObject {
             .document(self.plant_id)
             .collection("last") // Changed from 'daily' to 'last'
             .document("last") // Changed from 'self.currentDay' to 'last'
-
+        
         lastDocumentRef.getDocument { [weak self] (documentSnapshot, error) in
             if let error = error {
                 print("Error getting document: \(error)")
@@ -127,7 +123,7 @@ class individualplant_viewmodel: ObservableObject {
                     print("Document does not have a 'readings' array")
                     return
                 }
-
+                
                 // Get the first reading from the 'readings' array
                 if let firstReading = readings.first {
                     DispatchQueue.main.async {
@@ -139,19 +135,54 @@ class individualplant_viewmodel: ObservableObject {
             }
         }
     }
-
+    
     private func updatePlantParameters(with data: [String: Any]) {
-            self.led = data["status"] as? Int ?? self.led
-            self.moisture = data["moisture"] as? Int ?? self.moisture
-            self.humidity = data["humidity"] as? Int ?? self.humidity
-            self.fahrenheit = data["temperature"] as? Int ?? self.fahrenheit
-            self.heatIndex = data["heat"] as? Int ?? self.heatIndex
-            
-            print(self.led)
-            print(self.moisture)
-            print(self.humidity)
-            print(self.fahrenheit)
-            print(self.heatIndex)
+        self.led = data["status"] as? Int ?? self.led
+        self.moisture = data["moisture"] as? Int ?? self.moisture
+        self.humidity = data["humidity"] as? Int ?? self.humidity
+        self.fahrenheit = data["temperature"] as? Int ?? self.fahrenheit
+        self.heatIndex = data["heat"] as? Int ?? self.heatIndex
         
+        print(self.led)
+        print(self.moisture)
+        print(self.humidity)
+        print(self.fahrenheit)
+        print(self.heatIndex)
+        
+    }
+    
+    func setFavorite() {
+        let db = Firestore.firestore()
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            return
+        }
+        
+        let documentRef = db.collection("users")
+            .document(uid)
+            .collection("plants")
+            .document(self.plant_id)
+
+        // Fetch the current value of the 'favorite' field
+        documentRef.getDocument { document, error in
+            if let error = error {
+                return
+            }
+
+            guard let document = document, document.exists else {
+                return
+            }
+            print(document)
+            // Get the current value of the 'favorite' field
+            if let currentFavoriteValue = document.data()?["favorite"] as? Int {
+                if currentFavoriteValue == 1 {
+                    // Toggle the 'favorite' field value to 0
+                    documentRef.setData(["favorite": 0], merge: true)
+                } else {
+                    // Toggle the 'favorite' field value to 1
+                    documentRef.setData(["favorite": 1], merge: true)
+                    }
+            }
+        }
     }
 }

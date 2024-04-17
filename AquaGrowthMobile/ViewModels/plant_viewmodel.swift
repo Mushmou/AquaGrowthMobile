@@ -49,9 +49,9 @@ class plant_viewmodel: ObservableObject{
                 "plant_name": plant.plant_name,
                 "plant_type": plant.plant_type,
                 "plant_description": plant.plant_description,
-                "plant_image": plant.plant_image
+                "plant_image": plant.plant_image,
+                "favorite": 0
             ])
-        
     }
     
     func fetchPlants() {
