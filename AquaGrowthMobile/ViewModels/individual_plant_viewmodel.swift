@@ -38,7 +38,7 @@ class individualplant_viewmodel: ObservableObject {
             "heat": heatIndex,
             "timestamp": Date().timeIntervalSince1970
         ] as [String : Any]
-
+        
         let currentDate = Date()
         let dailyId = formatDate(currentDate, format: "yyyy-MM-dd")
         let weeklyId = formatDate(currentDate, format: "yyyy-'W'ww")
@@ -57,7 +57,7 @@ class individualplant_viewmodel: ObservableObject {
             .document(self.plant_id)
             .collection(collection)
             .document("last")
-            
+        
         documentRef.updateData(["readings": [data]])
         { err in
             if let err = err {
@@ -91,7 +91,7 @@ class individualplant_viewmodel: ObservableObject {
             }
         }
     }
-
+    
     
     // Helper function to format dates
     func formatDate(_ date: Date, format: String) -> String {
@@ -106,7 +106,7 @@ class individualplant_viewmodel: ObservableObject {
             print("User not logged in")
             return
         }
-
+        
         // Reference to 'last' document within the 'plants' collection
         let lastDocumentRef = db.collection("users")
             .document(uid)
@@ -114,7 +114,7 @@ class individualplant_viewmodel: ObservableObject {
             .document(self.plant_id)
             .collection("last") // Changed from 'daily' to 'last'
             .document("last") // Changed from 'self.currentDay' to 'last'
-
+        
         lastDocumentRef.getDocument { [weak self] (documentSnapshot, error) in
             if let error = error {
                 print("Error getting document: \(error)")
@@ -123,7 +123,7 @@ class individualplant_viewmodel: ObservableObject {
                     print("Document does not have a 'readings' array")
                     return
                 }
-
+                
                 // Get the first reading from the 'readings' array
                 if let firstReading = readings.first {
                     DispatchQueue.main.async {
@@ -135,19 +135,54 @@ class individualplant_viewmodel: ObservableObject {
             }
         }
     }
-
+    
     private func updatePlantParameters(with data: [String: Any]) {
-            self.led = data["status"] as? Int ?? self.led
-            self.moisture = data["moisture"] as? Int ?? self.moisture
-            self.humidity = data["humidity"] as? Int ?? self.humidity
-            self.fahrenheit = data["temperature"] as? Int ?? self.fahrenheit
-            self.heatIndex = data["heat"] as? Int ?? self.heatIndex
-            
-            print(self.led)
-            print(self.moisture)
-            print(self.humidity)
-            print(self.fahrenheit)
-            print(self.heatIndex)
+        self.led = data["status"] as? Int ?? self.led
+        self.moisture = data["moisture"] as? Int ?? self.moisture
+        self.humidity = data["humidity"] as? Int ?? self.humidity
+        self.fahrenheit = data["temperature"] as? Int ?? self.fahrenheit
+        self.heatIndex = data["heat"] as? Int ?? self.heatIndex
         
+        print(self.led)
+        print(self.moisture)
+        print(self.humidity)
+        print(self.fahrenheit)
+        print(self.heatIndex)
+        
+    }
+    
+    func setFavorite() {
+        let db = Firestore.firestore()
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            return
+        }
+        
+        let documentRef = db.collection("users")
+            .document(uid)
+            .collection("plants")
+            .document(self.plant_id)
+
+        // Fetch the current value of the 'favorite' field
+        documentRef.getDocument { document, error in
+            if let error = error {
+                return
+            }
+
+            guard let document = document, document.exists else {
+                return
+            }
+            print(document)
+            // Get the current value of the 'favorite' field
+            if let currentFavoriteValue = document.data()?["favorite"] as? Int {
+                if currentFavoriteValue == 1 {
+                    // Toggle the 'favorite' field value to 0
+                    documentRef.setData(["favorite": 0], merge: true)
+                } else {
+                    // Toggle the 'favorite' field value to 1
+                    documentRef.setData(["favorite": 1], merge: true)
+                    }
+            }
+        }
     }
 }
