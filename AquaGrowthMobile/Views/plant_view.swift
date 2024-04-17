@@ -4,7 +4,6 @@ struct PlantView: View {
     
     @State private var isShowingCreatePlantView = false
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
-    //temp var to go with more info button
     @State private var selectedOption: String? = nil
     @StateObject var viewModel = plant_viewmodel()
     
@@ -34,7 +33,6 @@ struct PlantView: View {
                             .background(RoundedRectangle(cornerRadius: 20).fill(Color(.systemBackground))) // Adds a white background with rounded corners
                             .shadow(color: .gray, radius: 2, x: 0, y: 1)
                             .padding(.vertical, 5) // Adds padding above and below each row for spacing
-                        
                     }
                 }
             }
