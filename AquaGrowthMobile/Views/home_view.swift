@@ -78,12 +78,15 @@ struct HomeView: View {
                 .sheet(isPresented: $isImagePickerDisplayed) {
                     ImagePicker(selectedImage: $selectedUIImage)
                     
-                  }
+                }.onChange(of: isImagePickerDisplayed) { newValue in
+                    if !newValue { // newValue is false when the sheet is dismissed
+                        print("Image Picker was dismissed.")
+                        replaceExistingImage(selectedImage: selectedUIImage!)
+                    }
+                }
                   .onAppear {
                       loadImageFromFirebase()
                   }
-                
-                
                 
                 // Three buttons centered vertically
                 VStack {
@@ -332,8 +335,76 @@ struct HomeView: View {
             }
         }
     }
+    func replaceExistingImage(selectedImage: UIImage) {
+        let db = Firestore.firestore()
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            return
+        }
+        
+        let docRef = db.collection("users").document(uid).collection("home").document("image")
+        docRef.getDocument { document, error in
+            if let document = document, document.exists, let existingImagePath = document.data()?["image_path"] as? String {
+                // An image exists, delete it first
+                deleteImage(path: existingImagePath) { success in
+                    if success {
+                        self.uploadNewImage(selectedImage: selectedImage)
+                    } else {
+                        print("Failed to delete existing image.")
+                    }
+                }
+            } else {
+                // No existing image, just upload the new one
+                uploadNewImage(selectedImage: selectedImage)
+            }
+        }
+    }
+    
+    /// Deletes an image from Firebase Storage
+    func deleteImage(path: String, completion: @escaping (Bool) -> Void) {
+        let storageRef = Storage.storage().reference().child(path)
+        storageRef.delete { error in
+            if let error = error {
+                print("Error deleting image: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                print("Image successfully deleted")
+                completion(true)
+            }
+        }
+    }
+    
+    /// Uploads a new image to Firebase Storage and updates Firestore
+    func uploadNewImage(selectedImage: UIImage) {
+        guard let imageData = selectedImage.jpegData(compressionQuality: 0.8) else {
+            print("Could not get JPEG representation of UIImage")
+            return
+        }
+        let path = "home_images/\(UUID().uuidString).jpg"
+        let storageRef = Storage.storage().reference().child(path)
+        
+        storageRef.putData(imageData, metadata: nil) { metadata, error in
+            guard let _ = metadata, error == nil else {
+                print("Error uploading image: \(error?.localizedDescription ?? "")")
+                return
+            }
+            // Save a reference to Firestore
+            self.saveImagePathToFirestore(path: path)
+        }
+    }
+    
+    /// Saves the image path to Firestore
+    private func saveImagePathToFirestore(path: String) {
+        let db = Firestore.firestore()
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            return
+        }
+        db.collection("users").document(uid).collection("home").document("image").setData(["image_path": path])
+    }
 }
 // End of HomeView
+
 
 
 
@@ -371,78 +442,11 @@ struct ImagePicker: UIViewControllerRepresentable {
             self.parent = parent
         }
         
-        func replaceExistingImage(selectedImage: UIImage) {
-            let db = Firestore.firestore()
-            guard let uid = Auth.auth().currentUser?.uid else {
-                print("User not logged in")
-                return
-            }
-            
-            let docRef = db.collection("users").document(uid).collection("home").document("image")
-            docRef.getDocument { document, error in
-                if let document = document, document.exists, let existingImagePath = document.data()?["image_path"] as? String {
-                    // An image exists, delete it first
-                    self.deleteImage(path: existingImagePath) { success in
-                        if success {
-                            self.uploadNewImage(selectedImage: selectedImage)
-                        } else {
-                            print("Failed to delete existing image.")
-                        }
-                    }
-                } else {
-                    // No existing image, just upload the new one
-                    self.uploadNewImage(selectedImage: selectedImage)
-                }
-            }
-        }
         
-        /// Deletes an image from Firebase Storage
-        private func deleteImage(path: String, completion: @escaping (Bool) -> Void) {
-            let storageRef = Storage.storage().reference().child(path)
-            storageRef.delete { error in
-                if let error = error {
-                    print("Error deleting image: \(error.localizedDescription)")
-                    completion(false)
-                } else {
-                    print("Image successfully deleted")
-                    completion(true)
-                }
-            }
-        }
-        
-        /// Uploads a new image to Firebase Storage and updates Firestore
-        private func uploadNewImage(selectedImage: UIImage) {
-            guard let imageData = selectedImage.jpegData(compressionQuality: 0.8) else {
-                print("Could not get JPEG representation of UIImage")
-                return
-            }
-            let path = "home_images/\(UUID().uuidString).jpg"
-            let storageRef = Storage.storage().reference().child(path)
-            
-            storageRef.putData(imageData, metadata: nil) { metadata, error in
-                guard let _ = metadata, error == nil else {
-                    print("Error uploading image: \(error?.localizedDescription ?? "")")
-                    return
-                }
-                // Save a reference to Firestore
-                self.saveImagePathToFirestore(path: path)
-            }
-        }
-        
-        /// Saves the image path to Firestore
-        private func saveImagePathToFirestore(path: String) {
-            let db = Firestore.firestore()
-            guard let uid = Auth.auth().currentUser?.uid else {
-                print("User not logged in")
-                return
-            }
-            db.collection("users").document(uid).collection("home").document("image").setData(["image_path": path])
-        }
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let image = info[.originalImage] as? UIImage {
                 parent.selectedImage = image
-                replaceExistingImage(selectedImage: image)
             }
             parent.presentationMode.wrappedValue.dismiss()
         }
