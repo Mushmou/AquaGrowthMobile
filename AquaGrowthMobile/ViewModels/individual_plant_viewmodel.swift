@@ -16,7 +16,12 @@ class individualplant_viewmodel: ObservableObject {
     @Published var humidity = 0
     @Published var fahrenheit = 0
     @Published var heatIndex = 0
+    @Published var currentDay = ""
     
+    init(){
+        
+        self.currentDay = formatDate(Date(), format:  "yyyy-MM-dd")
+    }
     
     func SavedSensorInformation() {
         let db = Firestore.firestore()
@@ -52,20 +57,41 @@ class individualplant_viewmodel: ObservableObject {
         updateSensorData(db: db, userId: uid, collection: "daily", documentId: dailyId, data: sensorData)
         updateSensorData(db: db, userId: uid, collection: "weekly", documentId: weeklyId, data: sensorData)
         updateSensorData(db: db, userId: uid, collection: "monthly", documentId: monthlyId, data: sensorData)
+        updateLastSensorData(db: db, userId: uid, collection: "last", data: sensorData)
+    }
+    
+    func updateLastSensorData(db: Firestore, userId: String, collection: String, data: [String: Any]) {
+        let documentRef = db.collection("users")
+            .document(userId)
+            .collection("plants")
+            .document(self.plant_id)
+            .collection(collection)
+            .document("last")
+            
+        documentRef.updateData(["readings": [data]])
+        { err in
+            if let err = err {
+                // If the document does not exist, create a new one
+                documentRef.setData(["readings" : data])
+                print("Error - \(err) Occured Saving to FireBase")
+            }
+        }
     }
     
     func updateSensorData(db: Firestore, userId: String, collection: String, documentId: String, data: [String: Any]) {
-        let documentRef = db.collection("users").document(userId)
-            .collection("plants").document(self.plant_id)
-            .collection(collection).document(documentId)
-        
-        documentRef.updateData([
-            "readings": FieldValue.arrayUnion([data])
+        let documentRef = db.collection("users")
+            .document(userId)
+            .collection("plants")
+            .document(self.plant_id)
+            .collection(collection)
+            .document(documentId)
             
-        ]) { err in
+        
+        documentRef.updateData(["readings": FieldValue.arrayUnion([data])])
+        { err in
             if let err = err {
                 // If the document does not exist, create a new one
-                documentRef.setData(["readings": [data]])
+                documentRef.setData(["readings" : data])
                 print("Error - \(err) Occured Saving to FireBase")
             }
         }
@@ -84,32 +110,48 @@ class individualplant_viewmodel: ObservableObject {
             print("User not logged in")
             return
         }
-        
-        let collectionRef = db.collection("users").document(uid)
-            .collection("plants").document(self.plant_id)
-            .collection("daily")
-        
-        collectionRef.order(by: "timestamp", descending: true).limit(to: 1)
-            .getDocuments { [weak self] (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    // Assuming the data structure includes an array of readings under 'readings'
-                    if let document = querySnapshot?.documents.first,
-                       let readings = document.data()["readings"] as? [[String: Any]],
-                       let latestReading = readings.last {
-                        self?.updatePlantParameters(with: latestReading)
+
+        // Reference to 'last' document within the 'plants' collection
+        let lastDocumentRef = db.collection("users")
+            .document(uid)
+            .collection("plants")
+            .document(self.plant_id)
+            .collection("last") // Changed from 'daily' to 'last'
+            .document("last") // Changed from 'self.currentDay' to 'last'
+
+        lastDocumentRef.getDocument { [weak self] (documentSnapshot, error) in
+            if let error = error {
+                print("Error getting document: \(error)")
+            } else if let document = documentSnapshot, document.exists {
+                guard let data = document.data(), let readings = data["readings"] as? [[String: Any]] else {
+                    print("Document does not have a 'readings' array")
+                    return
+                }
+
+                // Get the first reading from the 'readings' array
+                if let firstReading = readings.first {
+                    DispatchQueue.main.async {
+                        self?.updatePlantParameters(with: firstReading)
                     }
+                } else {
+                    print("Readings array is empty")
                 }
             }
+        }
     }
+
     private func updatePlantParameters(with data: [String: Any]) {
-        DispatchQueue.main.async {
             self.led = data["status"] as? Int ?? self.led
             self.moisture = data["moisture"] as? Int ?? self.moisture
             self.humidity = data["humidity"] as? Int ?? self.humidity
             self.fahrenheit = data["temperature"] as? Int ?? self.fahrenheit
             self.heatIndex = data["heat"] as? Int ?? self.heatIndex
-        }
+            
+            print(self.led)
+            print(self.moisture)
+            print(self.humidity)
+            print(self.fahrenheit)
+            print(self.heatIndex)
+        
     }
 }
