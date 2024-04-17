@@ -107,7 +107,6 @@ struct AccountView: View {
                         .foregroundColor(Color(red: 0.28, green: 0.59, blue: 0.17))
                         .overlay(
                             Button("Update Profile") {
-                                //viewModel.updateProfile(username: username, email: email, password: password)
                                 viewModel.updateUserProfile()
                             }
                                 .foregroundColor(.white)
