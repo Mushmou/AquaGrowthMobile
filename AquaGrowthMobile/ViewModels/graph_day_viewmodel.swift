@@ -14,8 +14,13 @@ class GraphDayViewmodel: ObservableObject{
     init(){
         generateDayDateList()
     }
+    func formatDate(_ date: Date, format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: date)
+    }
     func generateDayDateList() {
-        var currentDate = Date()
+        let currentDate = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d"
         var dates: [String] = []

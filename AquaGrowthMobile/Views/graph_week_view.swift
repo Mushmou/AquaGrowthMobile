@@ -1,11 +1,15 @@
 
 import Foundation
 import SwiftUI
+import Charts
+import DGCharts
 
 struct GraphWeek: View {
     
     @StateObject var viewModel = GraphWeekViewmodel()
     @ObservedObject var data = GraphDataViewmodel()
+    @ObservedObject var plant = individualplant_viewmodel()
+        
     
     @State private var showNavigationBar = true
     
@@ -24,6 +28,7 @@ struct GraphWeek: View {
     
     init(my_plant: Plant) {
         self.my_plant = my_plant
+        data.calculateAverage(plantId: my_plant.id.uuidString, collection: "weekly", documentId: data.formatDate(Date(), format: "yyyy-'W'ww"), sensorType: "all"){}
     }
     
     var body: some View {
@@ -63,6 +68,7 @@ struct GraphWeek: View {
                         .stroke(Color.black, lineWidth: 2)
                         .frame(width: UIScreen.main.bounds.width - 40, height: 325)
                         .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.71)
+                    
                         
                     Rectangle() //Date Box
                         .stroke(Color.black, lineWidth: 2)
@@ -76,9 +82,10 @@ struct GraphWeek: View {
                         .position(x: UIScreen.main.bounds.width / 2.15, y: 189)
                 }
                 
+                
                 //Data Averages
                 ZStack{
-                    if isDataFetched && data.avgTemperature != 0 {
+                    if isDataFetched  {
                         HStack(spacing: 15){
                             VStack(spacing:5){
                                 Text("Avg. Moi.")
@@ -120,9 +127,7 @@ struct GraphWeek: View {
                         ProgressView("Fetching data...")
                             .padding(.top,50)
                             .onAppear {
-                                data.calculateAverages(plantId:my_plant.id.uuidString, collection: "weekly"){
-                                    self.isDataFetched = true
-                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75){self.isDataFetched = data.isDataFetched}
                             }
                       }
                      

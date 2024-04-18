@@ -20,6 +20,7 @@ struct GraphDay: View {
     
     init(my_plant: Plant) {
         self.my_plant = my_plant
+        data.calculateAverage(plantId: my_plant.id.uuidString, collection: "daily", documentId: data.formatDate(Date(), format: "yyyy-MM-dd"), sensorType: "all"){}
     }
     
     var body: some View {
@@ -71,10 +72,13 @@ struct GraphDay: View {
                         .frame(width: UIScreen.main.bounds.width / 6.5, height: 35)
                         .position(x: UIScreen.main.bounds.width / 4.8, y: 189)
                 }
+                ZStack{
+                    
+                }
                 
                 //Data Averages
                 ZStack{
-                    if isDataFetched && data.avgTemperature != 0 {
+                    if isDataFetched {
                         HStack(spacing: 15){
                             VStack(spacing:5){
                                 Text("Avg. Moi.")
@@ -116,9 +120,7 @@ struct GraphDay: View {
                         ProgressView("Fetching data...")
                             .padding(.top,50)
                             .onAppear {
-                                data.calculateAverages(plantId:my_plant.id.uuidString, collection: "daily"){
-                                    self.isDataFetched = true
-                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7){self.isDataFetched = data.isDataFetched}
                             }
                       }
                      

@@ -20,6 +20,11 @@ struct IndividualPlantView: View {
     @State private var isShowingGraphPage = false
 
     let my_plant: Plant
+    /*
+    init(my_plant:Plant){
+        self.my_plant = my_plant
+        data.calculateAverage(plantId: my_plant.id.uuidString, collection: "weekly", documentId: data.formatDate(Date(), format: "yyyy-'W'ww"), sensorType: "all"){}
+    }*/
 
     var body: some View {
         NavigationStack{
@@ -118,19 +123,20 @@ struct IndividualPlantView: View {
                     // Present GraphWeek as a  sheet
                     .sheet(isPresented: $isShowingGraphPage) {
                         GraphWeek(my_plant: my_plant)
-                            //.onDisappear{data.isActive = false;}
+                           
                     }
 
                 
-                Button("Save Data"){
-                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 999
-                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 999
-                    viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
-                    viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
-                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
+                Button("Save Data") {
+                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? Int(arc4random_uniform(41) + 45)
+                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? Int(arc4random_uniform(41) + 45)
+                    viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? Int(arc4random_uniform(41) + 45)
+                    viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? Int(arc4random_uniform(41) + 45)
+                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? Int(arc4random_uniform(41) + 45)
                     
                     viewmodel.SavedSensorInformation()
                 }
+
             }
             .onAppear(){
                 viewmodel.plant_id = my_plant.id.uuidString

@@ -20,6 +20,7 @@ struct GraphMonth: View {
     
     init(my_plant: Plant) {
         self.my_plant = my_plant
+        data.calculateAverage(plantId: my_plant.id.uuidString, collection: "monthly", documentId: data.formatDate(Date(), format: "yyyy-MM"), sensorType: "all"){}
     }
     
     var body: some View {
@@ -73,7 +74,7 @@ struct GraphMonth: View {
                 }
                 //Data Averages
                 ZStack{
-                    if isDataFetched && data.avgTemperature != 0 {
+                    if isDataFetched {
                         HStack(spacing: 15){
                             VStack(spacing:5){
                                 Text("Avg. Moi.")
@@ -115,9 +116,7 @@ struct GraphMonth: View {
                         ProgressView("Fetching data...")
                             .padding(.top,50)
                             .onAppear {
-                                data.calculateAverages(plantId:my_plant.id.uuidString, collection: "monthly"){
-                                    self.isDataFetched = true
-                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7){self.isDataFetched = data.isDataFetched}
                             }
                       }
                      

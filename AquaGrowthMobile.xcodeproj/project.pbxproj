@@ -77,6 +77,10 @@
 		82E315AF2BC3369500DD3AA1 /* graph_data_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E315AE2BC3369500DD3AA1 /* graph_data_viewmodel.swift */; };
 		82E315B02BC3369500DD3AA1 /* graph_data_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E315AE2BC3369500DD3AA1 /* graph_data_viewmodel.swift */; };
 		82E315B12BC3369500DD3AA1 /* graph_data_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E315AE2BC3369500DD3AA1 /* graph_data_viewmodel.swift */; };
+		82E315B32BD03E7E00DD3AA1 /* graph_plot_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E315B22BD03E7D00DD3AA1 /* graph_plot_viewmodel.swift */; };
+		82E315B42BD03E7E00DD3AA1 /* graph_plot_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E315B22BD03E7D00DD3AA1 /* graph_plot_viewmodel.swift */; };
+		82E315B52BD03E7F00DD3AA1 /* graph_plot_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E315B22BD03E7D00DD3AA1 /* graph_plot_viewmodel.swift */; };
+		82E315B82BD06A2F00DD3AA1 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 82E315B72BD06A2F00DD3AA1 /* DGCharts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -158,6 +162,7 @@
 		48F8662B2B97AC440045C2D5 /* custom_tab_bar_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = custom_tab_bar_view.swift; sourceTree = "<group>"; };
 		82D405042BA8A63A00BFD98B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		82E315AE2BC3369500DD3AA1 /* graph_data_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = graph_data_viewmodel.swift; sourceTree = "<group>"; };
+		82E315B22BD03E7D00DD3AA1 /* graph_plot_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = graph_plot_viewmodel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +170,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82E315B82BD06A2F00DD3AA1 /* DGCharts in Frameworks */,
 				0FF1FD012B9E401F004CE5A5 /* Lottie in Frameworks */,
 				4879C5812B91130A008AEFAC /* FirebaseDatabase in Frameworks */,
 				48B3FB132BA2ABC600393729 /* GoogleSignInSwift in Frameworks */,
@@ -246,6 +252,7 @@
 				48325BC52B8FB68700DCE61F /* splash_screen_viewmodel.swift */,
 				4879C5752B8FC686008AEFAC /* main_viewmodel.swift */,
 				0FB8DF872BA20F9000094ED7 /* test_viewmodel.swift */,
+				82E315B22BD03E7D00DD3AA1 /* graph_plot_viewmodel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -355,6 +362,7 @@
 				0FF1FD002B9E401F004CE5A5 /* Lottie */,
 				48B3FB102BA2ABC600393729 /* GoogleSignIn */,
 				48B3FB122BA2ABC600393729 /* GoogleSignInSwift */,
+				82E315B72BD06A2F00DD3AA1 /* DGCharts */,
 			);
 			productName = AquaGrowthMobile;
 			productReference = 48DCF5652B83E39600F88996 /* AquaGrowthMobile.app */;
@@ -432,6 +440,7 @@
 				4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				0FF1FCFF2B9E401F004CE5A5 /* XCRemoteSwiftPackageReference "lottie-spm" */,
 				48B3FB0F2BA2ABC600393729 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				82E315B62BD06A2E00DD3AA1 /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = 48DCF5662B83E39600F88996 /* Products */;
 			projectDirPath = "";
@@ -504,6 +513,7 @@
 				48325BBE2B8FB65300DCE61F /* plant_viewmodel.swift in Sources */,
 				48461CF02B9E710600BF8A6C /* Extensions.swift in Sources */,
 				48325BC22B8FB66A00DCE61F /* register_viewmodel.swift in Sources */,
+				82E315B32BD03E7E00DD3AA1 /* graph_plot_viewmodel.swift in Sources */,
 				48325BAD2B8FB5F000DCE61F /* forgot_password_viewmodel.swift in Sources */,
 				0FB8DF882BA20F9000094ED7 /* test_viewmodel.swift in Sources */,
 				48192AAC2B918EB700F6F746 /* back_button_view.swift in Sources */,
@@ -536,6 +546,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82E315B42BD03E7E00DD3AA1 /* graph_plot_viewmodel.swift in Sources */,
 				48B3FB222BA2AE7100393729 /* Utilities.swift in Sources */,
 				82E315B02BC3369500DD3AA1 /* graph_data_viewmodel.swift in Sources */,
 				48DCF57A2B83E39800F88996 /* AquaGrowthMobileTests.swift in Sources */,
@@ -546,6 +557,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82E315B52BD03E7F00DD3AA1 /* graph_plot_viewmodel.swift in Sources */,
 				48B3FB232BA2AE7100393729 /* Utilities.swift in Sources */,
 				48DCF5842B83E39800F88996 /* AquaGrowthMobileUITests.swift in Sources */,
 				48DCF5862B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift in Sources */,
@@ -898,6 +910,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		82E315B62BD06A2E00DD3AA1 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -935,6 +955,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 48B3FB0F2BA2ABC600393729 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		82E315B72BD06A2F00DD3AA1 /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 82E315B62BD06A2E00DD3AA1 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
