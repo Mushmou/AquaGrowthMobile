@@ -1,3 +1,4 @@
+//
 //  individual_plant_viewmodel.swift
 //  AquaGrowthMobile
 //
@@ -20,7 +21,6 @@ class individualplant_viewmodel: ObservableObject {
     init(){
         
         self.currentDay = formatDate(Date(), format:  "yyyy-MM-dd")
-        
     }
     
     func SavedSensorInformation() {
@@ -49,7 +49,6 @@ class individualplant_viewmodel: ObservableObject {
         addSensorData(db: db, userId: uid, collection: "weekly", documentId: weeklyId, data: sensorData)
         addSensorData(db: db, userId: uid, collection: "monthly", documentId: monthlyId, data: sensorData)
     }
-    
     
     func updateLastSensorData(db: Firestore, userId: String, collection: String, data: [String: Any]) {
         let documentRef = db.collection("users")
@@ -150,10 +149,7 @@ class individualplant_viewmodel: ObservableObject {
         print(self.fahrenheit)
         print(self.heatIndex)
         
-    
     }
-    
-    
     
     func setFavorite() {
         let db = Firestore.firestore()

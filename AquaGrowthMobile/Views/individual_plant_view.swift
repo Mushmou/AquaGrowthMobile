@@ -1,30 +1,19 @@
-//
-//  individual_plant_view.swift
-//  AquaGrowthMobile
-//
-//  Created by Noah Jacinto on 2/28/24.
-//
+
 
 import Foundation
 import SwiftUI
 
 struct IndividualPlantView: View {
     @StateObject var viewmodel = individualplant_viewmodel()
-    @StateObject var data = GraphDataViewmodel()
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
     @State var selectedOption: String? = nil
-    //@State private var isActive = false
+    @State private var isActive = false
 
     @State private var isEditingPlant = false
     @Environment(\.colorScheme) var colorScheme
     @State private var isShowingGraphPage = false
 
     let my_plant: Plant
-    /*
-    init(my_plant:Plant){
-        self.my_plant = my_plant
-        data.calculateAverage(plantId: my_plant.id.uuidString, collection: "weekly", documentId: data.formatDate(Date(), format: "yyyy-'W'ww"), sensorType: "all"){}
-    }*/
 
     var body: some View {
         NavigationStack{
@@ -117,26 +106,21 @@ struct IndividualPlantView: View {
                                 .font(.system(size: 25))
                             }
                             .buttonStyle(PlainButtonStyle())
-                            
                     )
                     .padding(.top, 10)
                     // Present GraphWeek as a  sheet
                     .sheet(isPresented: $isShowingGraphPage) {
                         GraphWeek(my_plant: my_plant)
-                           
                     }
 
                 
-                Button("Save Data") {
-                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? Int(arc4random_uniform(41) + 45)
-                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? Int(arc4random_uniform(41) + 45)
-                    viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? Int(arc4random_uniform(41) + 45)
-                    viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? Int(arc4random_uniform(41) + 45)
-                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? Int(arc4random_uniform(41) + 45)
-                    
-                    viewmodel.SavedSensorInformation()
+                Button("Save Data"){
+                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 999
+                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 999
+                    viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
+                    viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
+                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
                 }
-
             }
             .onAppear(){
                 viewmodel.plant_id = my_plant.id.uuidString
@@ -157,24 +141,32 @@ struct IndividualPlantView: View {
             }
             // Link to Edit Plant View
             .toolbar {
-                Button(action: {
-                    isEditingPlant = true
-                }) {
-                    Image(systemName: "square.and.pencil")
-                        .font(.system(size: 30))
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                }
-            }
+                            // Add favorite button --> Added by Danny 04/17
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button(action: {
+                                    viewmodel.setFavorite()
+                                    print("Clicked favorite")
+                                    
+                                }) {
+                                    Image(systemName: "heart")
+                                        .foregroundColor(.red)
+                                }
+                            }
+                            
+                            // Edit button
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button(action: {
+                                    isEditingPlant = true
+                                }) {
+                                    Image(systemName: "square.and.pencil")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                                }
+                            }
+                        }
             .sheet(isPresented: $isEditingPlant){
                 EditPlantView(plant: my_plant)
             }
-//            .toolbar {
-//                ToolbarItemGroup() {
-//                    NavigationLink(destination: EditPlantView(plant: my_plant)){
-//                        Label("Edit", systemImage: "square.and.pencil")
-//                    }
-//                }
-//            }
         }
     }
 }
