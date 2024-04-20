@@ -14,6 +14,7 @@ class GraphDataViewmodel: ObservableObject {
     var avgSun: Double = 0.0
     
     @Published var isDataFetched = false
+    @Published var isCalculated = false
     
     func formatDate(_ date: Date, format: String) -> String {
         let formatter = DateFormatter()
@@ -78,11 +79,14 @@ class GraphDataViewmodel: ObservableObject {
                         // All values fetched, call the completion closure
                         DispatchQueue.main.async {
                             self.isDataFetched = true
+                            
                             print("All data fetched")
+                            /*
                             print("Sun Values: \(self.sunValues)")
                             print("Humidity Values: \(self.humidityValues)")
                             print("Temperature Values: \(self.temperatureValues)")
                             print("Moisture Values: \(self.moistureValues)")
+                             */
                             completion()
                         }
                     }
@@ -130,14 +134,13 @@ class GraphDataViewmodel: ObservableObject {
                 }
                 self.isDataFetched = true
 
-                // Call the completion closure
                 completion()
             }
         }
     }
 
 
-    func calculateAverage(values: [Double]) -> Double {
+    func calculate(values: [Double]) -> Double {
         guard !values.isEmpty else {
             return 0.0 // Return 0 if there are no values
         }
@@ -147,41 +150,45 @@ class GraphDataViewmodel: ObservableObject {
     func calculateAverage(plantId: String, collection: String, documentId: String, sensorType: String, completion: @escaping () -> Void) {
         if sensorType == "all" {
             fetchSensorDataForPlant(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: sensorType) {}
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
-                    // Once data is fetched, calculate averages for all sensor types
-                    self.avgSun = self.calculateAverage(values: self.sunValues)
-                    self.avgHumidity = self.calculateAverage(values: self.humidityValues)
-                    self.avgTemperature = self.calculateAverage(values: self.temperatureValues)
-                    self.avgMoisture = self.calculateAverage(values: self.moistureValues)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+                // Once data is fetched, calculate averages for all sensor types
+                self.avgSun = self.calculate(values: self.sunValues)
+                self.avgHumidity = self.calculate(values: self.humidityValues)
+                self.avgTemperature = self.calculate(values: self.temperatureValues)
+                self.avgMoisture = self.calculate(values: self.moistureValues)
+                self.isCalculated = true
                     // Print averages
+                /*
                     print("Average Sun: \(self.avgSun)")
                     print("Average Humidity: \(self.avgHumidity)")
                     print("Average Temperature: \(self.avgTemperature)")
                     print("Average Moisture: \(self.avgMoisture)")
+                 */
                 }
                 completion()
             
         } else {
             fetchSensorDataForPlant(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: sensorType) {}
                 // Once data is fetched, calculate the average for the specific sensor type
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
-                    switch sensorType {
-                    case "heat":
-                        self.avgSun = self.calculateAverage(values: self.sunValues)
-                    case "humidity":
-                        self.avgHumidity = self.calculateAverage(values: self.humidityValues)
-                    case "temperature":
-                        self.avgTemperature = self.calculateAverage(values: self.temperatureValues)
-                    case "moisture":
-                        self.avgMoisture = self.calculateAverage(values: self.moistureValues)
-                    default:
-                        break
-                        // Print average
-                    }
-                    print("Average \(sensorType.capitalized): \(self.calculateAverage(values: self.sensorValues(for: sensorType)))")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+                switch sensorType {
+                case "heat":
+                    self.avgSun = self.calculate(values: self.sunValues)
+                case "humidity":
+                    self.avgHumidity = self.calculate(values: self.humidityValues)
+                case "temperature":
+                    self.avgTemperature = self.calculate(values: self.temperatureValues)
+                case "moisture":
+                    self.avgMoisture = self.calculate(values: self.moistureValues)
+                default:
+                    break
+                    // Print average
                 }
+                //print("Average \(sensorType.capitalized): \(self.calculateAverage(values: self.sensorValues(for: sensorType)))")
+                self.isCalculated=true
+                
+            }
                 completion()
-                // Optionally, update any UI elements with the calculated average
             
         }
     }

@@ -85,7 +85,7 @@ struct GraphWeek: View {
                 
                 //Data Averages
                 ZStack{
-                    if isDataFetched  {
+                    if data.isCalculated  {
                         HStack(spacing: 15){
                             VStack(spacing:5){
                                 Text("Avg. Moi.")
@@ -126,15 +126,12 @@ struct GraphWeek: View {
                     } else {
                         ProgressView("Fetching data...")
                             .padding(.top,50)
-                            .onAppear {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75){self.isDataFetched = data.isDataFetched}
-                            }
+                            
                       }
                      
                     
                     
                 }
-                //.onAppear{}
                 
                 //drop down box
                 ZStack{
