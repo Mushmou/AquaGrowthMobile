@@ -103,17 +103,19 @@ class account_settings_viewmodel: ObservableObject{
                     }
                 }
             }
+        }
             
             // Update the user document in Firestore
-            usersRef.updateData(updateData) { error in
-                if let error = error {
-                    print("Error updating user document: \(error.localizedDescription)")
-                    return
-                }
-                print("User profile updated successfully")
+        usersRef.updateData(updateData) { error in
+            if let error = error {
+                print("Error updating user document: \(error.localizedDescription)")
+                return
             }
+            print("User profile updated successfully")
         }
-    }
+    
+}
+
     
     func validateUser() -> Bool {
             // Rule 1: Only contains alphanumeric characters, underscore, and dot.
@@ -239,7 +241,6 @@ class account_settings_viewmodel: ObservableObject{
         isPasswordValid = false
         return false
     }
-    
     func logOut(){
             ///  Signs out user in firebase authentication
             ///- Parameters: None
@@ -250,5 +251,5 @@ class account_settings_viewmodel: ObservableObject{
             catch{
                 print("File: profile_viewmodel, Error: ", error)
             }
-        }
     }
+}

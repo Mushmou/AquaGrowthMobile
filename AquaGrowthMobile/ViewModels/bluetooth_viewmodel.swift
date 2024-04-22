@@ -8,10 +8,10 @@
 import Foundation
 import SwiftUI
 import CoreBluetooth
-
-// THIS IS WHERE IM DECLARING THE PERIPHERAL CODE
-
-//Initialize the Bluetooth View Model as an observable object (this changes the objects state)
+//
+//// THIS IS WHERE IM DECLARING THE PERIPHERAL CODE
+//
+////Initialize the Bluetooth View Model as an observable object (this changes the objects state)
 class bluetooth_viewmodel: NSObject, ObservableObject, CBPeripheralDelegate {
     //Central manager object
     private var centralManager: CBCentralManager?
