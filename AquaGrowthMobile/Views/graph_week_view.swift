@@ -1,8 +1,6 @@
 
 import Foundation
 import SwiftUI
-import Charts
-import DGCharts
 
 struct GraphWeek: View {
     
@@ -20,7 +18,7 @@ struct GraphWeek: View {
     @State private var isDataFetched = false
     //vars for drop down
     @State private var isExpanded = false
-    @State private var selectedItem: String? = "Moisture"
+    @State private var selectedItem: String = "Moisture"
     let options = ["Moisture", "Temperature", "Humidity", "Sun"]
 
     
@@ -30,6 +28,7 @@ struct GraphWeek: View {
         self.my_plant = my_plant
         data.calculateAverage(plantId: my_plant.id.uuidString, collection: "weekly", documentId: data.formatDate(Date(), format: "yyyy-'W'ww"), sensorType: "all"){}
     }
+    
     
     var body: some View {
         NavigationStack{
@@ -64,10 +63,17 @@ struct GraphWeek: View {
                         .position(x: UIScreen.main.bounds.width / 2, y: 105)
                         .foregroundColor(.white)
                     
-                    Rectangle() //Graph Box
-                        .stroke(Color.black, lineWidth: 2)
-                        .frame(width: UIScreen.main.bounds.width - 40, height: 325)
-                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.71)
+                    ZStack {
+                        Rectangle() //Graph Box
+                            .stroke(Color.black, lineWidth: 2)
+                            .frame(width: UIScreen.main.bounds.width - 40, height: 325)
+                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.71)
+                        
+                        // Position the GraphPlot view within the graph box
+                        GraphPlotView(plantId: my_plant.id.uuidString, collection: "weekly", documentId: data.formatDate(Date(), format: "yyyy-'W'ww"), sensorType: "moisture")
+                            .frame(width: UIScreen.main.bounds.width - 11, height: 310)
+                            .position(x: UIScreen.main.bounds.width / 2.06, y: UIScreen.main.bounds.height / 1.71)
+                    }
                     
                         
                     Rectangle() //Date Box
@@ -81,7 +87,6 @@ struct GraphWeek: View {
                         .frame(width: UIScreen.main.bounds.width / 4.45, height: 35)
                         .position(x: UIScreen.main.bounds.width / 2.15, y: 189)
                 }
-                
                 
                 //Data Averages
                 ZStack{
@@ -141,7 +146,7 @@ struct GraphWeek: View {
                             .foregroundColor(.gray)
                             .overlay(
                                 VStack{
-                                    if let selectedItem = selectedItem {
+                                    if selectedItem == selectedItem {
                                         Text(selectedItem)
                                             .bold()
                                             .font(.system(size: 23))
@@ -163,7 +168,7 @@ struct GraphWeek: View {
                                 //current option
                                 .overlay(
                                     VStack{
-                                        if let selectedItem = selectedItem {
+                                        if selectedItem == selectedItem {
                                             Text(selectedItem)
                                                 .bold()
                                                 .font(.system(size: 23))
@@ -295,11 +300,14 @@ struct GraphWeek: View {
 }
 
 
+
+
 #Preview {
     struct PreviewWrapper: View {
         var body: some View {
             let testPlant = Plant(plant_name: "Cactus", plant_type: "Pincushion", plant_description: "My indoor prickly cactus", plant_image: "Flower")
             GraphWeek(my_plant: testPlant)
+            //GraphPlotView()
         }
     }
     return PreviewWrapper()

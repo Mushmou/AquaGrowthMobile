@@ -1,12 +1,23 @@
 import Firebase
-import DGCharts
+import SwiftUI
+
 class GraphDataViewmodel: ObservableObject {
+    //var plot = GraphPlot()
     var sensorTypes:[String] = ["heat","humidity","moisture","temperature","timestamp"]
     var sunValues: [Double] = []
     var humidityValues: [Double] = []
     var temperatureValues: [Double] = []
     var moistureValues: [Double] = []
-    var timestampValues:[Date] = []
+    var timestampValues:[Double] = []
+    
+    
+    var fetchedData: [Double] = []
+    //(timestamp, value)
+    var sunGraphPoints: [(Double, Double)] = []
+    var humidityGraphPoints: [(Double, Double)] = []
+    var temperatureGraphPoints: [(Double, Double)] = []
+    var moistureGraphPoints: [(Double, Double)] = []
+    var timestampGraphPoints: [(Double, Double)] = []
     
     var avgMoisture: Double = 0.0
     var avgTemperature: Double = 0.0
@@ -51,6 +62,7 @@ class GraphDataViewmodel: ObservableObject {
                         // Handle if needed
                         return
                     }
+                    
 
                     // Extract field value from each document and save to the appropriate array
                     for document in documents {
@@ -58,17 +70,51 @@ class GraphDataViewmodel: ObservableObject {
                         if let value = data[sensor] as? Double {
                             switch sensor {
                             case "heat":
+                                if let timestamp = data["timestamp"] as? Double{
+                                    self.sunGraphPoints.append((timestamp, value))
+                                }
                                 self.sunValues.append(value)
                             case "humidity":
+                                if let timestamp = data["timestamp"] as? Double{
+                                    self.humidityGraphPoints.append((timestamp, value))
+                                }
                                 self.humidityValues.append(value)
                             case "temperature":
+                                if let timestamp = data["timestamp"] as? Double{
+                                    self.temperatureGraphPoints.append((timestamp, value))
+                                }
                                 self.temperatureValues.append(value)
                             case "moisture":
+                                if let timestamp = data["timestamp"] as? Double{
+                                    self.moistureGraphPoints.append((timestamp, value))
+                                }
                                 self.moistureValues.append(value)
+                            case "timestamp":
+                                
+                                self.timestampValues.append(value)
                             default:
                                 break
                             }
                         }
+                    }
+                    // Sort the data points based on timestamps
+                    self.sunGraphPoints.sort { $0.0 < $1.0 }
+                    self.humidityGraphPoints.sort { $0.0 < $1.0 }
+                    self.temperatureGraphPoints.sort { $0.0 < $1.0 }
+                    self.moistureGraphPoints.sort { $0.0 < $1.0 }
+                    // Separate the sorted data points back into timestamp and value arrays
+                    self.timestampValues.sort()
+                    switch sensorType {
+                    case "heat":
+                        self.sunValues = self.sunGraphPoints.map { $0.1 }
+                    case "humidity":
+                        self.humidityValues = self.humidityGraphPoints.map { $0.1 }
+                    case "temperature":
+                        self.temperatureValues = self.temperatureGraphPoints.map { $0.1 }
+                    case "moisture":
+                        self.moistureValues = self.moistureGraphPoints.map { $0.1 }
+                    default:
+                        break
                     }
 
                     // Increment the counter
@@ -76,11 +122,11 @@ class GraphDataViewmodel: ObservableObject {
 
                     // Check if all values for all sensor types have been fetched
                     if allValuesFetched == self.sensorTypes.count {
-                        // All values fetched, call the completion closure
                         DispatchQueue.main.async {
                             self.isDataFetched = true
                             
                             print("All data fetched")
+                            //print(self.sunValues)
                             /*
                             print("Sun Values: \(self.sunValues)")
                             print("Humidity Values: \(self.humidityValues)")
@@ -127,6 +173,8 @@ class GraphDataViewmodel: ObservableObject {
                             self.temperatureValues.append(value)
                         case "moisture":
                             self.moistureValues.append(value)
+                        case "timestamp":
+                            self.timestampValues.append(value)
                         default:
                             break
                         }
@@ -149,28 +197,30 @@ class GraphDataViewmodel: ObservableObject {
     }
     func calculateAverage(plantId: String, collection: String, documentId: String, sensorType: String, completion: @escaping () -> Void) {
         if sensorType == "all" {
-            fetchSensorDataForPlant(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: sensorType) {}
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+            fetchSensorDataForPlant(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: sensorType) {
+                //DispatchQueue.main.asyncAfter(deadline: .now() + 0.35){
                 // Once data is fetched, calculate averages for all sensor types
                 self.avgSun = self.calculate(values: self.sunValues)
                 self.avgHumidity = self.calculate(values: self.humidityValues)
                 self.avgTemperature = self.calculate(values: self.temperatureValues)
                 self.avgMoisture = self.calculate(values: self.moistureValues)
                 self.isCalculated = true
-                    // Print averages
+                // Print averages
                 /*
-                    print("Average Sun: \(self.avgSun)")
-                    print("Average Humidity: \(self.avgHumidity)")
-                    print("Average Temperature: \(self.avgTemperature)")
-                    print("Average Moisture: \(self.avgMoisture)")
+                 print("Average Sun: \(self.avgSun)")
+                 print("Average Humidity: \(self.avgHumidity)")
+                 print("Average Temperature: \(self.avgTemperature)")
+                 print("Average Moisture: \(self.avgMoisture)")
                  */
-                }
-                completion()
+            }
+            //print
+            completion()
+            
             
         } else {
-            fetchSensorDataForPlant(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: sensorType) {}
+            fetchSensorDataForPlant(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: sensorType) {
                 // Once data is fetched, calculate the average for the specific sensor type
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+            //DispatchQueue.main.asyncAfter(deadline: .now() + 0.35){
                 switch sensorType {
                 case "heat":
                     self.avgSun = self.calculate(values: self.sunValues)
@@ -188,25 +238,35 @@ class GraphDataViewmodel: ObservableObject {
                 self.isCalculated=true
                 
             }
-                completion()
+            completion()
             
         }
     }
-    func sensorValues(for sensorType: String) -> [Double] {
-        switch sensorType {
-        case "heat":
-            return self.sunValues
-        case "humidity":
-            return self.humidityValues
-        case "temperature":
-            return self.temperatureValues
-        case "moisture":
-            return self.moistureValues
-        default:
-            return []
+    func fetchSensorValues(plantId: String, collectionRef: String, documentId: String, sensorType: String) -> [Double] {
+        
+        fetchSensorDataForPlant(plantId: plantId, collectionRef: collectionRef, documentId: documentId, sensorType: sensorType) {
+            
+            switch sensorType {
+            case "heat":
+                self.fetchedData = self.sunValues
+            case "humidity":
+                self.fetchedData =  self.humidityValues
+            case "temperature":
+                self.fetchedData =  self.temperatureValues
+            case "moisture":
+                self.fetchedData =  self.moistureValues
+            case "timestamp":
+                self.fetchedData =  self.timestampValues
+            default:
+                break
+            }
+            print("maddddddddd\(self.fetchedData)")
+            
+            
         }
+        //print("pleasssssss\(self.plot.datas)")
+        return (fetchedData)
     }
-
     /*
     func updateAverageDisplay(plantId:String) {
             guard let userId = Auth.auth().currentUser?.uid else {
@@ -231,3 +291,5 @@ class GraphDataViewmodel: ObservableObject {
     
     
 }
+
+
