@@ -53,7 +53,7 @@ struct IndividualPlantView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                     
-                    Text("Moisture: \(viewmodel.moisture)")
+                    Text("Moisture: \(viewmodel.moisture)%")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
@@ -68,7 +68,7 @@ struct IndividualPlantView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                     
-                    Text("Temperature: \(viewmodel.fahrenheit-7)")
+                    Text("Temperature: \(viewmodel.fahrenheit-7) F°")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
@@ -82,7 +82,7 @@ struct IndividualPlantView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                     
-                    Text("Humidity: \(viewmodel.humidity)")
+                    Text("Humidity: \(viewmodel.humidity) %")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
