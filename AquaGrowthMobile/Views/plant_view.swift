@@ -13,7 +13,7 @@ struct PlantView: View {
                 ForEach(viewModel.plants) { plant in
                     NavigationLink(destination: IndividualPlantView(my_plant: plant).environmentObject(bluetooth).toolbar(.hidden, for: .tabBar)) {
                         HStack {
-                            Image(plant.plant_image) // Assumes you have an image named "Flower" in your assets
+                            Image(uiImage:plant.plant_ui_image!) // Assumes you have an image named "Flower" in your assets
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 50, height: 50)

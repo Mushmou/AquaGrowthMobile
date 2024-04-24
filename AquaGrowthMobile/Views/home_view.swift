@@ -62,7 +62,7 @@ struct HomeView: View {
                     
                     Text("Today") // Add your text aligned to the left
                         .padding(.top, 10)
-                        .foregroundColor(.black) // Customize text color
+                        .foregroundColor(.primary)
                         .font(.system(size: 30, weight: .bold)) // Adjust font size and weight as needed
                         .padding(.leading, 1) // Adjust leading padding if needed
                     
@@ -76,7 +76,7 @@ struct HomeView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 30, height: 30) // Adjust size as needed
-                            .foregroundColor(.black) // Customize button color
+                            .foregroundColor(.primary) // Customize button color
                     }
                     .padding(.trailing, 18)
                 }
@@ -104,7 +104,7 @@ struct HomeView: View {
                         ZStack {
                             // Background of the button
                             RoundedRectangle(cornerRadius: 20)
-                                .foregroundColor(Color.gray.opacity(0.1))
+                                .foregroundColor(.secondary.opacity(0.5))
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 80) // Adjust height as needed
                             
@@ -137,7 +137,7 @@ struct HomeView: View {
                             Image(systemName: "camera.circle.fill") // You can replace this with your image
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.primary)
                                 .frame(width: 60, height: 60)
                                 .offset(x: -140, y: 0)
                                 .onTapGesture {
@@ -161,7 +161,7 @@ struct HomeView: View {
                         ZStack {
                             // Background of the button
                             RoundedRectangle(cornerRadius: 20)
-                                .foregroundColor(Color.gray.opacity(0.1))
+                                .foregroundColor(.secondary.opacity(0.5))
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 80) // Adjust height as needed
                             
@@ -194,7 +194,7 @@ struct HomeView: View {
                             Image(systemName: "camera.circle.fill") // You can replace this with your image
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.primary)
                                 .frame(width: 60, height: 60)
                                 .offset(x: -140, y: 0)
                                 .onTapGesture {
@@ -216,7 +216,7 @@ struct HomeView: View {
                         ZStack {
                             // Background of the button
                             RoundedRectangle(cornerRadius: 20)
-                                .foregroundColor(Color.gray.opacity(0.1))
+                                .foregroundColor(.secondary.opacity(0.5))
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 80) // Adjust height as needed
                             
@@ -249,7 +249,7 @@ struct HomeView: View {
                             Image(systemName: "camera.circle.fill") // You can replace this with your image
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.primary)
                                 .frame(width: 60, height: 60)
                                 .offset(x: -140, y: 0)
                                 .onTapGesture {
@@ -269,7 +269,7 @@ struct HomeView: View {
                 Spacer()
             }
             .padding()
-            .background(Color.white)
+            .background(Color(UIColor.systemBackground))
             .edgesIgnoringSafeArea(.bottom)
             .sheet(isPresented: $isInfoWindowPresented) { // Start of Pop Up Window
                 VStack {

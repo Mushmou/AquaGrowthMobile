@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FB430332BD84934001709DD /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0FB430322BD84934001709DD /* FirebaseStorage */; };
+		0FB430352BD8498D001709DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FB430342BD8498D001709DD /* GoogleService-Info.plist */; };
 		0FB8DF862BA20F7F00094ED7 /* test_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB8DF852BA20F7F00094ED7 /* test_view.swift */; };
 		0FB8DF882BA20F9000094ED7 /* test_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB8DF872BA20F9000094ED7 /* test_viewmodel.swift */; };
 		0FF1FD012B9E401F004CE5A5 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0FF1FD002B9E401F004CE5A5 /* Lottie */; };
@@ -71,9 +73,6 @@
 		48DCF5842B83E39800F88996 /* AquaGrowthMobileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF5832B83E39800F88996 /* AquaGrowthMobileUITests.swift */; };
 		48DCF5862B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DCF5852B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift */; };
 		48F8662C2B97AC440045C2D5 /* custom_tab_bar_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F8662B2B97AC440045C2D5 /* custom_tab_bar_view.swift */; };
-		82D405052BA8A63A00BFD98B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82D405042BA8A63A00BFD98B /* GoogleService-Info.plist */; };
-		82D405062BA8A63A00BFD98B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82D405042BA8A63A00BFD98B /* GoogleService-Info.plist */; };
-		82D405072BA8A63A00BFD98B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82D405042BA8A63A00BFD98B /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +93,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0FB430342BD8498D001709DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0FB8DF852BA20F7F00094ED7 /* test_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_view.swift; sourceTree = "<group>"; };
 		0FB8DF872BA20F9000094ED7 /* test_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_viewmodel.swift; sourceTree = "<group>"; };
 		0FF1FD022B9E40A1004CE5A5 /* Splash_screen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Splash_screen.json; sourceTree = "<group>"; };
@@ -153,7 +153,6 @@
 		48DCF5832B83E39800F88996 /* AquaGrowthMobileUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaGrowthMobileUITests.swift; sourceTree = "<group>"; };
 		48DCF5852B83E39800F88996 /* AquaGrowthMobileUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AquaGrowthMobileUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		48F8662B2B97AC440045C2D5 /* custom_tab_bar_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = custom_tab_bar_view.swift; sourceTree = "<group>"; };
-		82D405042BA8A63A00BFD98B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +165,7 @@
 				48B3FB132BA2ABC600393729 /* GoogleSignInSwift in Frameworks */,
 				4879C5832B91130A008AEFAC /* FirebaseFirestore in Frameworks */,
 				4879C57D2B91130A008AEFAC /* FirebaseAnalytics in Frameworks */,
+				0FB430332BD84934001709DD /* FirebaseStorage in Frameworks */,
 				4879C57F2B91130A008AEFAC /* FirebaseAuth in Frameworks */,
 				48B3FB112BA2ABC600393729 /* GoogleSignIn in Frameworks */,
 			);
@@ -188,6 +188,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0FB430312BD84934001709DD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		48325B7A2B8FB3F600DCE61F /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,6 +277,7 @@
 				48DCF5782B83E39800F88996 /* AquaGrowthMobileTests */,
 				48DCF5822B83E39800F88996 /* AquaGrowthMobileUITests */,
 				48DCF5662B83E39600F88996 /* Products */,
+				0FB430312BD84934001709DD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -286,9 +294,9 @@
 		48DCF5672B83E39600F88996 /* AquaGrowthMobile */ = {
 			isa = PBXGroup;
 			children = (
+				0FB430342BD8498D001709DD /* GoogleService-Info.plist */,
 				48461CEE2B9E70EB00BF8A6C /* Other */,
 				48192AB02B92F01700F6F746 /* Info.plist */,
-				82D405042BA8A63A00BFD98B /* GoogleService-Info.plist */,
 				0FF1FD022B9E40A1004CE5A5 /* Splash_screen.json */,
 				48325BA12B8FB5B500DCE61F /* Models */,
 				48325BA02B8FB5AF00DCE61F /* ViewModels */,
@@ -350,6 +358,7 @@
 				0FF1FD002B9E401F004CE5A5 /* Lottie */,
 				48B3FB102BA2ABC600393729 /* GoogleSignIn */,
 				48B3FB122BA2ABC600393729 /* GoogleSignInSwift */,
+				0FB430322BD84934001709DD /* FirebaseStorage */,
 			);
 			productName = AquaGrowthMobile;
 			productReference = 48DCF5652B83E39600F88996 /* AquaGrowthMobile.app */;
@@ -445,7 +454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FF1FD032B9E40A1004CE5A5 /* Splash_screen.json in Resources */,
-				82D405052BA8A63A00BFD98B /* GoogleService-Info.plist in Resources */,
+				0FB430352BD8498D001709DD /* GoogleService-Info.plist in Resources */,
 				48DCF5702B83E39700F88996 /* Preview Assets.xcassets in Resources */,
 				48DCF56D2B83E39700F88996 /* Assets.xcassets in Resources */,
 			);
@@ -455,7 +464,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82D405062BA8A63A00BFD98B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,7 +471,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82D405072BA8A63A00BFD98B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -688,7 +695,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AquaGrowthMobile/Preview Content\"";
-				DEVELOPMENT_TEAM = 4V3YUZ72NK;
+				DEVELOPMENT_TEAM = XS8HZWH68Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AquaGrowthMobile/Info.plist;
@@ -697,15 +704,14 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = teamAqua.AquaGrowthMobile;
+				PRODUCT_BUNDLE_IDENTIFIER = teamAqua.AquaGrowthOfficial;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -721,7 +727,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AquaGrowthMobile/Preview Content\"";
-				DEVELOPMENT_TEAM = 4V3YUZ72NK;
+				DEVELOPMENT_TEAM = XS8HZWH68Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AquaGrowthMobile/Info.plist;
@@ -730,15 +736,14 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = teamAqua.AquaGrowthMobile;
+				PRODUCT_BUNDLE_IDENTIFIER = teamAqua.AquaGrowthOfficial;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -893,6 +898,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0FB430322BD84934001709DD /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
 		0FF1FD002B9E401F004CE5A5 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0FF1FCFF2B9E401F004CE5A5 /* XCRemoteSwiftPackageReference "lottie-spm" */;
