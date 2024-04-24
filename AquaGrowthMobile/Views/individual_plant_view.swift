@@ -1,9 +1,4 @@
-//
-//  individual_plant_view.swift
-//  AquaGrowthMobile
-//
-//  Created by Noah Jacinto on 2/28/24.
-//
+
 
 import Foundation
 import SwiftUI
@@ -13,6 +8,7 @@ struct IndividualPlantView: View {
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
     @State var selectedOption: String? = nil
     @State private var isActive = false
+
     @State private var isEditingPlant = false
     @Environment(\.colorScheme) var colorScheme
     @State private var isShowingGraphPage = false
@@ -124,7 +120,6 @@ struct IndividualPlantView: View {
                     viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
                     viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
                     viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
-                    viewmodel.SavedSensorInforamtion()
                 }
             }
             .onAppear(){
@@ -146,24 +141,32 @@ struct IndividualPlantView: View {
             }
             // Link to Edit Plant View
             .toolbar {
-                Button(action: {
-                    isEditingPlant = true
-                }) {
-                    Image(systemName: "square.and.pencil")
-                        .font(.system(size: 30))
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                }
-            }
+                            // Add favorite button --> Added by Danny 04/17
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button(action: {
+                                    viewmodel.setFavorite()
+                                    print("Clicked favorite")
+                                    
+                                }) {
+                                    Image(systemName: "heart")
+                                        .foregroundColor(.red)
+                                }
+                            }
+                            
+                            // Edit button
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button(action: {
+                                    isEditingPlant = true
+                                }) {
+                                    Image(systemName: "square.and.pencil")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                                }
+                            }
+                        }
             .sheet(isPresented: $isEditingPlant){
                 EditPlantView(plant: my_plant)
             }
-//            .toolbar {
-//                ToolbarItemGroup() {
-//                    NavigationLink(destination: EditPlantView(plant: my_plant)){
-//                        Label("Edit", systemImage: "square.and.pencil")
-//                    }
-//                }
-//            }
         }
     }
 }

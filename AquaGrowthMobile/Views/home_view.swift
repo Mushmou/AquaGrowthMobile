@@ -1,5 +1,8 @@
 import Foundation
 import SwiftUI
+import FirebaseStorage
+import FirebaseFirestore
+import FirebaseAuth
 /// SwiftUI View for the Home Screen
 
 
@@ -9,19 +12,37 @@ struct HomeView: View {
     @State private var isImagePickerDisplayedCircle = false
     @State private var selectedUIImage: UIImage?
     @State private var isInfoWindowPresented = false
-    @State private var selectedCircleImage: UIImage? // Declared at the top level of the struct
-
+    @State private var selectedCircleImage: UIImage?
+    @State private var isLoading = false
     
+
+    @StateObject var viewModel = home_viewmodel()
+
     var body: some View {
         NavigationView {
+//            VStack{
+//                Button("Log in") {
+//                    viewModel.top_three()
+//                }
+//            }
+            
             VStack {
                 Group {
-                    if let selectedUIImage = selectedUIImage {
-                        Image(uiImage: selectedUIImage)
+                    if isLoading {
+                        // Display a loading indicator while the image is being fetched
+                        ProgressView("Loading")
+                            .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                            .scaleEffect(1.5)
+                            .padding()
+                    }
+                    else if selectedUIImage != nil{
+                        Image(uiImage: selectedUIImage!)
                             .resizable()
                             .scaledToFill()
                             .padding([.top,.bottom], 30)
-                    } else {
+                        
+                    }
+                    else {
                         Text("Tap to choose image")
                             .frame(maxWidth: .infinity, minHeight: 200)
                             .background(Color.gray)
@@ -62,13 +83,17 @@ struct HomeView: View {
                 .padding(.bottom, 20)
                 
                 .sheet(isPresented: $isImagePickerDisplayed) {
-                      ImagePicker(selectedImage: $selectedUIImage)
-                  }
+                    ImagePicker(selectedImage: $selectedUIImage)
+                    
+                }.onChange(of: isImagePickerDisplayed) { newValue in
+                    if !newValue { // newValue is false when the sheet is dismissed
+                        print("Image Picker was dismissed.")
+                        replaceExistingImage(selectedImage: selectedUIImage!)
+                    }
+                }
                   .onAppear {
-                      loadSavedImage()
+                      loadImageFromFirebase()
                   }
-                
-                
                 
                 // Three buttons centered vertically
                 VStack {
@@ -183,8 +208,6 @@ struct HomeView: View {
                     }
                     
                     
-                    
-                    
                     Spacer().frame(height: 25) // Add space between buttons
 
                     Button(action: {
@@ -281,27 +304,115 @@ struct HomeView: View {
                         .presentationDetents([.fraction(0.40)])
                     }
                 }
-            } // End of Pop Up Window
+            }
+// End of Pop Up Window
 //            .sheet(isPresented: $isImagePickerDisplayed) {
 //                ImagePicker(selectedImage: $selectedUIImage)
 //            }
 //            .onAppear {
-//                loadSavedImage()
+//               loadImageFromFirebase()
 //            }
         }// End of NavigationView
     }// End of Body View
 
+    func loadImageFromFirebase() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            return
+        }
 
-    
-    /// Load the previously saved image from UserDefaults.
-    private func loadSavedImage() {
-        if let imagePath = UserDefaults.standard.string(forKey: "savedImagePath"),
-           let loadedImage = loadImageFromDocumentDirectory(name: imagePath) {
-            self.selectedUIImage = loadedImage
+        isLoading = true  // Start the loading indicator
+        let db = Firestore.firestore()
+        let docRef = db.collection("users").document(uid).collection("home").document("image")
+        docRef.getDocument { (document, error) in
+            if let document = document, let imagePath = document.data()?["image_path"] as? String {
+                let storageRef = Storage.storage().reference().child(imagePath)
+                storageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in  // Adjust size limit as needed
+                    isLoading = false  // Stop the loading indicator
+                    if let error = error {
+                        print("Error downloading image: \(error)")
+                    } else if let data = data, let image = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            selectedUIImage = image
+                        }
+                    }
+                }
+            } else {
+                isLoading = false  // Stop the loading indicator if there's an error
+                print("Document does not exist or path is incorrect")
+            }
+        }
+    }
+    func replaceExistingImage(selectedImage: UIImage) {
+        let db = Firestore.firestore()
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            return
+        }
+        
+        let docRef = db.collection("users").document(uid).collection("home").document("image")
+        docRef.getDocument { document, error in
+            if let document = document, document.exists, let existingImagePath = document.data()?["image_path"] as? String {
+                // An image exists, delete it first
+                deleteImage(path: existingImagePath) { success in
+                    if success {
+                        self.uploadNewImage(selectedImage: selectedImage)
+                    } else {
+                        print("Failed to delete existing image.")
+                    }
+                }
+            } else {
+                // No existing image, just upload the new one
+                uploadNewImage(selectedImage: selectedImage)
+            }
         }
     }
     
-} // End of HomeView
+    /// Deletes an image from Firebase Storage
+    func deleteImage(path: String, completion: @escaping (Bool) -> Void) {
+        let storageRef = Storage.storage().reference().child(path)
+        storageRef.delete { error in
+            if let error = error {
+                print("Error deleting image: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                print("Image successfully deleted")
+                completion(true)
+            }
+        }
+    }
+    
+    /// Uploads a new image to Firebase Storage and updates Firestore
+    func uploadNewImage(selectedImage: UIImage) {
+        guard let imageData = selectedImage.jpegData(compressionQuality: 0.8) else {
+            print("Could not get JPEG representation of UIImage")
+            return
+        }
+        let path = "home_images/\(UUID().uuidString).jpg"
+        let storageRef = Storage.storage().reference().child(path)
+        
+        storageRef.putData(imageData, metadata: nil) { metadata, error in
+            guard let _ = metadata, error == nil else {
+                print("Error uploading image: \(error?.localizedDescription ?? "")")
+                return
+            }
+            // Save a reference to Firestore
+            self.saveImagePathToFirestore(path: path)
+        }
+    }
+    
+    /// Saves the image path to Firestore
+    private func saveImagePathToFirestore(path: String) {
+        let db = Firestore.firestore()
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            return
+        }
+        db.collection("users").document(uid).collection("home").document("image").setData(["image_path": path])
+    }
+}
+// End of HomeView
+
 
 
 
@@ -320,6 +431,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         return imagePicker
     }
     
+    
     /// Updates the UIImagePickerController.
     /// - Parameters:
     ///   - uiViewController: The UIImagePickerController to update.
@@ -333,46 +445,26 @@ struct ImagePicker: UIViewControllerRepresentable {
     /// Coordinator class to handle image picking events
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
         var parent: ImagePicker
+        
         init(_ parent: ImagePicker) {
             self.parent = parent
         }
-        /// Handles the selection of an image.
-        /// - Parameters:
-        ///   - picker: The UIImagePickerController.
-        ///   - info: A dictionary containing the original image.
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let image = info[.originalImage] as? UIImage {
                 parent.selectedImage = image
-                let imageName = saveImageToDocumentDirectory(image: image)
-                UserDefaults.standard.set(imageName, forKey: "savedImagePath")
             }
             parent.presentationMode.wrappedValue.dismiss()
         }
-        /// Handles the cancellation of image picking.
-        /// - Parameter picker: The UIImagePickerController.
+        
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             parent.presentationMode.wrappedValue.dismiss()
         }
     }
 }
-/// Utility functions for saving and loading images from the document directory
-func saveImageToDocumentDirectory(image: UIImage) -> String {
-    let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    let imageName = UUID().uuidString
-    let imageUrl = documentDirectory.appendingPathComponent(imageName)
-    if let imageData = image.jpegData(compressionQuality: 1) {
-        try? imageData.write(to: imageUrl)
-    }
-    return imageName
-}
-/// Load an image from the document directory.
-/// - Parameter name: The name of the image file.
-/// - Returns: The loaded UIImage.
-func loadImageFromDocumentDirectory(name: String) -> UIImage? {
-    let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    let imageUrl = documentDirectory.appendingPathComponent(name)
-    return UIImage(contentsOfFile: imageUrl.path)
-}
+
 /// SwiftUI View for displaying a preview of the Home Screen
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
