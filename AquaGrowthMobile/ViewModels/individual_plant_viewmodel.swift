@@ -30,6 +30,12 @@ class individualplant_viewmodel: ObservableObject {
             return
         }
         
+        let monday = "2024-04-29"
+        let tuesday = "2024-04-30"
+        let wednesday = "2024-05-01"
+        let thursday = "2024-05-02"
+        let friday = "2024-05-03"
+        
         let sensorData = [
             "status": led,
             "moisture": moisture,
@@ -46,6 +52,14 @@ class individualplant_viewmodel: ObservableObject {
         
         // Call the updated addSensorData method
         addSensorData(db: db, userId: uid, collection: "daily", documentId: dailyId, data: sensorData)
+        addSensorData(db: db, userId: uid, collection: "daily", documentId: monday, data: sensorData)
+        
+        addSensorData(db: db, userId: uid, collection: "daily", documentId: monday, data: sensorData)
+        addSensorData(db: db, userId: uid, collection: "daily", documentId: tuesday, data: sensorData)
+        addSensorData(db: db, userId: uid, collection: "daily", documentId: thursday, data: sensorData)
+        addSensorData(db: db, userId: uid, collection: "daily", documentId: friday, data: sensorData)
+        addSensorData(db: db, userId: uid, collection: "daily", documentId: wednesday, data: sensorData)
+        
         addSensorData(db: db, userId: uid, collection: "weekly", documentId: weeklyId, data: sensorData)
         addSensorData(db: db, userId: uid, collection: "monthly", documentId: monthlyId, data: sensorData)
         
