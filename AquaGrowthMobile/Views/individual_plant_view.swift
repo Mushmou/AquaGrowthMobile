@@ -17,6 +17,8 @@ struct IndividualPlantView: View {
     @State private var temperature: Int? // State to hold the moisture value
     @State private var humidity: Int? // State to hold the moisture value
 
+    @State private var isFavorite: Bool = false // State to hold the favorite status
+
     let my_plant: Plant
 
     var body: some View {
@@ -140,6 +142,10 @@ struct IndividualPlantView: View {
                     // Update the moisture state with the fetched value
                     self.humidity = fetchedHumidity
                 }
+                // Fetch favorite status and update the button
+                viewmodel.fetchFavoriteStatus { isFavorite in
+                    self.isFavorite = isFavorite
+                }
             }
             // Link to Edit Plant View
             .toolbar {
@@ -147,11 +153,11 @@ struct IndividualPlantView: View {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 Button(action: {
                                     viewmodel.setFavorite()
+                                    isFavorite.toggle()
                                     print("Clicked favorite")
-                                    
                                 }) {
-                                    Image(systemName: "heart")
-                                        .foregroundColor(.red)
+                                    Image(systemName: isFavorite ? "heart.fill" : "heart")
+                                        .foregroundColor(isFavorite ? .red : .black) // Change color based on favorite status
                                 }
                             }
                             
