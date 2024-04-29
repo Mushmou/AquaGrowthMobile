@@ -217,14 +217,6 @@ class individualplant_viewmodel: ObservableObject {
         }
     }
 
-
-
-
-
-
-
-
-    
     private func updatePlantParameters(with data: [String: Any]) {
         self.led = data["status"] as? Int ?? self.led
         self.moisture = data["moisture"] as? Int ?? self.moisture

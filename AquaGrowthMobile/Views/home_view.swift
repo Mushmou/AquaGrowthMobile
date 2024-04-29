@@ -188,6 +188,7 @@ struct HomeView: View {
         }
     }
 
+
     
     
     
@@ -318,13 +319,6 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
     }
 }
-
-
-//struct HomeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FavoriteView()
-//    }
-//}
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
