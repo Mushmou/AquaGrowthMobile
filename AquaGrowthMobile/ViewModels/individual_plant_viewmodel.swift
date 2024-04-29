@@ -266,4 +266,40 @@ class individualplant_viewmodel: ObservableObject {
             }
         }
     }
+    
+    func fetchFavoriteStatus(completion: @escaping (Bool) -> Void) {
+        let db = Firestore.firestore()
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            completion(false)
+            return
+        }
+        
+        let documentRef = db.collection("users")
+            .document(uid)
+            .collection("plants")
+            .document(self.plant_id)
+        
+        documentRef.getDocument { document, error in
+            if let error = error {
+                print("Error fetching favorite status: \(error)")
+                completion(false)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("Document does not exist")
+                completion(false)
+                return
+            }
+            
+            // Get the current value of the 'favorite' field
+            if let currentFavoriteValue = document.data()?["favorite"] as? Int {
+                completion(currentFavoriteValue == 1)
+            } else {
+                completion(false)
+            }
+        }
+    }
+
 }
