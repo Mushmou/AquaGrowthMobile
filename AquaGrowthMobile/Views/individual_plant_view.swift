@@ -13,9 +13,9 @@ struct IndividualPlantView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var isShowingGraphPage = false
 
-    @State private var moisture: Int? // State to hold the moisture value
-    @State private var temperature: Int? // State to hold the moisture value
-    @State private var humidity: Int? // State to hold the moisture value
+    @State private var moisture: Int = 0// State to hold the moisture value
+    @State private var temperature: Int = 0 // State to hold the moisture value
+    @State private var humidity: Int = 0 // State to hold the moisture value
 
     @State private var isFavorite: Bool = false // State to hold the favorite status
 
@@ -58,7 +58,7 @@ struct IndividualPlantView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                     
-                    Text("Moisture: \(viewmodel.moisture)")
+                    Text("Moisture: \(moisture) %")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
@@ -73,7 +73,7 @@ struct IndividualPlantView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                     
-                    Text("Temperature: \(viewmodel.fahrenheit)")
+                    Text("Temperature: \(temperature) °F")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
@@ -87,7 +87,7 @@ struct IndividualPlantView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                     
-                    Text("Humidity: \(viewmodel.humidity)")
+                    Text("Humidity: \(humidity) %")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
@@ -120,27 +120,27 @@ struct IndividualPlantView: View {
 
                 
                 Button("Save Data"){
-                    viewmodel.SavedSensorInformation()
                     viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 0
                     viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 0
                     viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 0
                     viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 0
                     viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 0
+                    viewmodel.SavedSensorInformation()
                 }
             }
             .onAppear(){
                 viewmodel.plant_id = my_plant.id.uuidString
                 viewmodel.fetchLatestDailyMoisture { fetchedMoisture in
                     // Update the moisture state with the fetched value
-                    self.moisture = fetchedMoisture
+                    self.moisture = fetchedMoisture ?? 0
                 }
                 viewmodel.fetchLatestDailyTemperature { fetchedTemperature in
                     // Update the moisture state with the fetched value
-                    self.temperature = fetchedTemperature
+                    self.temperature = fetchedTemperature ?? 0
                 }
                 viewmodel.fetchLatestDailyHumidity{ fetchedHumidity in
                     // Update the moisture state with the fetched value
-                    self.humidity = fetchedHumidity
+                    self.humidity = fetchedHumidity ?? 0
                 }
                 // Fetch favorite status and update the button
                 viewmodel.fetchFavoriteStatus { isFavorite in
