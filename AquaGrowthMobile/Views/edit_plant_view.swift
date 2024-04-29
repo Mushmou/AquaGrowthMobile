@@ -11,7 +11,7 @@ import PhotosUI
 
 struct EditPlantView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var plantViewModel: plant_viewmodel
+    @StateObject var plantViewModel = plant_viewmodel()
     @State private var isImagePickerDisplayed = false
     @State private var image: UIImage?
     
@@ -22,7 +22,18 @@ struct EditPlantView: View {
     @State private var showAlert = false
     @State private var showNavigationBar = true
     
-    var plant: Plant
+    let plant: Plant
+    let frameWidth: CGFloat = 360
+    let frameHeight: CGFloat = 40
+    let sectionFontSize: CGFloat = 28
+    
+    var changesMade: Bool {
+        return !name.isEmpty || !type.isEmpty || !description.isEmpty
+    }
+    
+    var saveChangesButtonColor: Color {
+        return changesMade ? .green : .gray
+    }
     
     var body: some View {
         NavigationStack{
@@ -33,25 +44,21 @@ struct EditPlantView: View {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button (action: {
                             presentationMode.wrappedValue.dismiss()
-                        }, label: {
-                            Image(systemName: "chevron.backward")
-                                .font(.system(size: 30)) // Adjust the size as needed
-                                .foregroundColor(.black)
-                        })
-                        .onTapGesture {
-                            withAnimation {
-                                showNavigationBar.toggle()
-                            }
+                        }) {
+                            Text("Cancel")
+                                .font(.headline)
                         }
                     }
+                    
+                    // PLANT DELETION
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button (action: {
                             showAlert = true
-                        }, label: {
-                            Image(systemName: "xmark.circle.fill")
-                                .font(.system(size: 30)) // Adjust the size as needed
-                                .foregroundColor(.black)
-                        })
+                        }) {
+                            Text("Delete")
+                                .font(.headline)
+                                .foregroundColor(.red)
+                        }
                         .alert(isPresented: $showAlert) {
                             Alert(
                                 title: Text("Delete Plant?"),
@@ -59,23 +66,24 @@ struct EditPlantView: View {
                                 primaryButton: .default(
                                     Text("Cancel")
                                 ),
-                                secondaryButton: .destructive(
-                                    Text("Delete")
-                                )
+                                secondaryButton: .destructive(Text("Delete")){
+                                    plantViewModel.deletePlant(plant)
+                                    presentationMode.wrappedValue.dismiss()
+                                }
                             )
                         }
                     }
                 }
             
             Spacer()
-            Text("Editing \(plant.plant_name)")
-                .bold()
-                .font(.system(size: 32))
             VStack{
+                Text("Editing \(plant.plant_name)")
+                    .bold()
+                    .font(.system(size: sectionFontSize))
                 Button(action: {self.isImagePickerDisplayed.toggle()})
                 {
-                    if let my_image = image {
-                        Image(uiImage: my_image)
+                    if !plant.plant_image.isEmpty {
+                        Image(plant.plant_image)
                             .resizable()
                             .scaledToFit()
                             .frame(height: 250)
@@ -96,12 +104,12 @@ struct EditPlantView: View {
             VStack{
                 Text("Plant Name")
                     .bold()
-                    .frame(maxWidth: 360, alignment: .leading)
-                    .font(.system(size: 32))
+                    .frame(maxWidth: frameWidth, alignment: .leading)
+                    .font(.system(size: sectionFontSize))
                 
                 TextField("\(plant.plant_name)", text: $name)
                     .padding(.horizontal)
-                    .frame(width: 360, height: 50, alignment: .center)
+                    .frame(width: frameWidth, height: frameHeight, alignment: .center)
                     .background(Color(red: 0.94, green: 0.94, blue: 0.94))
                     .cornerRadius(12)
                     .textInputAutocapitalization(.never)
@@ -109,32 +117,58 @@ struct EditPlantView: View {
                 
                 Text("Plant Type")
                     .bold()
-                    .frame(maxWidth: 360, alignment: .leading)
+                    .frame(maxWidth: frameWidth, alignment: .leading)
                     .font(.system(size: 32))
                 TextField("\(plant.plant_type)", text: $type)
                     .padding(.horizontal)
-                    .frame(width: 360, height: 50, alignment: .center)
+                    .frame(width: frameWidth, height: frameHeight, alignment: .center)
                     .background(Color(red: 0.94, green: 0.94, blue: 0.94))
                     .cornerRadius(12)
                     .textInputAutocapitalization(.never)
                 
                 Text("Plant Description")
                     .bold()
-                    .frame(maxWidth: 360, alignment: .leading)
+                    .frame(maxWidth: frameWidth, alignment: .leading)
                     .font(.system(size: 32))
                 TextField("\(plant.plant_description)", text: $description)
                     .padding(.horizontal)
-                    .frame(width: 360, height: 50, alignment: .center)
+                    .frame(width: frameWidth, height: frameHeight, alignment: .center)
                     .background(Color(red: 0.94, green: 0.94, blue: 0.94))
                     .cornerRadius(12)
                     .textInputAutocapitalization(.never)
             }
-            Spacer()
-                .navigationBarBackButtonHidden(true)
+            // UPDATE PLANT DATABASE
+            Button(action: {
+                plantViewModel.updatePlant(Plant(id: plant.id,
+                                                 plant_name: updatedValue(newValue: name, oldValue: plant.plant_name),
+                                                 plant_type: updatedValue(newValue: type, oldValue: plant.plant_type),
+                                                 plant_description: updatedValue(newValue: description, oldValue: plant.plant_description),
+                                                 plant_image: "Flower"))
+                presentationMode.wrappedValue.dismiss()
+            }) {
+                Text("Save Changes")
+                    .foregroundColor(.white)
+                    .frame(width: frameWidth, height: frameHeight, alignment: .center)
+            }
+            .disabled(!changesMade)
+            .background(saveChangesButtonColor)
+            .cornerRadius(12)
+            .contentShape(Rectangle())
+            .padding()
+        }
+        Spacer()
+            .navigationBarBackButtonHidden(true)
         }
     }
-}
+
 
 #Preview {
     EditPlantView(plant: Plant(plant_name: "Akimbo Cacti", plant_type: "Cactus", plant_description: "My double prickly cactus", plant_image: "Flower"))
+}
+
+func updatedValue(newValue: String, oldValue: String) -> String {
+    if !newValue.isEmpty {
+        return newValue
+    }
+    return oldValue
 }
