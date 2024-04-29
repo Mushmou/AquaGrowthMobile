@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F36AD9E2BE00F9900ACD7A4 /* profile_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F36AD9B2BE00F9900ACD7A4 /* profile_viewmodel.swift */; };
+		0F36AD9F2BE00F9900ACD7A4 /* graph_data_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F36AD9C2BE00F9900ACD7A4 /* graph_data_viewmodel.swift */; };
+		0F36ADA02BE00F9900ACD7A4 /* graph_plot_viewmodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F36AD9D2BE00F9900ACD7A4 /* graph_plot_viewmodel.swift */; };
+		0F36ADA32BE0109100ACD7A4 /* TinyConstraints in Frameworks */ = {isa = PBXBuildFile; productRef = 0F36ADA22BE0109100ACD7A4 /* TinyConstraints */; };
+		0F36ADA62BE010BC00ACD7A4 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 0F36ADA52BE010BC00ACD7A4 /* DGCharts */; };
 		0FAC12362BDF6AB900DB6E3F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FAC12352BDF6AB900DB6E3F /* GoogleService-Info.plist */; };
 		0FAC12392BDF6AD900DB6E3F /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0FAC12382BDF6AD900DB6E3F /* FirebaseStorage */; };
 		0FB8DF862BA20F7F00094ED7 /* test_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB8DF852BA20F7F00094ED7 /* test_view.swift */; };
@@ -93,6 +98,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F36AD9B2BE00F9900ACD7A4 /* profile_viewmodel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = profile_viewmodel.swift; sourceTree = "<group>"; };
+		0F36AD9C2BE00F9900ACD7A4 /* graph_data_viewmodel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = graph_data_viewmodel.swift; sourceTree = "<group>"; };
+		0F36AD9D2BE00F9900ACD7A4 /* graph_plot_viewmodel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = graph_plot_viewmodel.swift; sourceTree = "<group>"; };
 		0FAC12352BDF6AB900DB6E3F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0FB8DF852BA20F7F00094ED7 /* test_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_view.swift; sourceTree = "<group>"; };
 		0FB8DF872BA20F9000094ED7 /* test_viewmodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_viewmodel.swift; sourceTree = "<group>"; };
@@ -162,9 +170,11 @@
 			files = (
 				0FF1FD012B9E401F004CE5A5 /* Lottie in Frameworks */,
 				4879C5812B91130A008AEFAC /* FirebaseDatabase in Frameworks */,
+				0F36ADA62BE010BC00ACD7A4 /* DGCharts in Frameworks */,
 				48B3FB132BA2ABC600393729 /* GoogleSignInSwift in Frameworks */,
 				4879C5832B91130A008AEFAC /* FirebaseFirestore in Frameworks */,
 				4879C57D2B91130A008AEFAC /* FirebaseAnalytics in Frameworks */,
+				0F36ADA32BE0109100ACD7A4 /* TinyConstraints in Frameworks */,
 				0FAC12392BDF6AD900DB6E3F /* FirebaseStorage in Frameworks */,
 				4879C57F2B91130A008AEFAC /* FirebaseAuth in Frameworks */,
 				48B3FB112BA2ABC600393729 /* GoogleSignIn in Frameworks */,
@@ -228,6 +238,9 @@
 		48325BA02B8FB5AF00DCE61F /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				0F36AD9C2BE00F9900ACD7A4 /* graph_data_viewmodel.swift */,
+				0F36AD9D2BE00F9900ACD7A4 /* graph_plot_viewmodel.swift */,
+				0F36AD9B2BE00F9900ACD7A4 /* profile_viewmodel.swift */,
 				48325BA22B8FB5C500DCE61F /* account_settings_viewmodel.swift */,
 				48325BA42B8FB5CE00DCE61F /* bluetooth_viewmodel.swift */,
 				48325BA62B8FB5D700DCE61F /* change_password_viewmodel.swift */,
@@ -359,6 +372,8 @@
 				48B3FB102BA2ABC600393729 /* GoogleSignIn */,
 				48B3FB122BA2ABC600393729 /* GoogleSignInSwift */,
 				0FAC12382BDF6AD900DB6E3F /* FirebaseStorage */,
+				0F36ADA22BE0109100ACD7A4 /* TinyConstraints */,
+				0F36ADA52BE010BC00ACD7A4 /* DGCharts */,
 			);
 			productName = AquaGrowthMobile;
 			productReference = 48DCF5652B83E39600F88996 /* AquaGrowthMobile.app */;
@@ -436,6 +451,8 @@
 				4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				0FF1FCFF2B9E401F004CE5A5 /* XCRemoteSwiftPackageReference "lottie-spm" */,
 				48B3FB0F2BA2ABC600393729 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				0F36ADA12BE0109100ACD7A4 /* XCRemoteSwiftPackageReference "TinyConstraints" */,
+				0F36ADA42BE010BC00ACD7A4 /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = 48DCF5662B83E39600F88996 /* Products */;
 			projectDirPath = "";
@@ -481,6 +498,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F36ADA02BE00F9900ACD7A4 /* graph_plot_viewmodel.swift in Sources */,
 				48325B842B8FB44600DCE61F /* edit_plant_view.swift in Sources */,
 				48325B9C2B8FB4BE00DCE61F /* remove_plant_view.swift in Sources */,
 				48325B8E2B8FB47000DCE61F /* home_info_view.swift in Sources */,
@@ -521,11 +539,13 @@
 				48325BA92B8FB5E000DCE61F /* create_plant_viewmodel.swift in Sources */,
 				48325B8A2B8FB46000DCE61F /* graph_month_view.swift in Sources */,
 				48325BBA2B8FB64200DCE61F /* individual_plant_viewmodel.swift in Sources */,
+				0F36AD9E2BE00F9900ACD7A4 /* profile_viewmodel.swift in Sources */,
 				48325B7E2B8FB42300DCE61F /* bluetooth_view.swift in Sources */,
 				48325B9A2B8FB4B600DCE61F /* register_view.swift in Sources */,
 				48325BC42B8FB67B00DCE61F /* remove_plant_viewmodel.swift in Sources */,
 				48325BB82B8FB63500DCE61F /* home_viewmodel.swift in Sources */,
 				48B3FB212BA2AE7100393729 /* Utilities.swift in Sources */,
+				0F36AD9F2BE00F9900ACD7A4 /* graph_data_viewmodel.swift in Sources */,
 				48192AB22B93080C00F6F746 /* profile_view.swift in Sources */,
 				4879C5762B8FC686008AEFAC /* main_viewmodel.swift in Sources */,
 				48325BAB2B8FB5E800DCE61F /* edit_plant_viewmodel.swift in Sources */,
@@ -873,6 +893,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0F36ADA12BE0109100ACD7A4 /* XCRemoteSwiftPackageReference "TinyConstraints" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/roberthein/TinyConstraints";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.2;
+			};
+		};
+		0F36ADA42BE010BC00ACD7A4 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ChartsOrg/Charts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
 		0FF1FCFF2B9E401F004CE5A5 /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
@@ -900,6 +936,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0F36ADA22BE0109100ACD7A4 /* TinyConstraints */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0F36ADA12BE0109100ACD7A4 /* XCRemoteSwiftPackageReference "TinyConstraints" */;
+			productName = TinyConstraints;
+		};
+		0F36ADA52BE010BC00ACD7A4 /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0F36ADA42BE010BC00ACD7A4 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
+		};
 		0FAC12382BDF6AD900DB6E3F /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4879C57B2B911309008AEFAC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
