@@ -77,7 +77,7 @@ class account_settings_viewmodel: ObservableObject{
         
         // Update email if it has been changed
         if !email.isEmpty {
-            user.updateEmail(to: email) { error in
+            user.sendEmailVerification(beforeUpdatingEmail: email) { error in
                 if let error = error {
                     print("Error updating email: \(error.localizedDescription)")
                     return
@@ -105,7 +105,7 @@ class account_settings_viewmodel: ObservableObject{
             }
         }
             
-            // Update the user document in Firestore
+        // Update the user document in Firestore
         usersRef.updateData(updateData) { error in
             if let error = error {
                 print("Error updating user document: \(error.localizedDescription)")
@@ -113,9 +113,7 @@ class account_settings_viewmodel: ObservableObject{
             }
             print("User profile updated successfully")
         }
-    
-}
-
+    }
     
     func validateUser() -> Bool {
             // Rule 1: Only contains alphanumeric characters, underscore, and dot.

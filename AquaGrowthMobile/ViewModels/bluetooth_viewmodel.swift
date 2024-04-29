@@ -8,10 +8,10 @@
 import Foundation
 import SwiftUI
 import CoreBluetooth
-//
-//// THIS IS WHERE IM DECLARING THE PERIPHERAL CODE
-//
-////Initialize the Bluetooth View Model as an observable object (this changes the objects state)
+
+// THIS IS WHERE IM DECLARING THE PERIPHERAL CODE
+
+//Initialize the Bluetooth View Model as an observable object (this changes the objects state)
 class bluetooth_viewmodel: NSObject, ObservableObject, CBPeripheralDelegate {
     //Central manager object
     private var centralManager: CBCentralManager?
@@ -158,22 +158,49 @@ class bluetooth_viewmodel: NSObject, ObservableObject, CBPeripheralDelegate {
             }
         }
     }
+    
+    func readLightCharacteristic(){
+        print("Reading light characteristic")
+        // Check if the connectedPeripheral is valid
+        guard let peripheral = bluetoothModel.connectedPeripheral else {
+            print("Connected peripheral is nil")
+            return
+        }
+        
+        // Check if the peripheral is connected
+        guard peripheral.state == .connected else {
+            print("Peripheral is not connected")
+            return
+        }
+        
+        for c in bluetoothModel.discoveredCharacteristics{
+            if c.uuid == CBUUID(string: "4ef5b009-76bb-4a64-9dd6-4ea40097f43e"){
+                readValue(characteristic: c)
+            }
+        }
+    }
+    
     // Update characteristic values in the BluetoothModel
     private func updateCharacteristicValue(characteristic: CBCharacteristic, value: Data?) {
         switch characteristic.uuid {
         case CBUUID(string: "759c8d51-2f75-4041-9ed8-c920c06cdbd0"):
-            bluetoothModel.ledCharacteristicValue = value
+            bluetoothModel.ledCharacteristicInt = value.map { convertHexToDecimal(hexString: $0) } ?? 0
         case CBUUID(string: "db4e8f1c-4a29-4a15-bc6d-cb4d1180cf46"):
-            bluetoothModel.moistureCharacteristicValue = value
+            bluetoothModel.moistureCharacteristicInt = value.map { convertHexToDecimal(hexString: $0) } ?? 0
         case CBUUID(string: "f691c6b2-73f3-4743-a344-1eeca53ab9eb"):
-            bluetoothModel.humidityCharacteristicValue = value
+            bluetoothModel.humidityCharacteristicInt = value.map { convertHexToDecimal(hexString: $0) } ?? 0
         case CBUUID(string: "0c1c7c47-b159-4e19-9d0f-f5f717445549"):
-            bluetoothModel.fahrenheitCharacteristicValue = value
+            bluetoothModel.fahrenheitCharacteristicInt = value.map { convertHexToDecimal(hexString: $0) } ?? 0
         case CBUUID(string: "5be60d98-5e69-4863-96a1-28a46cf73536"):
-            bluetoothModel.heatIndexCharacteristicValue = value
+            bluetoothModel.heatIndexCharacteristicInt = value.map { convertHexToDecimal(hexString: $0) } ?? 0
+        case CBUUID(string: "4ef5b009-76bb-4a64-9dd6-4ea40097f43e"):
+            bluetoothModel.lightCharacteristicInt = value.map { convertHexToDecimal(hexString: $0) } ?? 0
         default:
             break
         }
+    }
+    func convertHexToDecimal(hexString: Data) -> Int {
+        return Int(hexString.map { String(format: "%02X", $0) }.joined(), radix: 16) ?? 0
     }
 }
 

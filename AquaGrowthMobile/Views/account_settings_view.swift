@@ -74,7 +74,7 @@ struct AccountView: View {
                         .background(Color(red: 0.94, green: 0.94, blue: 0.94))
                         .cornerRadius(12)
                         .textInputAutocapitalization(.never)
-                        //.onSubmit{viewModel.validateUser()}
+                        .onSubmit{viewModel.validateUser()}
                     
                     Text("Email")
                         .font(.system(size: 24))
@@ -87,7 +87,7 @@ struct AccountView: View {
                         .background(Color(red: 0.94, green: 0.94, blue: 0.94))
                         .cornerRadius(12)
                         .textInputAutocapitalization(.never)
-                        //.onSubmit{viewModel.validateEmail()}
+                        .onSubmit{viewModel.validateEmail()}
                     
                     Text("Password")
                         .font(.system(size: 24))
@@ -100,14 +100,13 @@ struct AccountView: View {
                         .background(Color(red: 0.94, green: 0.94, blue: 0.94))
                         .cornerRadius(12)
                         .textInputAutocapitalization(.never)
-                        //.onSubmit{viewModel.validatePassword()}
+                        .onSubmit{viewModel.validatePassword()}
 
                     RoundedRectangle(cornerRadius: 50)
                         .frame(width: 300, height: 65)
                         .foregroundColor(Color(red: 0.28, green: 0.59, blue: 0.17))
                         .overlay(
                             Button("Update Profile") {
-                                //viewModel.logOut()
                                 viewModel.updateUserProfile()
                             }
                                 .foregroundColor(.white)
