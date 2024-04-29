@@ -164,7 +164,7 @@ struct IndividualPlantView: View {
                                 }
                             }
                         }
-            .sheet(isPresented: $isEditingPlant){
+            .navigationDestination(isPresented: $isEditingPlant){
                 EditPlantView(plant: my_plant)
             }
         }

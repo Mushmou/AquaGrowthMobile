@@ -54,6 +54,54 @@ class plant_viewmodel: ObservableObject{
             ])
     }
     
+    func deletePlant(_ plant: Plant) {
+            let db = Firestore.firestore()
+            
+            guard let uid = Auth.auth().currentUser?.uid else {
+                print("User not logged in")
+                return
+            }
+            
+            db.collection("users")
+                .document(uid)
+                .collection("plants")
+                .document(plant.id.uuidString)
+                .delete {
+                    error in
+                    if let error = error {
+                        print("Error deleting:\(error.localizedDescription)")
+                    }
+                    else {
+                        print("Deleted plant: \(plant.plant_name)")
+                    }
+                }
+        }
+    
+    func updatePlant(_ plant: Plant) {
+        let db = Firestore.firestore()
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            return
+        }
+        
+        let plantReference = db.collection("users")
+            .document(uid)
+            .collection("plants")
+            .document(plant.id.uuidString)
+       
+            plantReference.updateData([
+                "plant_name" : plant.plant_name,
+                "plant_type" : plant.plant_type,
+                "plant_description" : plant.plant_description,
+                "plant_image" : plant.plant_image
+            ]) { error in
+                if let error = error {
+                    print("Error Updating:\(error.localizedDescription)")
+                }
+            }
+    }
+    
     func fetchPlants() {
         let db = Firestore.firestore()
         
