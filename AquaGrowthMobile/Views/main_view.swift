@@ -19,6 +19,7 @@ struct MainView: View {
             //Tab view for the three main pages (Home, Plant, and Settings)
             TabView {
                 HomeView()
+                    .environmentObject(bluetooth)
                     .tabItem {
                         Label("Home", systemImage: "house")
                     }

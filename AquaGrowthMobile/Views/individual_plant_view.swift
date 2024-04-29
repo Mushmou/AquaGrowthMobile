@@ -13,12 +13,15 @@ struct IndividualPlantView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var isShowingGraphPage = false
 
+    @State private var moisture: Int? // State to hold the moisture value
+    @State private var temperature: Int? // State to hold the moisture value
+    @State private var humidity: Int? // State to hold the moisture value
+
     let my_plant: Plant
 
     var body: some View {
         NavigationStack{
             VStack() {
-                
                 VStack{
                     HStack{
                         Spacer()
@@ -68,7 +71,7 @@ struct IndividualPlantView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                     
-                    Text("Temperature: \(viewmodel.fahrenheit-7)")
+                    Text("Temperature: \(viewmodel.fahrenheit)")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
@@ -115,28 +118,27 @@ struct IndividualPlantView: View {
 
                 
                 Button("Save Data"){
-                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 999
-                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 999
-                    viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
-                    viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
-                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
+                    viewmodel.SavedSensorInformation()
+                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 0
+                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 0
+                    viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 0
+                    viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 0
+                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 0
                 }
             }
             .onAppear(){
                 viewmodel.plant_id = my_plant.id.uuidString
-                let my_peripheral = bluetooth.bluetoothModel.connectedPeripheral
-                if (my_peripheral != nil) {
-                    bluetooth.readLEDCharacteristic()
-                    bluetooth.readMoistureCharacteristic()
-                    bluetooth.readHumidityCharacteristic()
-                    bluetooth.readFahrenheitCharacteristic()
-                    bluetooth.readHeatIndexCharacteristic()
-                    
-                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 999
-                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 999
-                    viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
-                    viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
-                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
+                viewmodel.fetchLatestDailyMoisture { fetchedMoisture in
+                    // Update the moisture state with the fetched value
+                    self.moisture = fetchedMoisture
+                }
+                viewmodel.fetchLatestDailyTemperature { fetchedTemperature in
+                    // Update the moisture state with the fetched value
+                    self.temperature = fetchedTemperature
+                }
+                viewmodel.fetchLatestDailyHumidity{ fetchedHumidity in
+                    // Update the moisture state with the fetched value
+                    self.humidity = fetchedHumidity
                 }
             }
             // Link to Edit Plant View
