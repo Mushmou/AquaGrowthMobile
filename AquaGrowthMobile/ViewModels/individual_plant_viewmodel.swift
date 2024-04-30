@@ -112,7 +112,6 @@ class individualplant_viewmodel: ObservableObject {
         }
     }
     
-    
     // Helper function to format dates
     func formatDate(_ date: Date, format: String) -> String {
         let formatter = DateFormatter()
