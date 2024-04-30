@@ -13,14 +13,26 @@ struct PlantView: View {
                 ForEach(viewModel.plants) { plant in
                     NavigationLink(destination: IndividualPlantView(my_plant: plant).environmentObject(bluetooth).toolbar(.hidden, for: .tabBar)) {
                         HStack {
-                            Image(plant.plant_image) // Assumes you have an image named "Flower" in your assets
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 50, height: 50)
-                                .clipShape(Circle())
-                                .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                                .shadow(radius: 2)
-                                .padding(.leading, 10)
+                            if plant.plant_ui_image != nil{
+                                Image(uiImage:plant.plant_ui_image!) // Assumes you have an image named "Flower" in your assets
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 50, height: 50)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                                    .shadow(radius: 2)
+                                    .padding(.leading, 10)
+                            }
+                            else{
+                                Image(plant.plant_image) // Assumes you have an image named "Flower" in your assets
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 50, height: 50)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                                    .shadow(radius: 2)
+                                    .padding(.leading, 10)
+                            }
                             
                             Text(plant.plant_name)
                                 .font(.title3)

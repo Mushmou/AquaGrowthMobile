@@ -37,15 +37,26 @@ struct IndividualPlantView: View {
                 }
                 
                 Spacer()
-                
-                Image(my_plant.plant_image)
-                    .resizable()
-                    .frame(width: 300, height: 300)
-                    .clipShape(Circle())
-                    .overlay(
-                        Circle()
-                            .stroke(Color.black, lineWidth: 5)
-                    )
+                if my_plant.plant_ui_image != nil{
+                    Image(uiImage:my_plant.plant_ui_image!)
+                        .resizable()
+                        .frame(width: 300, height: 300)
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .stroke(Color.black, lineWidth: 5)
+                        )
+                }
+                else{
+                    Image("Flower")
+                        .resizable()
+                        .frame(width: 300, height: 300)
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .stroke(Color.black, lineWidth: 5)
+                        )
+                }
                 
                 Text(my_plant.plant_description)
                     .font(.system(size: 24))
