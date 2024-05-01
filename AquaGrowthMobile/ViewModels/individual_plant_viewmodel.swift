@@ -30,12 +30,6 @@ class individualplant_viewmodel: ObservableObject {
             return
         }
         
-        let monday = "2024-04-29"
-        let tuesday = "2024-04-30"
-        let wednesday = "2024-05-01"
-        let thursday = "2024-05-02"
-        let friday = "2024-05-03"
-        
         let sensorData = [
             "status": led,
             "moisture": moisture,
@@ -45,25 +39,12 @@ class individualplant_viewmodel: ObservableObject {
             "timestamp": Date().timeIntervalSince1970
         ] as [String : Any]
         
-        let currentDate = Date()
-        let dailyId = formatDate(currentDate, format: "yyyy-MM-dd")
-        let weeklyId = formatDate(currentDate, format: "yyyy-'W'ww")
-        let monthlyId = formatDate(currentDate, format: "yyyy-MM")
+        
         
         // Call the updated addSensorData method
-        addSensorData(db: db, userId: uid, collection: "daily", documentId: dailyId, data: sensorData)
-        addSensorData(db: db, userId: uid, collection: "daily", documentId: monday, data: sensorData)
+        addSensorData(db: db, userId: uid,data: sensorData)
         
-        addSensorData(db: db, userId: uid, collection: "daily", documentId: monday, data: sensorData)
-        addSensorData(db: db, userId: uid, collection: "daily", documentId: tuesday, data: sensorData)
-        addSensorData(db: db, userId: uid, collection: "daily", documentId: thursday, data: sensorData)
-        addSensorData(db: db, userId: uid, collection: "daily", documentId: friday, data: sensorData)
-        addSensorData(db: db, userId: uid, collection: "daily", documentId: wednesday, data: sensorData)
-        
-        addSensorData(db: db, userId: uid, collection: "weekly", documentId: weeklyId, data: sensorData)
-        addSensorData(db: db, userId: uid, collection: "monthly", documentId: monthlyId, data: sensorData)
-        
-        updateLastSensorData(db: db, userId: uid, documentId: dailyId, data: sensorData)
+//        updateLastSensorData(db: db, userId: uid, documentId: dailyId, data: sensorData)
     }
     
     func updateLastSensorData(db: Firestore, userId: String, documentId: String, data: [String: Any]) {
@@ -88,13 +69,20 @@ class individualplant_viewmodel: ObservableObject {
         }
     }
     
-    func addSensorData(db: Firestore, userId: String, collection: String, documentId: String, data: [String: Any]) {
+    func addSensorData(db: Firestore, userId: String, data: [String: Any]) {
+        let currentDate = Date() + 1
+        let dailyId = formatDate(currentDate, format: "yyyy-MM-dd")
+        let weeklyId = formatDate(currentDate, format: "yyyy-'W'ww")
+        let monthlyId = formatDate(currentDate, format: "yyyy-MM")
+        
         let plantCollectionRef = db.collection("users")
             .document(userId)
             .collection("plants")
             .document(self.plant_id)
-            .collection(collection)
-            .document(documentId)
+            .collection("monthly")
+            .document(monthlyId)
+            .collection(weeklyId)
+            .document(dailyId)
         
         // Iterate over each key-value pair in the data dictionary
         for (key, value) in data {
