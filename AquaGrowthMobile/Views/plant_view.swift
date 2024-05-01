@@ -67,7 +67,7 @@ struct PlantView: View {
                     .environmentObject(plants)
             }
             .onAppear {
-//                plants.fetchPlants() // Call fetchPlants() when the view appears
+                plants.fetchPlants() // Call fetchPlants() when the view appears
             }
             .tint(.black)
         }

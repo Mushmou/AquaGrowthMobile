@@ -50,30 +50,49 @@ class plant_viewmodel: ObservableObject{
     }
     
     func deletePlant(_ plant: Plant) {
-            let db = Firestore.firestore()
-            
-            guard let uid = Auth.auth().currentUser?.uid else {
-                print("User not logged in")
-                return
-            }
-            
-            db.collection("users")
-                .document(uid)
-                .collection("plants")
-                .document(plant.id.uuidString)
-                .delete {
-                    error in
-                    if let error = error {
-                        print("Error deleting:\(error.localizedDescription)")
-                    }
-                    else {
-                        print("Deleted plant: \(plant.plant_name)")
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            return
+        }
+
+        let db = Firestore.firestore()
+        let docRef = db.collection("users").document(uid).collection("plants").document(plant.id.uuidString)
+
+        // First, retrieve the document to get the image path
+        docRef.getDocument { document, error in
+            if let document = document, document.exists, let existingImagePath = document.data()?["plant_image"] as? String {
+                // Then try to delete the image
+                self.deleteImage(path: existingImagePath) { success in
+                    if success {
+                        // If image deletion is successful, delete the Firestore document
+                        docRef.delete { error in
+                            if let error = error {
+                                print("Error deleting plant document: \(error.localizedDescription)")
+                            } else {
+                                print("Successfully deleted plant and image: \(plant.plant_name)")
+                                self.fetchPlants() // Update the local plant list after deletion
+                            }
+                        }
+                    } else {
+                        print("Failed to delete existing image.")
                     }
                 }
-            fetchPlants()
+            } else {
+                // If no image path or document doesn't exist, proceed to delete the document
+                docRef.delete { error in
+                    if let error = error {
+                        print("Error deleting plant document: \(error.localizedDescription)")
+                    } else {
+                        print("Deleted plant document as no image was associated: \(plant.plant_name)")
+                        self.fetchPlants() // Update the local plant list after deletion
+                    }
+                }
+            }
         }
+    }
+
     
-    func updatePlant(_ plant: Plant) {
+    func updatePlant(_ plant: Plant, ui_image: UIImage?) {
         let db = Firestore.firestore()
         
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -85,18 +104,61 @@ class plant_viewmodel: ObservableObject{
             .document(uid)
             .collection("plants")
             .document(plant.id.uuidString)
-       
+        
+        replaceExistingImage(plantId: plant.id, selectedImage: ui_image!, dbRef: plantReference)
+
             plantReference.updateData([
                 "plant_name" : plant.plant_name,
                 "plant_type" : plant.plant_type,
                 "plant_description" : plant.plant_description,
-                "plant_image" : plant.plant_image
             ]) { error in
                 if let error = error {
                     print("Error Updating:\(error.localizedDescription)")
                 }
             }
         fetchPlants()
+    }
+    
+    func replaceExistingImage(plantId: UUID , selectedImage: UIImage, dbRef: DocumentReference) {
+        let db = Firestore.firestore()
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            return
+        }
+        
+        
+        let docRef = db.collection("users")
+            .document(uid)
+            .collection("plants")
+            .document(plantId.uuidString)
+        
+        docRef.getDocument { document, error in
+            if let document = document, document.exists, let existingImagePath = document.data()?["plant_image"] as? String {
+                self.deleteImage(path: existingImagePath) { success in
+                    if success {
+                        self.uploadNewImage(plantId: plantId, selectedImage: selectedImage, dbRef: docRef)
+                    } else {
+                        print("Failed to delete existing image.")
+                    }
+                }
+            } else {
+                self.uploadNewImage(plantId: plantId, selectedImage: selectedImage, dbRef: docRef)
+            }
+        }
+    }
+    
+    func deleteImage(path: String, completion: @escaping (Bool) -> Void) {
+        let storage = Storage.storage()
+        let storageRef = storage.reference(withPath: path)
+        storageRef.delete { error in
+            if let error = error {
+                print("Error deleting image: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                print("Image successfully deleted")
+                completion(true)
+            }
+        }
     }
     
     func fetchPlants() {
