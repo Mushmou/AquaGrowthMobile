@@ -1,9 +1,3 @@
-//  bluetooth_view.swift
-//  AquaGrowthMobile
-//
-//  Created by Noah Jacinto on 2/28/24.
-//
-
 import Foundation
 import SwiftUI
 
@@ -102,8 +96,9 @@ struct BluetoothView: View {
     }
 }
 
-
-#Preview {
-    BluetoothView()
-        .environmentObject(bluetooth_viewmodel())
+// Preview provider for SwiftUI previews in Xcode
+struct BluetoothView_Previews: PreviewProvider {
+    static var previews: some View {
+        BluetoothView().environmentObject(bluetooth_viewmodel())
+    }
 }

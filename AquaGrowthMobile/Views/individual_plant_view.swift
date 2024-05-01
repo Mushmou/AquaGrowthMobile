@@ -6,6 +6,7 @@ import SwiftUI
 struct IndividualPlantView: View {
     @StateObject var viewmodel = individualplant_viewmodel()
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
+    @EnvironmentObject var plant_viewmodel: plant_viewmodel
     @State var selectedOption: String? = nil
     @State private var isActive = false
 
@@ -13,12 +14,17 @@ struct IndividualPlantView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var isShowingGraphPage = false
 
+    @State private var moisture: Int = 0// State to hold the moisture value
+    @State private var temperature: Int = 0 // State to hold the moisture value
+    @State private var humidity: Int = 0 // State to hold the moisture value
+
+    @State private var isFavorite: Bool = false // State to hold the favorite status
+
     let my_plant: Plant
 
     var body: some View {
         NavigationStack{
             VStack() {
-                
                 VStack{
                     HStack{
                         Spacer()
@@ -32,15 +38,26 @@ struct IndividualPlantView: View {
                 }
                 
                 Spacer()
-                
-                Image(my_plant.plant_image)
-                    .resizable()
-                    .frame(width: 300, height: 300)
-                    .clipShape(Circle())
-                    .overlay(
-                        Circle()
-                            .stroke(Color.black, lineWidth: 5)
-                    )
+                if my_plant.plant_ui_image != nil{
+                    Image(uiImage:my_plant.plant_ui_image!)
+                        .resizable()
+                        .frame(width: 300, height: 300)
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .stroke(Color.black, lineWidth: 5)
+                        )
+                }
+                else{
+                    Image("Flower")
+                        .resizable()
+                        .frame(width: 300, height: 300)
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .stroke(Color.black, lineWidth: 5)
+                        )
+                }
                 
                 Text(my_plant.plant_description)
                     .font(.system(size: 24))
@@ -53,7 +70,7 @@ struct IndividualPlantView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                     
-                    Text("Moisture: \(viewmodel.moisture)")
+                    Text("Moisture: \(moisture) %")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
@@ -68,7 +85,7 @@ struct IndividualPlantView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                     
-                    Text("Temperature: \(viewmodel.fahrenheit-7)")
+                    Text("Temperature: \(temperature) °F")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
@@ -82,7 +99,7 @@ struct IndividualPlantView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                     
-                    Text("Humidity: \(viewmodel.humidity)")
+                    Text("Humidity: \(humidity) %")
                         .font(.system(size: 30))
                         .bold()
                         .foregroundColor(.black)
@@ -115,28 +132,31 @@ struct IndividualPlantView: View {
 
                 
                 Button("Save Data"){
-                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 999
-                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 999
-                    viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
-                    viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
-                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
+                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 0
+                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 0
+                    viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 0
+                    viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 0
+                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 0
+                    viewmodel.SavedSensorInformation()
                 }
             }
             .onAppear(){
                 viewmodel.plant_id = my_plant.id.uuidString
-                let my_peripheral = bluetooth.bluetoothModel.connectedPeripheral
-                if (my_peripheral != nil) {
-                    bluetooth.readLEDCharacteristic()
-                    bluetooth.readMoistureCharacteristic()
-                    bluetooth.readHumidityCharacteristic()
-                    bluetooth.readFahrenheitCharacteristic()
-                    bluetooth.readHeatIndexCharacteristic()
-                    
-                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 999
-                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 999
-                    viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 999
-                    viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 999
-                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 999
+                viewmodel.fetchLatestDailyMoisture { fetchedMoisture in
+                    // Update the moisture state with the fetched value
+                    self.moisture = fetchedMoisture ?? 0
+                }
+                viewmodel.fetchLatestDailyTemperature { fetchedTemperature in
+                    // Update the moisture state with the fetched value
+                    self.temperature = fetchedTemperature ?? 0
+                }
+                viewmodel.fetchLatestDailyHumidity{ fetchedHumidity in
+                    // Update the moisture state with the fetched value
+                    self.humidity = fetchedHumidity ?? 0
+                }
+                // Fetch favorite status and update the button
+                viewmodel.fetchFavoriteStatus { isFavorite in
+                    self.isFavorite = isFavorite
                 }
             }
             // Link to Edit Plant View
@@ -145,11 +165,11 @@ struct IndividualPlantView: View {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 Button(action: {
                                     viewmodel.setFavorite()
+                                    isFavorite.toggle()
                                     print("Clicked favorite")
-                                    
                                 }) {
-                                    Image(systemName: "heart")
-                                        .foregroundColor(.red)
+                                    Image(systemName: isFavorite ? "heart.fill" : "heart")
+                                        .foregroundColor(isFavorite ? .red : .black) // Change color based on favorite status
                                 }
                             }
                             
@@ -164,7 +184,7 @@ struct IndividualPlantView: View {
                                 }
                             }
                         }
-            .sheet(isPresented: $isEditingPlant){
+            .navigationDestination(isPresented: $isEditingPlant){
                 EditPlantView(plant: my_plant)
             }
         }

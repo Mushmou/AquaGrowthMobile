@@ -4,7 +4,7 @@
 //
 //  Created by Noah Jacinto on 2/28/24.
 //
-
+//New change
 import Foundation
 import FirebaseAuth
 import FirebaseFirestore
@@ -39,42 +39,50 @@ class individualplant_viewmodel: ObservableObject {
             "timestamp": Date().timeIntervalSince1970
         ] as [String : Any]
         
-        let currentDate = Date()
-        let dailyId = formatDate(currentDate, format: "yyyy-MM-dd")
-        let weeklyId = formatDate(currentDate, format: "yyyy-'W'ww")
-        let monthlyId = formatDate(currentDate, format: "yyyy-MM")
+        
         
         // Call the updated addSensorData method
-        addSensorData(db: db, userId: uid, collection: "daily", documentId: dailyId, data: sensorData)
-        addSensorData(db: db, userId: uid, collection: "weekly", documentId: weeklyId, data: sensorData)
-        addSensorData(db: db, userId: uid, collection: "monthly", documentId: monthlyId, data: sensorData)
-    }
-    
-    func updateLastSensorData(db: Firestore, userId: String, collection: String, data: [String: Any]) {
-        let documentRef = db.collection("users")
-            .document(userId)
-            .collection("plants")
-            .document(self.plant_id)
-            .collection(collection)
-            .document("last")
+        addSensorData(db: db, userId: uid,data: sensorData)
         
-        documentRef.updateData(["readings": [data]])
-        { err in
-            if let err = err {
-                // If the document does not exist, create a new one
-                documentRef.setData(["readings" : data])
-                print("Error - \(err) Occured Saving to FireBase")
-            }
-        }
+//        updateLastSensorData(db: db, userId: uid, documentId: dailyId, data: sensorData)
     }
     
-    func addSensorData(db: Firestore, userId: String, collection: String, documentId: String, data: [String: Any]) {
+    func updateLastSensorData(db: Firestore, userId: String, documentId: String, data: [String: Any]) {
         let plantCollectionRef = db.collection("users")
             .document(userId)
             .collection("plants")
             .document(self.plant_id)
-            .collection(collection)
-            .document(documentId)
+        
+        let lastSensorDataRef = plantCollectionRef.collection("lastDaily")
+        
+        for (key, value) in data {
+            // Each sensor's data is stored in its own document, named by the key
+            let sensorData = lastSensorDataRef.document(key)
+            // Assuming all data values are of a type that can be directly stored in Firestore
+            sensorData.setData([key: value]) { error in
+                if let error = error {
+                    print("Error adding data for \(key): \(error)")
+                } else {
+                    print("Successfully added data for \(key)")
+                }
+            }
+        }
+    }
+    
+    func addSensorData(db: Firestore, userId: String, data: [String: Any]) {
+        let currentDate = Date() + 1
+        let dailyId = formatDate(currentDate, format: "yyyy-MM-dd")
+        let weeklyId = formatDate(currentDate, format: "yyyy-'W'ww")
+        let monthlyId = formatDate(currentDate, format: "yyyy-MM")
+        
+        let plantCollectionRef = db.collection("users")
+            .document(userId)
+            .collection("plants")
+            .document(self.plant_id)
+            .collection("monthly")
+            .document(monthlyId)
+            .collection(weeklyId)
+            .document(dailyId)
         
         // Iterate over each key-value pair in the data dictionary
         for (key, value) in data {
@@ -100,42 +108,117 @@ class individualplant_viewmodel: ObservableObject {
         return formatter.string(from: date)
     }
     
-    func fetchLatestDailyData() {
+    func fetchLatestDailyMoisture(completion: @escaping (Int?) -> Void) {
         let db = Firestore.firestore()
+        
         guard let uid = Auth.auth().currentUser?.uid else {
             print("User not logged in")
+            completion(nil)
             return
         }
         
-        // Reference to 'last' document within the 'plants' collection
-        let lastDocumentRef = db.collection("users")
+        // Reference to 'lastDaily' document within the 'plants' collection
+        let lastDailyDocumentRef = db.collection("users")
             .document(uid)
             .collection("plants")
             .document(self.plant_id)
-            .collection("last") // Changed from 'daily' to 'last'
-            .document("last") // Changed from 'self.currentDay' to 'last'
+            .collection("lastDaily")
+            .document("moisture")
         
-        lastDocumentRef.getDocument { [weak self] (documentSnapshot, error) in
+        // Get the document directly
+        lastDailyDocumentRef.getDocument { (documentSnapshot, error) in
             if let error = error {
                 print("Error getting document: \(error)")
+                completion(nil)
             } else if let document = documentSnapshot, document.exists {
-                guard let data = document.data(), let readings = data["readings"] as? [[String: Any]] else {
-                    print("Document does not have a 'readings' array")
-                    return
-                }
-                
-                // Get the first reading from the 'readings' array
-                if let firstReading = readings.first {
-                    DispatchQueue.main.async {
-                        self?.updatePlantParameters(with: firstReading)
-                    }
+                // Document exists, extract the moisture value
+                if let moisture = document.data()?["moisture"] as? Int {
+                    completion(moisture)
+                    print("Latest daily moisture set to \(moisture)")
                 } else {
-                    print("Readings array is empty")
+                    completion(nil)
+                    print("Moisture data is not valid")
                 }
+            } else {
+                completion(nil)
+                print("Document does not exist")
             }
         }
     }
     
+    
+    func fetchLatestDailyTemperature(completion: @escaping (Int?) -> Void) {
+        let db = Firestore.firestore()
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            completion(nil)
+            return
+        }
+        
+        // Reference to 'lastDaily' document within the 'plants' collection
+        let lastDailyDocumentRef = db.collection("users")
+            .document(uid)
+            .collection("plants")
+            .document(self.plant_id)
+            .collection("lastDaily")
+            .document("temperature")
+        
+        // Get the document directly
+        lastDailyDocumentRef.getDocument { (documentSnapshot, error) in
+            if let error = error {
+                print("Error getting document: \(error)")
+                completion(nil)
+            } else if let document = documentSnapshot, document.exists {
+                // Document exists, extract the moisture value
+                if let temperature = document.data()?["temperature"] as? Int {
+                    completion(temperature)
+                    print("Latest daily temperature set to \(temperature)")
+                } else {
+                    completion(nil)
+                }
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
+    func fetchLatestDailyHumidity(completion: @escaping (Int?) -> Void) {
+        let db = Firestore.firestore()
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            completion(nil)
+            return
+        }
+        
+        // Reference to 'lastDaily' document within the 'plants' collection
+        let lastDailyDocumentRef = db.collection("users")
+            .document(uid)
+            .collection("plants")
+            .document(self.plant_id)
+            .collection("lastDaily")
+            .document("humidity")
+        
+        // Get the document directly
+        lastDailyDocumentRef.getDocument { (documentSnapshot, error) in
+            if let error = error {
+                print("Error getting document: \(error)")
+                completion(nil)
+            } else if let document = documentSnapshot, document.exists {
+                // Document exists, extract the moisture value
+                if let humidity = document.data()?["humidity"] as? Int {
+                    completion(humidity)
+                    print("Latest daily humidity set to \(humidity)")
+                } else {
+                    completion(nil)
+                }
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
     private func updatePlantParameters(with data: [String: Any]) {
         self.led = data["status"] as? Int ?? self.led
         self.moisture = data["moisture"] as? Int ?? self.moisture
@@ -185,4 +268,40 @@ class individualplant_viewmodel: ObservableObject {
             }
         }
     }
+    
+    func fetchFavoriteStatus(completion: @escaping (Bool) -> Void) {
+        let db = Firestore.firestore()
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            completion(false)
+            return
+        }
+        
+        let documentRef = db.collection("users")
+            .document(uid)
+            .collection("plants")
+            .document(self.plant_id)
+        
+        documentRef.getDocument { document, error in
+            if let error = error {
+                print("Error fetching favorite status: \(error)")
+                completion(false)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("Document does not exist")
+                completion(false)
+                return
+            }
+            
+            // Get the current value of the 'favorite' field
+            if let currentFavoriteValue = document.data()?["favorite"] as? Int {
+                completion(currentFavoriteValue == 1)
+            } else {
+                completion(false)
+            }
+        }
+    }
+
 }
