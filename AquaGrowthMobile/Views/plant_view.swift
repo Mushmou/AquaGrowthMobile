@@ -4,23 +4,36 @@ struct PlantView: View {
     
     @State private var isShowingCreatePlantView = false
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
+    @EnvironmentObject var plants: plant_viewmodel
     @State private var selectedOption: String? = nil
-    @StateObject var viewModel = plant_viewmodel()
+    
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(viewModel.plants) { plant in
+                ForEach(plants.plants) { plant in
                     NavigationLink(destination: IndividualPlantView(my_plant: plant).environmentObject(bluetooth).toolbar(.hidden, for: .tabBar)) {
                         HStack {
-                            Image(plant.plant_image) // Assumes you have an image named "Flower" in your assets
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 50, height: 50)
-                                .clipShape(Circle())
-                                .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                                .shadow(radius: 2)
-                                .padding(.leading, 10)
+                            if plant.plant_ui_image != nil{
+                                Image(uiImage:plant.plant_ui_image!) // Assumes you have an image named "Flower" in your assets
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 50, height: 50)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                                    .shadow(radius: 2)
+                                    .padding(.leading, 10)
+                            }
+                            else{
+                                Image(plant.plant_image) // Assumes you have an image named "Flower" in your assets
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 50, height: 50)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                                    .shadow(radius: 2)
+                                    .padding(.leading, 10)
+                            }
                             
                             Text(plant.plant_name)
                                 .font(.title3)
@@ -51,10 +64,10 @@ struct PlantView: View {
                 }
             ).sheet(isPresented: $isShowingCreatePlantView) {
                 CreatePlantView()
-                    .environmentObject(viewModel)
+                    .environmentObject(plants)
             }
             .onAppear {
-                viewModel.fetchPlants() // Call fetchPlants() when the view appears
+                plants.fetchPlants() // Call fetchPlants() when the view appears
             }
             .tint(.black)
         }
