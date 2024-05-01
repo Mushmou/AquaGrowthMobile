@@ -82,12 +82,21 @@ struct EditPlantView: View {
                     .font(.system(size: sectionFontSize))
                 Button(action: {self.isImagePickerDisplayed.toggle()})
                 {
-                    if !plant.plant_image.isEmpty {
-                        Image(plant.plant_image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 250)
-                            .clipShape(Circle())
+                    if plant.plant_ui_image != nil{
+                        if plant.plant_ui_image != image{
+                            Image(uiImage: plant.plant_ui_image!)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 250)
+                                .clipShape(Circle())
+                        }
+                        if image != nil{
+                            Image(uiImage: image!)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 250)
+                                .clipShape(Circle())
+                        }
                     } else {
                         Image(systemName: "photo.circle.fill")
                             .resizable()
@@ -143,7 +152,7 @@ struct EditPlantView: View {
                                                  plant_name: updatedValue(newValue: name, oldValue: plant.plant_name),
                                                  plant_type: updatedValue(newValue: type, oldValue: plant.plant_type),
                                                  plant_description: updatedValue(newValue: description, oldValue: plant.plant_description),
-                                                 plant_image: "Flower"))
+                                                 plant_image: ""), ui_image: image)
                 presentationMode.wrappedValue.dismiss()
             }) {
                 Text("Save Changes")
