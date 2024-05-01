@@ -48,8 +48,6 @@ class plant_viewmodel: ObservableObject{
             }
         }
     }
-
-    
     
     func deletePlant(_ plant: Plant) {
             let db = Firestore.firestore()
@@ -72,6 +70,7 @@ class plant_viewmodel: ObservableObject{
                         print("Deleted plant: \(plant.plant_name)")
                     }
                 }
+            fetchPlants()
         }
     
     func updatePlant(_ plant: Plant) {
@@ -97,6 +96,7 @@ class plant_viewmodel: ObservableObject{
                     print("Error Updating:\(error.localizedDescription)")
                 }
             }
+        fetchPlants()
     }
     
     func fetchPlants() {

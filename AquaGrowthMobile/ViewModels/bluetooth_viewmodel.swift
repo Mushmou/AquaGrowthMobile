@@ -218,6 +218,10 @@ extension bluetooth_viewmodel: CBCentralManagerDelegate {
         if !bluetoothModel.discoveredPeripherals.contains(peripheral) {
             bluetoothModel.discoveredPeripherals.append(peripheral)
         }
+        if peripheral.name == "AquaGrowth" && (bluetoothModel.connectedPeripheral == nil || bluetoothModel.connectedPeripheral != peripheral) {
+                print("Attempting to connect to AquaGrowth")
+                connect(peripheral: peripheral)
+            }
     }
     
     //Connect peripheral state

@@ -82,8 +82,8 @@ struct EditPlantView: View {
                     .font(.system(size: sectionFontSize))
                 Button(action: {self.isImagePickerDisplayed.toggle()})
                 {
-                    if !plant.plant_image.isEmpty {
-                        Image(plant.plant_image)
+                    if plant.plant_ui_image != nil {
+                        Image(uiImage: plant.plant_ui_image!)
                             .resizable()
                             .scaledToFit()
                             .frame(height: 250)

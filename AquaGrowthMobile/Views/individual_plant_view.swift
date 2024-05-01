@@ -6,6 +6,7 @@ import SwiftUI
 struct IndividualPlantView: View {
     @StateObject var viewmodel = individualplant_viewmodel()
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
+    @EnvironmentObject var plant_viewmodel: plant_viewmodel
     @State var selectedOption: String? = nil
     @State private var isActive = false
 

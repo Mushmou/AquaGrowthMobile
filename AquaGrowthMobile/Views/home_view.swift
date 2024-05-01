@@ -52,8 +52,10 @@ struct HomeView: View {
     @State private var isImagePickerDisplayed = false
     @State private var selectedUIImage: UIImage?
     
+    
     @State private var isInfoWindowPresented = false
     @State private var isLoading = false
+    
     
     @StateObject var viewModel = home_viewmodel()
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
@@ -183,7 +185,7 @@ struct HomeView: View {
                 }
             }
             .onAppear {
-                viewModel.fetchFavoritePlants() // Fetch favorite plants when the view appears
+                viewModel.fetchFavoritePlants()
             }
         }
     }
@@ -324,5 +326,6 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
             .environmentObject(bluetooth_viewmodel())
+            
     }
 }
