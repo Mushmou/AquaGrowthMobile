@@ -1,8 +1,12 @@
 import Foundation
 import UIKit
-import TinyConstraints
-import DGCharts
+import TinyConstraints //https://github.com/roberthein/TinyConstraints
+import DGCharts //https://github.com/ChartsOrg/Charts
 import SwiftUI
+
+
+//used for framework
+//https://www.youtube.com/watch?v=mWhwe_tLNE8&list=PL_csAAO9PQ8bjzg-wxEff1Fr0Y5W1hrum&index=5
 
 class GraphPlot : UIViewController, ChartViewDelegate {
     @ObservedObject var data = GraphDataViewmodel()
@@ -39,8 +43,10 @@ class GraphPlot : UIViewController, ChartViewDelegate {
         let yAxis = chartView.leftAxis
         yAxis.labelTextColor = .black
         yAxis.axisLineColor = .white
+        //yAxis.setLabelCount(6, force: false)
+        yAxis.labelPosition = .insideChart
         let xAxis = chartView.xAxis
-        xAxis.enabled = false
+        //xAxis.enabled = false
         //chartView.animate(xAxisDuration: 2.0)
         return chartView
     }()
@@ -82,9 +88,7 @@ class GraphPlot : UIViewController, ChartViewDelegate {
                 break
             }
             self.timestamps = self.data.timestampValues
-            guard let firstTimestamp = self.timestamps.first else {
-                   return // Handle case where timestamps array is empty
-               }
+            
             //print(self.fetchedData)
             //print(self.timestamps)
             
@@ -97,7 +101,7 @@ class GraphPlot : UIViewController, ChartViewDelegate {
             }
             
             let dataSet = LineChartDataSet(entries: chartDataEntries, label: "Test")
-            dataSet.mode = .horizontalBezier
+            //dataSet.mode = .horizontalBezier
             dataSet.lineWidth = 2
             dataSet.setColor(.black)
             dataSet.drawCirclesEnabled = false
@@ -110,6 +114,7 @@ class GraphPlot : UIViewController, ChartViewDelegate {
         }
         
     }
+    /*
     let values: [ChartDataEntry] = [
             ChartDataEntry(x:0, y: 1),
             ChartDataEntry(x: 0.1, y: 15),
@@ -123,7 +128,7 @@ class GraphPlot : UIViewController, ChartViewDelegate {
             ChartDataEntry(x:0.9, y: 10),
             ChartDataEntry(x: 1.0, y: 15),
             ChartDataEntry(x:1.2, y: 50),
-        ]
+        ]*/
     func timestampToNumericValue(timestamp: TimeInterval) -> Double {
         let date = Date(timeIntervalSince1970: timestamp)
         let dateFormatter = DateFormatter()

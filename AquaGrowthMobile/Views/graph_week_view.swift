@@ -1,13 +1,14 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 struct GraphWeek: View {
     
     @StateObject var viewModel = GraphWeekViewmodel()
     @ObservedObject var data = GraphDataViewmodel()
     @ObservedObject var plant = individualplant_viewmodel()
-        
+    
     
     @State private var showNavigationBar = true
     
@@ -18,8 +19,8 @@ struct GraphWeek: View {
     @State private var isDataFetched = false
     //vars for drop down
     @State private var isExpanded = false
-    @State private var selectedItem: String = "Moisture"
-    let options = ["Moisture", "Temperature", "Humidity", "Sun"]
+    @State private var selectedItem: String = "moisture"
+    let options = ["moisture", "temperature", "humidity", "sun"]
 
     
     let my_plant: Plant
@@ -64,16 +65,32 @@ struct GraphWeek: View {
                         .foregroundColor(.white)
                     
                     ZStack {
-                        Rectangle() //Graph Box
+                        Rectangle() // Graph Box
                             .stroke(Color.black, lineWidth: 2)
                             .frame(width: UIScreen.main.bounds.width - 40, height: 325)
                             .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.71)
                         
-                        // Position the GraphPlot view within the graph box
-                        GraphPlotView(plantId: my_plant.id.uuidString, collection: "weekly", documentId: data.formatDate(Date(), format: "yyyy-'W'ww"), sensorType: "moisture")
-                            .frame(width: UIScreen.main.bounds.width - 11, height: 310)
-                            .position(x: UIScreen.main.bounds.width / 2.06, y: UIScreen.main.bounds.height / 1.71)
+                        //to check when the sensor type is changed from the drop down
+                        if isExpanded {
+                            // Show a progress view if data is being fetched
+                            ProgressView("Fetching Data...")
+                        } 
+                        else {
+                            if selectedItem == "sun"{
+                                GraphPlotView(plantId: my_plant.id.uuidString, collection: "weekly", documentId: data.formatDate(Date(), format: "yyyy-'W'ww"), sensorType: "heat")
+                                    .frame(width: UIScreen.main.bounds.width - 20, height: 310)
+                                    .position(x: UIScreen.main.bounds.width / 2.06, y: UIScreen.main.bounds.height / 1.67)
+                            }
+                            else{
+                                GraphPlotView(plantId: my_plant.id.uuidString, collection: "weekly", documentId: data.formatDate(Date(), format: "yyyy-'W'ww"), sensorType: selectedItem)
+                                    .frame(width: UIScreen.main.bounds.width - 20, height: 310)
+                                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
+                            }
+                        }
                     }
+
+                    
+                    
                     
                         
                     Rectangle() //Date Box

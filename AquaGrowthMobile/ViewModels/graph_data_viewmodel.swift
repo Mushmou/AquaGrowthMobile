@@ -38,9 +38,9 @@ class GraphDataViewmodel: ObservableObject {
             return
         }
         let db = Firestore.firestore()
-
+        
+//for all sensor types
         if sensorType == "all" {
-            var allValuesFetched = 0 // Counter to track if all values for all sensor types have been fetched
             for sensor in sensorTypes {
                 let readingsRef = db.collection("users")
                     .document(userId)
@@ -49,22 +49,22 @@ class GraphDataViewmodel: ObservableObject {
                     .collection(collectionRef)
                     .document(documentId)
                     .collection(sensor)
-
+                
                 readingsRef.getDocuments { (snapshot, error) in
                     if let error = error {
                         print("Error fetching documents for sensor \(sensor): \(error)")
                         // Handle error if needed
                         return
                     }
-
+                    
                     guard let documents = snapshot?.documents, !documents.isEmpty else {
                         // No documents found for this sensor type
                         // Handle if needed
                         return
                     }
                     
-
-                    // Extract field value from each document and save to the appropriate array
+                    
+                    // get value from each document and save to the appropriate array
                     for document in documents {
                         let data = document.data()
                         if let value = data[sensor] as? Double {
@@ -107,38 +107,45 @@ class GraphDataViewmodel: ObservableObject {
                     switch sensorType {
                     case "heat":
                         self.sunValues = self.sunGraphPoints.map { $0.1 }
+                        print(sensor, "data fetched")
                     case "humidity":
                         self.humidityValues = self.humidityGraphPoints.map { $0.1 }
+                        print(sensor, "data fetched")
                     case "temperature":
                         self.temperatureValues = self.temperatureGraphPoints.map { $0.1 }
+                        print(sensor, "data fetched")
                     case "moisture":
                         self.moistureValues = self.moistureGraphPoints.map { $0.1 }
+                        print(sensor, "data fetched")
                     default:
                         break
                     }
-
-                    // Increment the counter
-                    allValuesFetched += 1
-
+                    
                     // Check if all values for all sensor types have been fetched
-                    if allValuesFetched == self.sensorTypes.count {
-                        DispatchQueue.main.async {
-                            self.isDataFetched = true
-                            
-                            print("All data fetched")
-                            //print(self.sunValues)
-                            /*
-                            print("Sun Values: \(self.sunValues)")
-                            print("Humidity Values: \(self.humidityValues)")
-                            print("Temperature Values: \(self.temperatureValues)")
-                            print("Moisture Values: \(self.moistureValues)")
-                             */
-                            completion()
-                        }
-                    }
+                    /*if allValuesFetched == self.sensorTypes.count {
+                     DispatchQueue.main.async {
+                     self.isDataFetched = true
+                     
+                     print(sensor, " data fetched")
+                     //print(self.sunValues)
+                     /*
+                      print("Sun Values: \(self.sunValues)")
+                      print("Humidity Values: \(self.humidityValues)")
+                      print("Temperature Values: \(self.temperatureValues)")
+                      print("Moisture Values: \(self.moistureValues)")
+                      */
+                     completion()
+                     }
+                     }*/
+                    self.isDataFetched = true
+                    completion()
                 }
+                print(sensor, "data fetched")
             }
-        } else {
+        } 
+//for individual sensor type
+        else {
+            
             let readingsRef = db.collection("users")
                 .document(userId)
                 .collection("plants")
@@ -181,7 +188,7 @@ class GraphDataViewmodel: ObservableObject {
                     }
                 }
                 self.isDataFetched = true
-
+                print("individual", sensorType, "data fetched")
                 completion()
             }
         }
@@ -260,7 +267,7 @@ class GraphDataViewmodel: ObservableObject {
             default:
                 break
             }
-            print("maddddddddd\(self.fetchedData)")
+            //print("maddddddddd\(self.fetchedData)")
             
             
         }
