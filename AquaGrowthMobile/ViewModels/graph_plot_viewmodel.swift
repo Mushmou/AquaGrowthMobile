@@ -12,21 +12,20 @@ class GraphPlot : UIViewController, ChartViewDelegate {
     @ObservedObject var data = GraphDataViewmodel()
     var sensorType: String
     var plantId: String
-    var collection: String
-    var documentId: String
+    var dayweekmonthId:String
+    var date:String
     
     @Published var selectedYValue = 0.0
-    var fetchedData: [Double] = []
+    var xValues: [String] = []
+    
+    var fetchedData: [(Double,Double)] = []
     var timestamps: [Double] = []
     
-    init(plantId: String, collection: String, documentId: String, sensorType: String) {
+    init(plantId: String, sensorType: String, dayweekmonthId:String, date:String) {
         self.sensorType = sensorType
         self.plantId = plantId
-        self.collection = collection
-        self.documentId = documentId
-        
-        //self.datas = datas
-        //self.timestamps = timestamps
+        self.dayweekmonthId = dayweekmonthId
+        self.date = date
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -45,8 +44,14 @@ class GraphPlot : UIViewController, ChartViewDelegate {
         yAxis.axisLineColor = .white
         //yAxis.setLabelCount(6, force: false)
         yAxis.labelPosition = .insideChart
+        
         let xAxis = chartView.xAxis
-        //xAxis.enabled = false
+        //xAxis.valueFormatter = IndexAxisValueFormatter(values: ["1","2","3","4","5"])
+        xAxis.enabled = true
+        xAxis.labelPosition = .bottom
+        xAxis.setLabelCount(7, force: true)
+        xAxis.valueFormatter = IndexAxisValueFormatter(values: self.xValues)
+        
         //chartView.animate(xAxisDuration: 2.0)
         return chartView
     }()
@@ -59,9 +64,6 @@ class GraphPlot : UIViewController, ChartViewDelegate {
         lineChartView.width(to: view)
         lineChartView.height(to: view)
         setData()
-        //fetchData{
-        //    print("WORKKKK\(self.fetchedData)")
-        //}
     }
     
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
@@ -69,36 +71,53 @@ class GraphPlot : UIViewController, ChartViewDelegate {
             return
         }
         selectedYValue = entry.y
-        //print("Y-Value: \(entry.y)")
+        print("Y-Value: \(entry.y)")
     }
     
+    
     func setData() {
-        data.fetchSensorDataForPlant(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: "all"){
+        data.fetchGraphPoints(plantId: plantId, sensorType: sensorType, dayweekmonth: dayweekmonthId, date: date){
             
             switch self.sensorType {
             case "heat":
-                self.fetchedData = self.data.sunValues
+                self.fetchedData = self.data.sunGraphPoints
             case "humidity":
-                self.fetchedData =  self.data.humidityValues
+                self.fetchedData =  self.data.humidityGraphPoints
             case "temperature":
-                self.fetchedData =  self.data.temperatureValues
+                self.fetchedData =  self.data.temperatureGraphPoints
             case "moisture":
-                self.fetchedData =  self.data.moistureValues
+                self.fetchedData =  self.data.moistureGraphPoints
             default:
                 break
             }
-            self.timestamps = self.data.timestampValues
-            
+            //print("fetchedaa",self.fetchedData)
             //print(self.fetchedData)
             //print(self.timestamps)
+            // Check if fetchedData is empty
+            
+            guard !self.fetchedData.isEmpty else {
+                print("Data is empty")
+                return
+            }
             
             var chartDataEntries: [ChartDataEntry] = []
-            for i in 0..<min(self.fetchedData.count, self.timestamps.count) {
-                let time = self.timestampToNumericValue(timestamp:self.timestamps[i])
-                print (self.fetchedData[i], time)
-                let dataEntry = ChartDataEntry(x: time, y: self.fetchedData[i])
+            for i in 0...(self.fetchedData.count-1) {
+                //let time = self.timestampToNumericValue(timestamp:self.timestamps[i])
+                //print (self.fetchedData[i], time)
+                let dataEntry = ChartDataEntry(x: self.fetchedData[i].0, y: self.fetchedData[i].1)
+                //print(self.fetchedData[i].0, self.fetchedData[i].1)
                 chartDataEntries.append(dataEntry)
             }
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM dd" // Format for displaying dates, e.g., "Apr 29"
+            
+            for timestamp in  self.fetchedData{
+                let date = Date(timeIntervalSince1970: timestamp.0)
+                let dateString = dateFormatter.string(from: date)
+                self.xValues.append(dateString)
+                
+            }
+            
             
             let dataSet = LineChartDataSet(entries: chartDataEntries, label: "Test")
             //dataSet.mode = .horizontalBezier
@@ -107,6 +126,7 @@ class GraphPlot : UIViewController, ChartViewDelegate {
             dataSet.drawCirclesEnabled = false
             dataSet.highlightColor = .systemRed
             
+            
             let data = LineChartData(dataSet: dataSet)
             data.setDrawValues(false)
             
@@ -114,101 +134,33 @@ class GraphPlot : UIViewController, ChartViewDelegate {
         }
         
     }
-    /*
-    let values: [ChartDataEntry] = [
-            ChartDataEntry(x:0, y: 1),
-            ChartDataEntry(x: 0.1, y: 15),
-            ChartDataEntry(x:0.2, y: 10),
-            ChartDataEntry(x: 0.3, y: 15),
-            ChartDataEntry(x:0.4, y: 10),
-            ChartDataEntry(x: 0.5, y: 15),
-            ChartDataEntry(x:0.6, y: 10),
-            ChartDataEntry(x: 0.7, y: 15),
-            ChartDataEntry(x: 0.8, y: 15),
-            ChartDataEntry(x:0.9, y: 10),
-            ChartDataEntry(x: 1.0, y: 15),
-            ChartDataEntry(x:1.2, y: 50),
-        ]*/
     func timestampToNumericValue(timestamp: TimeInterval) -> Double {
         let date = Date(timeIntervalSince1970: timestamp)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMddHHmmssSSS" // Month, Day, Hour, Minute, Second, Millisecond
+        dateFormatter.dateFormat = "MMddHHmmssSSS"
         let dateString = dateFormatter.string(from: date)
-        return Double(dateString) ?? 0.0 // Convert the string to a numerical value
+        return Double(dateString) ?? 0.0
     }
-    func fetchData(completion: @escaping () -> Void){
-        data.fetchSensorDataForPlant(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: "all"){
-            
-            switch self.sensorType {
-            case "heat":
-                self.fetchedData = self.data.sunValues
-            case "humidity":
-                self.fetchedData =  self.data.humidityValues
-            case "temperature":
-                self.fetchedData =  self.data.temperatureValues
-            case "moisture":
-                self.fetchedData =  self.data.moistureValues
-            default:
-                break
-            }
-            self.timestamps = self.data.timestampValues
-            //print(self.fetchedData)
-            //print(self.timestamps)
-        }
-        completion()
-    }
+    
 }
 
-
 struct GraphPlotView: UIViewControllerRepresentable {
-    var fetchedData: [Double] = []
-    var timestamps: [Double] = []
+    
     var sensorType: String
     var plantId: String
-    var collection: String
-    var documentId: String
-    @ObservedObject var data = GraphDataViewmodel()
+    var dayweekmonthId:String
+    var date:String
 
-    init(plantId: String, collection: String, documentId: String, sensorType: String) {
+    init(plantId: String, sensorType: String, dayweekmonthId:String, date:String) {
         self.sensorType = sensorType
         self.plantId = plantId
-        self.collection = collection
-        self.documentId = documentId
-        //let data = GraphDataViewmodel()
-        //data.fetchSensorDataForPlant(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: sensorType) {}
-            
-        //fetchedData = data.fetchSensorValues(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: sensorType)
-        //timestamps = data.fetchSensorValues(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: "timestamp")
-           // print("HELLLOOOO\(datas)")
-        
-        
+        self.dayweekmonthId = dayweekmonthId
+        self.date = date
         
     }
-    /*
-    mutating func fetchData(){
-        data.fetchSensorDataForPlant(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: sensorType){}
-            
-            switch sensorType {
-            case "heat":
-                self.fetchedData = data.sunValues
-            case "humidity":
-                self.fetchedData =  data.humidityValues
-            case "temperature":
-                self.fetchedData =  data.temperatureValues
-            case "moisture":
-                self.fetchedData =  data.moistureValues
-            case "timestamp":
-                self.timestamps =  data.timestampValues
-            default:
-                break
-            }
-        data.fetchSensorDataForPlant(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: sensorType){}
-        self.timestamps =  data.timestampValues
-        
-    }*/
 
     func makeUIViewController(context: Context) -> GraphPlot {
-        return GraphPlot(plantId: plantId, collection: collection, documentId: documentId, sensorType: sensorType)
+        return GraphPlot(plantId: plantId, sensorType: sensorType, dayweekmonthId: dayweekmonthId, date:date)
     }
 
     func updateUIViewController(_ uiViewController: GraphPlot, context: Context) {

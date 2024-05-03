@@ -3,8 +3,11 @@ import Foundation
 import SwiftUI
 
 struct GraphDay: View {
-    @StateObject var viewModel = GraphDayViewmodel()
+    
+    @ObservedObject var viewModel = GraphDayViewmodel()
     @ObservedObject var data = GraphDataViewmodel()
+    
+    
     @State private var showNavigationBar = true
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @Environment(\.colorScheme) var colorScheme
@@ -13,14 +16,14 @@ struct GraphDay: View {
     @State private var isDataFetched = false
     //vars for drop down
     @State private var isExpanded = false
-    @State private var selectedItem: String? = "Moisture"
-    let options = ["Moisture", "Humidity", "Temperature", "Sun"]
+    @State private var selectedItem: String = "moisture"
+    let options = ["moisture", "temperature", "humidity", "sun"]
     
     let my_plant: Plant
     
     init(my_plant: Plant) {
         self.my_plant = my_plant
-        data.calculateAverage(plantId: my_plant.id.uuidString, collection: "daily", documentId: data.formatDate(Date(), format: "yyyy-MM-dd"), sensorType: "all"){}
+        viewModel.calculateAllAverages(plantId: my_plant.id.uuidString, dayId: data.currentWeekId)
     }
     
     var body: some View {
@@ -56,10 +59,29 @@ struct GraphDay: View {
                         .position(x: UIScreen.main.bounds.width / 2, y: 100)
                         .foregroundColor(.white)
                     
-                    Rectangle() //Graph Box
-                        .stroke(Color.black, lineWidth: 2)
-                        .frame(width: UIScreen.main.bounds.width - 40, height: 325)
-                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.72)
+                    ZStack {
+                        Rectangle() // Graph Box
+                            .stroke(Color.black, lineWidth: 2)
+                            .frame(width: UIScreen.main.bounds.width - 40, height: 325)
+                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.71)
+                        
+                        //to check when the sensor type is changed from the drop down
+                        if isExpanded {
+                            ProgressView("Fetching Data...")
+                        }
+                        else {
+                            if selectedItem == "sun"{
+                                GraphPlotView(plantId: my_plant.id.uuidString,sensorType: "heat", dayweekmonthId: "day", date: data.currentDayId)
+                                    .frame(width: UIScreen.main.bounds.width - 20, height: 310)
+                                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
+                            }
+                            else{
+                                GraphPlotView(plantId: my_plant.id.uuidString,sensorType: selectedItem, dayweekmonthId: "day", date: data.currentDayId)
+                                    .frame(width: UIScreen.main.bounds.width - 20, height: 310)
+                                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
+                            }
+                        }
+                    }
                         
                     Rectangle() //Date Box
                         .stroke(Color.black, lineWidth: 2)
@@ -72,43 +94,35 @@ struct GraphDay: View {
                         .frame(width: UIScreen.main.bounds.width / 6.5, height: 35)
                         .position(x: UIScreen.main.bounds.width / 4.8, y: 189)
                 }
-                ZStack{
-                    
-                }
-                
+               
                 //Data Averages
                 ZStack{
-                    if data.isCalculated {
+                    if viewModel.isCalculated{
                         HStack(spacing: 15){
                             VStack(spacing:5){
                                 Text("Avg. Moi.")
-                                
-                                //TODO: AVG
-                                Text("\(String(format: "%.1f", data.avgMoisture))%")
+                                Text("\(String(format: "%.1f", viewModel.avgMoisture))%")
                                 Image("Water")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
                             VStack(spacing:5){
                                 Text("Avg. Temp.")
-                                //TODO: AVG
-                                Text("\(String(format: "%.1f", data.avgTemperature))°F")
+                                Text("\(String(format: "%.1f", viewModel.avgTemperature))°F")
                                 Image("Temperature")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
                             VStack(spacing:5){
                                 Text("Avg. Hum.")
-                                //TODO: AVG
-                                Text("\(String(format: "%.1f", data.avgHumidity))%")
+                                Text("\(String(format: "%.1f", viewModel.avgHumidity))%")
                                 Image("Humidity")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
                             VStack(spacing:5){
                                 Text("Avg. Sun")
-                                //TODO: AVG
-                                Text("\(String(format: "%.1f", data.avgSun))%")
+                                Text("\(String(format: "%.1f", viewModel.avgSun))%")
                                 Image("Sun")
                                     .resizable()
                                     .frame(width: 30, height: 30)
@@ -121,9 +135,6 @@ struct GraphDay: View {
                             .padding(.top,50)
                             
                       }
-                     
-                    
-                    
                 }
                 
                 //drop down box
@@ -134,7 +145,7 @@ struct GraphDay: View {
                             .foregroundColor(.gray)
                             .overlay(
                                 VStack{
-                                    if let selectedItem = selectedItem {
+                                    if selectedItem == selectedItem {
                                         Text(selectedItem)
                                             .bold()
                                             .font(.system(size: 23))
@@ -156,7 +167,7 @@ struct GraphDay: View {
                                 //current option
                                 .overlay(
                                     VStack{
-                                        if let selectedItem = selectedItem {
+                                        if selectedItem == selectedItem {
                                             Text(selectedItem)
                                                 .bold()
                                                 .font(.system(size: 23))
