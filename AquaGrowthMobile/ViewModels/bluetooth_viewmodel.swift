@@ -16,6 +16,8 @@ class bluetooth_viewmodel: NSObject, ObservableObject, CBPeripheralDelegate {
     //Central manager object
     private var centralManager: CBCentralManager?
     @Published var bluetoothModel = BluetoothModel()
+    @Published var isConnected = false
+    @Published var statusMessage = ""
     
     override init() {
         super.init()
@@ -218,12 +220,18 @@ extension bluetooth_viewmodel: CBCentralManagerDelegate {
         if !bluetoothModel.discoveredPeripherals.contains(peripheral) {
             bluetoothModel.discoveredPeripherals.append(peripheral)
         }
+        if peripheral.name == "AquaGrowth" && (bluetoothModel.connectedPeripheral == nil || bluetoothModel.connectedPeripheral != peripheral) {
+                print("Attempting to connect to AquaGrowth")
+                connect(peripheral: peripheral)
+            }
     }
     
     //Connect peripheral state
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         bluetoothModel.connectedPeripheral = peripheral
         bluetoothModel.isConnected = true
+        isConnected = true
+        statusMessage = "Connected to \(peripheral.name ?? "device")"
         print("connected peripheral is", bluetoothModel.connectedPeripheral)
         peripheral.delegate = self
         discoverServices(peripheral: peripheral)
@@ -234,14 +242,16 @@ extension bluetooth_viewmodel: CBCentralManagerDelegate {
         // Handle error
     }
     
+    
     //Disconnect peripheral
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        if let error = error {
-            // Handle error
-            return
-        }
-        // Successfully disconnected
-        bluetoothModel.isConnected = false
+        if peripheral == bluetoothModel.connectedPeripheral {
+                bluetoothModel.connectedPeripheral = nil
+                bluetoothModel.isConnected = false
+                isConnected = false
+                let errorMessage = error != nil ? " due to error: \(error!.localizedDescription)" : ""
+                statusMessage = "Disconnected from \(peripheral.name ?? "device")\(errorMessage)"
+            }
     }
     
     // Discover services callback

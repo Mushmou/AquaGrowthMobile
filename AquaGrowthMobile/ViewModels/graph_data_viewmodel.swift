@@ -2,6 +2,14 @@ import Firebase
 import SwiftUI
 
 class GraphDataViewmodel: ObservableObject {
+    var currentMonthId:String = ""
+    var currentWeekId:String = ""
+    var currentDayId:String = ""
+    
+    var allWeeksInMonth:[String] = []
+    var allDaysInWeek:[String] = []
+    
+    
     //var plot = GraphPlot()
     var sensorTypes:[String] = ["heat","humidity","moisture","temperature","timestamp"]
     var sunValues: [Double] = []
@@ -9,7 +17,6 @@ class GraphDataViewmodel: ObservableObject {
     var temperatureValues: [Double] = []
     var moistureValues: [Double] = []
     var timestampValues:[Double] = []
-    
     
     var fetchedData: [Double] = []
     //(timestamp, value)
@@ -27,148 +34,205 @@ class GraphDataViewmodel: ObservableObject {
     @Published var isDataFetched = false
     @Published var isCalculated = false
     
+    init(){
+        setDates()
+        
+    }
+    
     func formatDate(_ date: Date, format: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format
         return formatter.string(from: date)
     }
-    func fetchSensorDataForPlant(plantId: String, collectionRef: String, documentId: String, sensorType: String, completion: @escaping () -> Void) {
+    func setDates(){
+        
+        currentMonthId = self.formatDate(Date(), format: "yyyy-MM")
+        currentWeekId = self.formatDate(Date(), format: "yyyy-'W'ww")
+        currentDayId = self.formatDate(Date(), format: "yyyy-MM-dd")
+        getWeeksInMonth()
+        getDaysInWeek(weekId:currentWeekId)
+        //(weekId: "2024-W18")
+        
+    }
+    
+//Get all weeks in the month
+    func getWeeksInMonth(){
+        let calendar = Calendar.current
+        
+        // Get the current month and year
+        let currentDate = Date()
+        let currentMonth = calendar.component(.month, from: currentDate)
+        let currentYear = calendar.component(.year, from: currentDate)
+        
+        // Get the first day of the month
+        var startDateOfMonthComponents = DateComponents()
+        startDateOfMonthComponents.year = currentYear
+        startDateOfMonthComponents.month = currentMonth
+        startDateOfMonthComponents.day = 1
+        // Clear the array before appending new weeks
+        allWeeksInMonth.removeAll()
+        // Get the first day of the current month
+        let firstDayOfMonth = calendar.date(from: DateComponents(year: currentYear, month: currentMonth, day: 1))!
+        // Get the number of weeks in the month
+        let weekRange = calendar.range(of: .weekOfMonth, in: .month, for: firstDayOfMonth)!
+        // Iterate through each week of the month
+        for week in 1...weekRange.count {
+            // Calculate the start date of the week
+            if let startDateOfWeek = calendar.date(byAdding: .weekOfYear, value: week - 1, to: firstDayOfMonth) {
+                allWeeksInMonth.append(self.formatDate(startDateOfWeek, format:"yyyy-'W'ww"))
+            }
+        }
+        //print(allWeeksInMonth)
+    }
+
+//Get all days in the week
+    func getDaysInWeek(weekId:String){
+        let calendar = Calendar.current
+        
+        // Clear the array before appending new days
+        allDaysInWeek.removeAll()
+        
+        // Extract year and week number from the provided weekId
+        let components = weekId.components(separatedBy: "-W")
+        guard components.count == 2, let year = Int(components[0]), let weekNumber = Int(components[1]) else {
+            print("Invalid weekId format")
+            return
+        }
+        //print (components)
+        // Get the date of the first day of the week
+        guard let firstDayOfWeek = calendar.date(from: DateComponents(weekOfYear: weekNumber, yearForWeekOfYear: year)) else {
+            print("Failed to get the first day of the week")
+            return
+        }
+        //("First Day of Week: \(self.formatDate(firstDayOfWeek, format: "yyyy-MM-dd"))")
+        
+        // Iterate through each day of the week
+        for day in 0..<7 {
+            // Calculate the date for each day of the week
+            if let dateOfDay = calendar.date(byAdding: .day, value: day, to: firstDayOfWeek) {
+                allDaysInWeek.append(self.formatDate(dateOfDay, format: "yyyy-MM-dd"))
+            }
+        }
+        
+        //print(allDaysInWeek)
+    }
+        
+    func fetchDaySensorData(plantId:String, sensor:String, dayId:String, completion:@escaping () -> Void){
         guard let userId = Auth.auth().currentUser?.uid else {
             print("User not logged in")
             return
         }
+        
+        
         let db = Firestore.firestore()
-
-        if sensorType == "all" {
-            var allValuesFetched = 0 // Counter to track if all values for all sensor types have been fetched
-            for sensor in sensorTypes {
-                let readingsRef = db.collection("users")
-                    .document(userId)
-                    .collection("plants")
-                    .document(plantId)
-                    .collection(collectionRef)
-                    .document(documentId)
-                    .collection(sensor)
-
-                readingsRef.getDocuments { (snapshot, error) in
-                    if let error = error {
-                        print("Error fetching documents for sensor \(sensor): \(error)")
-                        // Handle error if needed
-                        return
-                    }
-
-                    guard let documents = snapshot?.documents, !documents.isEmpty else {
-                        // No documents found for this sensor type
-                        // Handle if needed
-                        return
-                    }
-                    
-
-                    // Extract field value from each document and save to the appropriate array
-                    for document in documents {
-                        let data = document.data()
-                        if let value = data[sensor] as? Double {
-                            switch sensor {
-                            case "heat":
-                                if let timestamp = data["timestamp"] as? Double{
-                                    self.sunGraphPoints.append((timestamp, value))
-                                }
-                                self.sunValues.append(value)
-                            case "humidity":
-                                if let timestamp = data["timestamp"] as? Double{
-                                    self.humidityGraphPoints.append((timestamp, value))
-                                }
-                                self.humidityValues.append(value)
-                            case "temperature":
-                                if let timestamp = data["timestamp"] as? Double{
-                                    self.temperatureGraphPoints.append((timestamp, value))
-                                }
-                                self.temperatureValues.append(value)
-                            case "moisture":
-                                if let timestamp = data["timestamp"] as? Double{
-                                    self.moistureGraphPoints.append((timestamp, value))
-                                }
-                                self.moistureValues.append(value)
-                            case "timestamp":
-                                
-                                self.timestampValues.append(value)
-                            default:
-                                break
-                            }
-                        }
-                    }
-                    // Sort the data points based on timestamps
-                    self.sunGraphPoints.sort { $0.0 < $1.0 }
-                    self.humidityGraphPoints.sort { $0.0 < $1.0 }
-                    self.temperatureGraphPoints.sort { $0.0 < $1.0 }
-                    self.moistureGraphPoints.sort { $0.0 < $1.0 }
-                    // Separate the sorted data points back into timestamp and value arrays
-                    self.timestampValues.sort()
-                    switch sensorType {
+        
+        // Dispatch group to wait for all queries to finish
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter() // Enter dispatch group
+        
+        let monthRef = db.collection("users")
+            .document(userId)
+            .collection("plants")
+            .document(plantId)
+            .collection("monthly")
+            .document(currentMonthId)
+            .collection(currentWeekId)
+            .document(dayId)
+            .collection(sensor)
+        
+        monthRef.getDocuments { (snapshot, error) in
+            defer {
+                dispatchGroup.leave() // Leave dispatch group even if an error occurs
+            }
+            if let error = error {
+                print("Error fetching documents for sensor \(sensor): \(error)")
+                return
+            }
+            
+            guard let documents = snapshot?.documents, !documents.isEmpty else {
+                // No documents found for this sensor type
+                return
+            }
+            
+            // get value from each document and save to the appropriate array
+            for document in documents {
+                let data = document.data()
+                if let value = data[sensor] as? Double {
+                    //print("VALUE", value)
+                    switch sensor {
                     case "heat":
-                        self.sunValues = self.sunGraphPoints.map { $0.1 }
+                        self.sunValues.append(value)
                     case "humidity":
-                        self.humidityValues = self.humidityGraphPoints.map { $0.1 }
+                        self.humidityValues.append(value)
                     case "temperature":
-                        self.temperatureValues = self.temperatureGraphPoints.map { $0.1 }
+                        self.temperatureValues.append(value)
                     case "moisture":
-                        self.moistureValues = self.moistureGraphPoints.map { $0.1 }
+                        self.moistureValues.append(value)
+                    case "timestamp":
+                        self.timestampValues.append(value)
                     default:
                         break
                     }
-
-                    // Increment the counter
-                    allValuesFetched += 1
-
-                    // Check if all values for all sensor types have been fetched
-                    if allValuesFetched == self.sensorTypes.count {
-                        DispatchQueue.main.async {
-                            self.isDataFetched = true
-                            
-                            print("All data fetched")
-                            //print(self.sunValues)
-                            /*
-                            print("Sun Values: \(self.sunValues)")
-                            print("Humidity Values: \(self.humidityValues)")
-                            print("Temperature Values: \(self.temperatureValues)")
-                            print("Moisture Values: \(self.moistureValues)")
-                             */
-                            completion()
-                        }
-                    }
                 }
             }
-        } else {
-            let readingsRef = db.collection("users")
+        }
+
+        dispatchGroup.notify(queue: .main) {
+                // All queries have finished
+                self.isDataFetched = true
+                completion()
+        }
+        
+    }
+    func fetchWeekSensorData(plantId:String, sensor:String, weekId:String, completion:@escaping () -> Void){
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            return
+        }
+        
+        let db = Firestore.firestore()
+        
+        // Dispatch group to wait for all queries to finish
+        let dispatchGroup = DispatchGroup()
+        self.getDaysInWeek(weekId: weekId)
+        for day in allDaysInWeek {
+            dispatchGroup.enter() // Enter dispatch group
+            
+            let monthRef = db.collection("users")
                 .document(userId)
                 .collection("plants")
                 .document(plantId)
-                .collection(collectionRef)
-                .document(documentId)
-                .collection(sensorType)
-
-            readingsRef.getDocuments { (snapshot, error) in
+                .collection("monthly")
+                .document(currentMonthId)
+                .collection(weekId)
+                .document(day)
+                .collection(sensor)
+            
+            monthRef.getDocuments { (snapshot, error) in
+                defer {
+                    dispatchGroup.leave() // Leave dispatch group even if an error occurs
+                }
                 if let error = error {
-                    print("Error fetching documents for sensor \(sensorType): \(error)")
-                    // Handle error if needed
+                    print("Error fetching documents for sensor \(sensor): \(error)")
                     return
                 }
                 
                 guard let documents = snapshot?.documents, !documents.isEmpty else {
                     // No documents found for this sensor type
-                    // Handle if needed
                     return
                 }
                 
-                // Extract field value from each document and save to the appropriate array
+                // get value from each document and save to the appropriate array
                 for document in documents {
                     let data = document.data()
-                    if let value = data[sensorType] as? Double {
-                        switch sensorType {
+                    if let value = data[sensor] as? Double {
+                        //print("VALUE", value)
+                        switch sensor {
                         case "heat":
                             self.sunValues.append(value)
                         case "humidity":
                             self.humidityValues.append(value)
+                            //print(self.humidityValues)
                         case "temperature":
                             self.temperatureValues.append(value)
                         case "moisture":
@@ -180,116 +244,201 @@ class GraphDataViewmodel: ObservableObject {
                         }
                     }
                 }
+            }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+                // All queries have finished
                 self.isDataFetched = true
-
                 completion()
-            }
         }
-    }
-
-
-    func calculate(values: [Double]) -> Double {
-        guard !values.isEmpty else {
-            return 0.0 // Return 0 if there are no values
-        }
-        let total = values.reduce(0, +)
-        return total / Double(values.count)
-    }
-    func calculateAverage(plantId: String, collection: String, documentId: String, sensorType: String, completion: @escaping () -> Void) {
-        if sensorType == "all" {
-            fetchSensorDataForPlant(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: sensorType) {
-                //DispatchQueue.main.asyncAfter(deadline: .now() + 0.35){
-                // Once data is fetched, calculate averages for all sensor types
-                self.avgSun = self.calculate(values: self.sunValues)
-                self.avgHumidity = self.calculate(values: self.humidityValues)
-                self.avgTemperature = self.calculate(values: self.temperatureValues)
-                self.avgMoisture = self.calculate(values: self.moistureValues)
-                self.isCalculated = true
-                // Print averages
-                /*
-                 print("Average Sun: \(self.avgSun)")
-                 print("Average Humidity: \(self.avgHumidity)")
-                 print("Average Temperature: \(self.avgTemperature)")
-                 print("Average Moisture: \(self.avgMoisture)")
-                 */
-            }
-            //print
-            completion()
-            
-            
-        } else {
-            fetchSensorDataForPlant(plantId: plantId, collectionRef: collection, documentId: documentId, sensorType: sensorType) {
-                // Once data is fetched, calculate the average for the specific sensor type
-            //DispatchQueue.main.asyncAfter(deadline: .now() + 0.35){
-                switch sensorType {
-                case "heat":
-                    self.avgSun = self.calculate(values: self.sunValues)
-                case "humidity":
-                    self.avgHumidity = self.calculate(values: self.humidityValues)
-                case "temperature":
-                    self.avgTemperature = self.calculate(values: self.temperatureValues)
-                case "moisture":
-                    self.avgMoisture = self.calculate(values: self.moistureValues)
-                default:
-                    break
-                    // Print average
-                }
-                //print("Average \(sensorType.capitalized): \(self.calculateAverage(values: self.sensorValues(for: sensorType)))")
-                self.isCalculated=true
-                
-            }
-            completion()
-            
-        }
-    }
-    func fetchSensorValues(plantId: String, collectionRef: String, documentId: String, sensorType: String) -> [Double] {
         
-        fetchSensorDataForPlant(plantId: plantId, collectionRef: collectionRef, documentId: documentId, sensorType: sensorType) {
-            
-            switch sensorType {
-            case "heat":
-                self.fetchedData = self.sunValues
-            case "humidity":
-                self.fetchedData =  self.humidityValues
-            case "temperature":
-                self.fetchedData =  self.temperatureValues
-            case "moisture":
-                self.fetchedData =  self.moistureValues
-            case "timestamp":
-                self.fetchedData =  self.timestampValues
-            default:
-                break
-            }
-            print("maddddddddd\(self.fetchedData)")
-            
-            
-        }
-        //print("pleasssssss\(self.plot.datas)")
-        return (fetchedData)
     }
-    /*
-    func updateAverageDisplay(plantId:String) {
-            guard let userId = Auth.auth().currentUser?.uid else {
-                print("User not logged in")
-                return
-            }
+    
+    func fetchMonthSensorData(plantId: String, sensor: String, completion: @escaping () -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
+            return
+        }
+        let db = Firestore.firestore()
+        
+        // Dispatch group to wait for all queries to finish
+        let dispatchGroup = DispatchGroup()
+        
+        for week in allWeeksInMonth {
+            self.getDaysInWeek(weekId: week)
             
-        fetchAndCalculateAverage(userId: userId, plantId: plantId, collection: "weekly", documentId: formatDate(Date(), format: "yyyy-'W'ww"), sensorType:sType ) { average, error in
-                DispatchQueue.main.async {
-                    if let average = average {
-                        print("Average moisture: \(average)")
-                        
-                        // Update any relevant UI elements with this average
-                    } else if let error = error {
-                        print("Error calculating average: \(error)")
-                        
+            for day in allDaysInWeek {
+                dispatchGroup.enter() // Enter dispatch group
+                
+                let monthRef = db.collection("users")
+                    .document(userId)
+                    .collection("plants")
+                    .document(plantId)
+                    .collection("monthly")
+                    .document(currentMonthId)
+                    .collection(week)
+                    .document(day)
+                    .collection(sensor)
+                
+                monthRef.getDocuments { (snapshot, error) in
+                    defer {
+                        dispatchGroup.leave() // Leave dispatch group even if an error occurs
+                    }
+                    
+                    if let error = error {
+                        print("Error fetching documents for sensor \(sensor): \(error)")
+                        return
+                    }
+                    
+                    guard let documents = snapshot?.documents, !documents.isEmpty else {
+                        // No documents found for this sensor type
+                        return
+                    }
+                    
+                    // get value from each document and save to the appropriate array
+                    for document in documents {
+                        let data = document.data()
+                        if let value = data[sensor] as? Double {
+                            //print("VALUE", value)
+                            switch sensor {
+                            case "heat":
+                                self.sunValues.append(value)
+                            case "humidity":
+                                self.humidityValues.append(value)
+                                //print(self.humidityValues)
+                            case "temperature":
+                                self.temperatureValues.append(value)
+                            case "moisture":
+                                self.moistureValues.append(value)
+                            case "timestamp":
+                                self.timestampValues.append(value)
+                            default:
+                                break
+                            }
+                        }
                     }
                 }
             }
+            
         }
-    */
+
+        dispatchGroup.notify(queue: .main) {
+                // All queries have finished
+                self.isDataFetched = true
+                completion()
+        }
+    }
     
-    
+    func fetchGraphPoints(plantId:String, sensorType:String, dayweekmonth:String, date:String, completion: @escaping () -> Void){
+        switch dayweekmonth{
+        case "day":
+            fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: date){
+                self.fetchDaySensorData(plantId: plantId, sensor: "timestamp", dayId: date){
+                    // Check if there are any timestamp values
+                    guard !self.timestampValues.isEmpty else {
+                        completion()
+                        return
+                    }
+                    for i in 0...(self.timestampValues.count-1){
+                        switch sensorType {
+                        case "heat":
+                            self.sunGraphPoints.append((self.timestampValues[i], self.sunValues[i]))
+                            // Sort the data points based on timestamps
+                            self.sunGraphPoints.sort { $0.0 < $1.0 }
+                            completion()
+                        case "humidity":
+                            self.humidityGraphPoints.append((self.timestampValues[i], self.humidityValues[i]))
+                            self.humidityGraphPoints.sort { $0.0 < $1.0 }
+                            completion()
+                        case "temperature":
+                            self.temperatureGraphPoints.append((self.timestampValues[i], self.temperatureValues[i]))
+                            self.temperatureGraphPoints.sort { $0.0 < $1.0 }
+                            completion()
+                        case "moisture":
+                            self.moistureGraphPoints.append((self.timestampValues[i], self.moistureValues[i]))
+                            self.moistureGraphPoints.sort { $0.0 < $1.0 }
+                            completion()
+                        default:
+                            break
+                        }
+                    }
+                }
+            }
+            
+        case "week":
+            fetchWeekSensorData(plantId: plantId, sensor: sensorType, weekId: date){
+                self.fetchWeekSensorData(plantId: plantId, sensor: "timestamp", weekId: date){
+                    // Check if there are any timestamp values
+                    guard !self.timestampValues.isEmpty else {
+                        completion()
+                        return
+                    }
+                    for i in 0...(self.timestampValues.count-1){
+                        switch sensorType {
+                        case "heat":
+                            self.sunGraphPoints.append((self.timestampValues[i], self.sunValues[i]))
+                            // Sort the data points based on timestamps
+                            self.sunGraphPoints.sort { $0.0 < $1.0 }
+                            completion()
+                        case "humidity":
+                            self.humidityGraphPoints.append((self.timestampValues[i], self.humidityValues[i]))
+                            self.humidityGraphPoints.sort { $0.0 < $1.0 }
+                            completion()
+                        case "temperature":
+                            self.temperatureGraphPoints.append((self.timestampValues[i], self.temperatureValues[i]))
+                            self.temperatureGraphPoints.sort { $0.0 < $1.0 }
+                            completion()
+                        case "moisture":
+                            self.moistureGraphPoints.append((self.timestampValues[i], self.moistureValues[i]))
+                            self.moistureGraphPoints.sort { $0.0 < $1.0 }
+                            completion()
+                        default:
+                            break
+                        }
+                    }
+                    
+                }
+            }
+            
+        case "month":
+            fetchMonthSensorData(plantId: plantId, sensor: sensorType){
+                self.fetchMonthSensorData(plantId: plantId, sensor: "timestamp"){
+                    // Check if there are any timestamp values
+                    guard !self.timestampValues.isEmpty else {
+                        completion()
+                        return
+                    }
+                    for i in 0...(self.timestampValues.count-1){
+                        switch sensorType {
+                        case "heat":
+                            self.sunGraphPoints.append((self.timestampValues[i], self.sunValues[i]))
+                            // Sort the data points based on timestamps
+                            self.sunGraphPoints.sort { $0.0 < $1.0 }
+                            completion()
+                        case "humidity":
+                            self.humidityGraphPoints.append((self.timestampValues[i], self.humidityValues[i]))
+                            self.humidityGraphPoints.sort { $0.0 < $1.0 }
+                            completion()
+                        case "temperature":
+                            self.temperatureGraphPoints.append((self.timestampValues[i], self.temperatureValues[i]))
+                            self.temperatureGraphPoints.sort { $0.0 < $1.0 }
+                            completion()
+                        case "moisture":
+                            self.moistureGraphPoints.append((self.timestampValues[i], self.moistureValues[i]))
+                            self.moistureGraphPoints.sort { $0.0 < $1.0 }
+                            completion()
+                        default:
+                            break
+                        }
+                    }
+                }
+            }
+        default:
+            break
+        }
+    }
+
 }
 
 

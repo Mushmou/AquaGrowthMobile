@@ -25,12 +25,12 @@ struct CreatePlantView: View {
                 .toolbar{
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button (action: {
-                            plantViewModel.savePlant(Plant(plant_name: plantName, plant_type: plantType, plant_description: plantDescription, plant_image: "Flower"))
-                            plantViewModel.savePlantDatabase(Plant(plant_name: plantName, plant_type: plantType, plant_description: plantDescription, plant_image: "Flower"))
+                            let newPlant = Plant(plant_name: plantName, plant_type: plantType, plant_description: plantDescription, plant_image: "", plant_ui_image: plantImage)
+                            plantViewModel.savePlantDatabase(newPlant)
                             presentationMode.wrappedValue.dismiss() // Dismiss the view after saving the plant
                         }, label: {
                             Image(systemName: "checkmark")
-                                .font(.system(size: 20)) // Adjust the size as needed
+                                .font(.system(size: 20))
                                 .foregroundColor(.black)
                         })
                     }
@@ -111,16 +111,4 @@ struct CreatePlantView: View {
 #Preview {
     CreatePlantView()
         .environmentObject(plant_viewmodel())
-}
-
-func saveImage(_ image: UIImage, withName name: String) {
-    if let data = image.jpegData(compressionQuality: 0.8) {
-        let filename = getDocumentsDirectory().appendingPathComponent("\(name).jpg")
-        try? data.write(to: filename)
-    }
-}
-
-func getDocumentsDirectory() -> URL {
-    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-    return paths[0]
 }

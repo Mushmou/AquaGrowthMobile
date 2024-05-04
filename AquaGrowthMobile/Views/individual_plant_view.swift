@@ -6,6 +6,7 @@ import SwiftUI
 struct IndividualPlantView: View {
     @StateObject var viewmodel = individualplant_viewmodel()
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
+    @EnvironmentObject var plant_viewmodel: plant_viewmodel
     @State var selectedOption: String? = nil
     @State private var isActive = false
 
@@ -37,15 +38,26 @@ struct IndividualPlantView: View {
                 }
                 
                 Spacer()
-                
-                Image(my_plant.plant_image)
-                    .resizable()
-                    .frame(width: 300, height: 300)
-                    .clipShape(Circle())
-                    .overlay(
-                        Circle()
-                            .stroke(Color.black, lineWidth: 5)
-                    )
+                if my_plant.plant_ui_image != nil{
+                    Image(uiImage:my_plant.plant_ui_image!)
+                        .resizable()
+                        .frame(width: 300, height: 300)
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .stroke(Color.black, lineWidth: 5)
+                        )
+                }
+                else{
+                    Image("Flower")
+                        .resizable()
+                        .frame(width: 300, height: 300)
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle()
+                                .stroke(Color.black, lineWidth: 5)
+                        )
+                }
                 
                 Text(my_plant.plant_description)
                     .font(.system(size: 24))

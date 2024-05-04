@@ -4,10 +4,8 @@ import SwiftUI
 
 struct GraphWeek: View {
     
-    @StateObject var viewModel = GraphWeekViewmodel()
+    @ObservedObject var viewModel = GraphWeekViewmodel()
     @ObservedObject var data = GraphDataViewmodel()
-    @ObservedObject var plant = individualplant_viewmodel()
-        
     
     @State private var showNavigationBar = true
     
@@ -18,15 +16,15 @@ struct GraphWeek: View {
     @State private var isDataFetched = false
     //vars for drop down
     @State private var isExpanded = false
-    @State private var selectedItem: String = "Moisture"
-    let options = ["Moisture", "Temperature", "Humidity", "Sun"]
+    @State private var selectedItem: String = "moisture"
+    let options = ["moisture", "temperature", "humidity", "sun"]
 
     
     let my_plant: Plant
     
     init(my_plant: Plant) {
         self.my_plant = my_plant
-        data.calculateAverage(plantId: my_plant.id.uuidString, collection: "weekly", documentId: data.formatDate(Date(), format: "yyyy-'W'ww"), sensorType: "all"){}
+        viewModel.calculateAllAverages(plantId: my_plant.id.uuidString, weekId: data.currentWeekId)
     }
     
     
@@ -43,7 +41,7 @@ struct GraphWeek: View {
                         .fill(.white)
                         .frame(width: UIScreen.main.bounds.width, height: 640)
                         .position(x: UIScreen.main.bounds.width / 2, y: 550)
-                   
+                    
                     //bar to indicate you can swipe page down
                     RoundedRectangle(cornerRadius: 40)
                         .frame(width: 200, height: 5)
@@ -64,18 +62,28 @@ struct GraphWeek: View {
                         .foregroundColor(.white)
                     
                     ZStack {
-                        Rectangle() //Graph Box
+                        Rectangle() // Graph Box
                             .stroke(Color.black, lineWidth: 2)
                             .frame(width: UIScreen.main.bounds.width - 40, height: 325)
                             .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.71)
                         
-                        // Position the GraphPlot view within the graph box
-                        GraphPlotView(plantId: my_plant.id.uuidString, collection: "weekly", documentId: data.formatDate(Date(), format: "yyyy-'W'ww"), sensorType: "moisture")
-                            .frame(width: UIScreen.main.bounds.width - 11, height: 310)
-                            .position(x: UIScreen.main.bounds.width / 2.06, y: UIScreen.main.bounds.height / 1.71)
+                        //to check when the sensor type is changed from the drop down
+                        if isExpanded {
+                            ProgressView("Fetching Data...")
+                        } 
+                        else {
+                            if selectedItem == "sun"{
+                                GraphPlotView(plantId: my_plant.id.uuidString,sensorType: "heat", dayweekmonthId: "week", date: data.currentWeekId)
+                                    .frame(width: UIScreen.main.bounds.width - 20, height: 310)
+                                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
+                            }
+                            else{
+                                GraphPlotView(plantId: my_plant.id.uuidString,sensorType: selectedItem, dayweekmonthId: "week", date: data.currentWeekId)
+                                    .frame(width: UIScreen.main.bounds.width - 20, height: 310)
+                                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
+                            }
+                        }
                     }
-                    
-                        
                     Rectangle() //Date Box
                         .stroke(Color.black, lineWidth: 2)
                         .frame(width: UIScreen.main.bounds.width - 100, height: 40)
@@ -90,37 +98,32 @@ struct GraphWeek: View {
                 
                 //Data Averages
                 ZStack{
-                    if data.isCalculated  {
+                    if viewModel.isCalculated{
                         HStack(spacing: 15){
                             VStack(spacing:5){
                                 Text("Avg. Moi.")
-                                
-                                //TODO: AVG
-                                Text("\(String(format: "%.1f", data.avgMoisture))%")
+                                Text("\(String(format: "%.1f", viewModel.avgMoisture))%")
                                 Image("Water")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
                             VStack(spacing:5){
                                 Text("Avg. Temp.")
-                                //TODO: AVG
-                                Text("\(String(format: "%.1f", data.avgTemperature))°F")
+                                Text("\(String(format: "%.1f", viewModel.avgTemperature))°F")
                                 Image("Temperature")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
                             VStack(spacing:5){
                                 Text("Avg. Hum.")
-                                //TODO: AVG
-                                Text("\(String(format: "%.1f", data.avgHumidity))%")
+                                Text("\(String(format: "%.1f", viewModel.avgHumidity))%")
                                 Image("Humidity")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
                             VStack(spacing:5){
                                 Text("Avg. Sun")
-                                //TODO: AVG
-                                Text("\(String(format: "%.1f", data.avgSun))%")
+                                Text("\(String(format: "%.1f", viewModel.avgSun))%")
                                 Image("Sun")
                                     .resizable()
                                     .frame(width: 30, height: 30)
@@ -132,10 +135,7 @@ struct GraphWeek: View {
                         ProgressView("Fetching data...")
                             .padding(.top,50)
                             
-                      }
-                     
-                    
-                    
+                      }  
                 }
                 
                 //drop down box

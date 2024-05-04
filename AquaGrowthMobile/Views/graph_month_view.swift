@@ -3,9 +3,12 @@ import Foundation
 import SwiftUI
 
 struct GraphMonth: View {
-    @StateObject var viewModel = GraphMonthViewmodel()
+    
+    @ObservedObject var viewModel = GraphMonthViewmodel()
     @ObservedObject var data = GraphDataViewmodel()
+    
     @State private var showNavigationBar = true
+    
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @Environment(\.colorScheme) var colorScheme
     
@@ -13,14 +16,14 @@ struct GraphMonth: View {
     @State private var isDataFetched = false
     //vars for drop down
     @State private var isExpanded = false
-    @State private var selectedItem: String? = "Moisture"
-    let options = ["Moisture", "Humidity", "Temperature", "Sun"]
+    @State private var selectedItem: String = "moisture"
+    let options = ["moisture", "temperature", "humidity", "sun"]
     
     let my_plant: Plant
     
     init(my_plant: Plant) {
         self.my_plant = my_plant
-        data.calculateAverage(plantId: my_plant.id.uuidString, collection: "monthly", documentId: data.formatDate(Date(), format: "yyyy-MM"), sensorType: "all"){}
+        viewModel.calculateAllAverages(plantId: my_plant.id.uuidString)
     }
     
     var body: some View {
@@ -56,10 +59,29 @@ struct GraphMonth: View {
                         .position(x: UIScreen.main.bounds.width / 2, y: 100)
                         .foregroundColor(.white)
                     
-                    Rectangle() //Graph Box
-                        .stroke(Color.black, lineWidth: 2)
-                        .frame(width: UIScreen.main.bounds.width - 40, height: 325)
-                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.72)
+                    ZStack {
+                        Rectangle() // Graph Box
+                            .stroke(Color.black, lineWidth: 2)
+                            .frame(width: UIScreen.main.bounds.width - 40, height: 325)
+                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.71)
+                        
+                        //to check when the sensor type is changed from the drop down
+                        if isExpanded {
+                            ProgressView("Fetching Data...")
+                        }
+                        else {
+                            if selectedItem == "sun"{
+                                GraphPlotView(plantId: my_plant.id.uuidString,sensorType: "heat", dayweekmonthId: "month", date: data.currentMonthId)
+                                    .frame(width: UIScreen.main.bounds.width - 20, height: 310)
+                                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
+                            }
+                            else{
+                                GraphPlotView(plantId: my_plant.id.uuidString,sensorType: selectedItem, dayweekmonthId: "month", date: data.currentMonthId)
+                                    .frame(width: UIScreen.main.bounds.width - 20, height: 310)
+                                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
+                            }
+                        }
+                    }
                         
                     Rectangle() //Date Box
                         .stroke(Color.black, lineWidth: 2)
@@ -72,39 +94,35 @@ struct GraphMonth: View {
                         .frame(width: UIScreen.main.bounds.width / 5, height: 35) // Change the size of the VStack
                         .position(x: UIScreen.main.bounds.width / 1.303, y: 189)
                 }
+                
                 //Data Averages
                 ZStack{
-                    if data.isCalculated {
+                    if viewModel.isCalculated{
                         HStack(spacing: 15){
                             VStack(spacing:5){
                                 Text("Avg. Moi.")
-                                
-                                //TODO: AVG
-                                Text("\(String(format: "%.1f", data.avgMoisture))%")
+                                Text("\(String(format: "%.1f", viewModel.avgMoisture))%")
                                 Image("Water")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
                             VStack(spacing:5){
                                 Text("Avg. Temp.")
-                                //TODO: AVG
-                                Text("\(String(format: "%.1f", data.avgTemperature))°F")
+                                Text("\(String(format: "%.1f", viewModel.avgTemperature))°F")
                                 Image("Temperature")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
                             VStack(spacing:5){
                                 Text("Avg. Hum.")
-                                //TODO: AVG
-                                Text("\(String(format: "%.1f", data.avgHumidity))%")
+                                Text("\(String(format: "%.1f", viewModel.avgHumidity))%")
                                 Image("Humidity")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
                             VStack(spacing:5){
                                 Text("Avg. Sun")
-                                //TODO: AVG
-                                Text("\(String(format: "%.1f", data.avgSun))%")
+                                Text("\(String(format: "%.1f", viewModel.avgSun))%")
                                 Image("Sun")
                                     .resizable()
                                     .frame(width: 30, height: 30)
@@ -117,9 +135,6 @@ struct GraphMonth: View {
                             .padding(.top,50)
                             
                       }
-                     
-                    
-                    
                 }
                 
                 //drop down box
@@ -130,7 +145,7 @@ struct GraphMonth: View {
                             .foregroundColor(.gray)
                             .overlay(
                                 VStack{
-                                    if let selectedItem = selectedItem {
+                                    if selectedItem == selectedItem {
                                         Text(selectedItem)
                                             .bold()
                                             .font(.system(size: 23))
@@ -152,7 +167,7 @@ struct GraphMonth: View {
                                 //current option
                                 .overlay(
                                     VStack{
-                                        if let selectedItem = selectedItem {
+                                        if selectedItem == selectedItem {
                                             Text(selectedItem)
                                                 .bold()
                                                 .font(.system(size: 23))

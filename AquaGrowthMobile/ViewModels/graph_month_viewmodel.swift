@@ -8,8 +8,16 @@
 import Foundation
 
 class GraphMonthViewmodel: ObservableObject{
+    var data = GraphDataViewmodel()
+    
     @Published var monthDateList: [String] = []
     @Published var monthDateRange: String = ""
+    
+    @Published var isCalculated = false
+    var avgMoisture: Double = 0.0
+    var avgTemperature: Double = 0.0
+    var avgHumidity: Double = 0.0
+    var avgSun: Double = 0.0
     
     init(){
         generateMonthDateList()
@@ -60,6 +68,30 @@ class GraphMonthViewmodel: ObservableObject{
         self.monthDateRange = "\(dateFormatter.string(from: startDate)) - \(dateFormatter.string(from: endDate))"
     }
 
+    func calculate(values: [Double]) -> Double {
+        self.isCalculated = false
+        guard !values.isEmpty else {
+            return 0.0 // Return 0 if there are no values
+        }
+        let total = values.reduce(0, +)
+        self.isCalculated = true
+        return total / Double(values.count)
+    }
+    
+    func calculateAllAverages(plantId: String) {
+        data.fetchMonthSensorData(plantId: plantId, sensor: "humidity"){
+            self.avgHumidity = self.calculate(values: self.data.humidityValues)
+        }
+        data.fetchMonthSensorData(plantId: plantId, sensor: "heat"){
+            self.avgSun = self.calculate(values: self.data.sunValues)
+        }
+        data.fetchMonthSensorData(plantId: plantId, sensor: "temperature"){
+            self.avgTemperature = self.calculate(values: self.data.temperatureValues)
+        }
+        data.fetchMonthSensorData(plantId: plantId, sensor: "moisture"){
+            self.avgMoisture = self.calculate(values: self.data.moistureValues)
+        }
+    }
 
 
     

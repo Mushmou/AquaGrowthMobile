@@ -1,22 +1,19 @@
-//
-//  main_view.swift
-//  AquaGrowthMobile
-//
-//  Created by Noah Jacinto on 2/28/24.
-//  Edited by Noah Jacinto 3/9/24
+import Foundation
+import SwiftUI
 
 import Foundation
 import SwiftUI
 
 struct MainView: View {
-    var bluetooth = bluetooth_viewmodel()
+    @StateObject var bluetooth = bluetooth_viewmodel()  // Moved to StateObject for lifecycle management
     @StateObject var viewModel = main_viewmodel()
-    @State var isDeviceConnected = false // State to track device connection
+    @StateObject var plants = plant_viewmodel()
+    @State private var isDeviceConnected = false // State to track device connection
+    @State private var showAlert = false
 
     var body: some View {
-        //Check if the user is signed in (Through firebase Authentication)
+        // Check if the user is signed in (through Firebase Authentication)
         if viewModel.isSignedIn {
-            //Tab view for the three main pages (Home, Plant, and Settings)
             TabView {
                 HomeView()
                     .environmentObject(bluetooth)
@@ -25,6 +22,7 @@ struct MainView: View {
                     }
                 PlantView()
                     .environmentObject(bluetooth)
+                    .environmentObject(plants)
                     .tabItem {
                         Label("Plant", systemImage: "leaf")
                     }
@@ -36,11 +34,30 @@ struct MainView: View {
                     }
             }
             .accentColor(isDeviceConnected ? .green : nil) // Change tab color if device is connected
-
-//            .onChange(of: isDeviceConnected) { connected in
-//                .accentColor(isDeviceConnected ? .green : nil) // Change tab color if device is connected
-//            }
+            .onAppear {
+                plants.fetchPlants()  // Load plants
+                
+                if bluetooth.bluetoothModel.discoveredPeripherals.isEmpty {
+                    print("Peripherals are empty")
+                }
+                for item in bluetooth.bluetoothModel.discoveredPeripherals {
+                    print(item.name)
+                    if item.name == "AquaGrowth" {
+                        bluetooth.connect(peripheral: item)
+                    }
+                }
+//                bluetooth.startScanning() // Assuming you have a method to explicitly start scanning
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("Bluetooth Connection"), message: Text(bluetooth.statusMessage), dismissButton: .default(Text("OK")))
+            }
+            .onReceive(bluetooth.$statusMessage) { newValue in
+                if !newValue.isEmpty {
+                    showAlert = true
+                }
+            }
         } else {
+            // If the user is not signed in, redirect them to login view.
             LoginView()
         }
     }

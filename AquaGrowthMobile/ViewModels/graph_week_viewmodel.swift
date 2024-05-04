@@ -1,16 +1,22 @@
 import Foundation
 
 class GraphWeekViewmodel: ObservableObject {
-    @Published var data: GraphDataViewmodel
+    var data = GraphDataViewmodel()
     
     @Published var weekDateList: [String] = []
     @Published var weekDateRange: String = ""
-    //@Published var plantId: String=""
+    
+    
+    @Published var isCalculated = false
+    var avgMoisture: Double = 0.0
+    var avgTemperature: Double = 0.0
+    var avgHumidity: Double = 0.0
+    var avgSun: Double = 0.0
     
     
     
     init() {
-        self.data = GraphDataViewmodel()
+        //self.data = GraphDataViewmodel()
         generateWeekDateList()
     }
     func generateWeekDateList() {
@@ -44,7 +50,31 @@ class GraphWeekViewmodel: ObservableObject {
             self.weekDateRange = "\(firstDate) - \(lastDate)"
         }
     }
-
+    
+    func calculate(values: [Double]) -> Double {
+        self.isCalculated = false
+        guard !values.isEmpty else {
+            return 0.0 // Return 0 if there are no values
+        }
+        let total = values.reduce(0, +)
+        self.isCalculated = true
+        return total / Double(values.count)
+    }
+    
+    func calculateAllAverages(plantId: String, weekId:String) {
+        data.fetchWeekSensorData(plantId: plantId, sensor: "humidity", weekId: weekId){
+            self.avgHumidity = self.calculate(values: self.data.humidityValues)
+        }
+        data.fetchWeekSensorData(plantId: plantId, sensor: "heat", weekId: weekId){
+            self.avgSun = self.calculate(values: self.data.sunValues)
+        }
+        data.fetchWeekSensorData(plantId: plantId, sensor: "temperature", weekId: weekId){
+            self.avgTemperature = self.calculate(values: self.data.temperatureValues)
+        }
+        data.fetchWeekSensorData(plantId: plantId, sensor: "moisture", weekId: weekId){
+            self.avgMoisture = self.calculate(values: self.data.moistureValues)
+        }
+    }
 
     
     
