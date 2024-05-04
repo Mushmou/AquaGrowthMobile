@@ -7,6 +7,9 @@ import FirebaseAuth
 class home_viewmodel: ObservableObject {
     @Published var favoritePlants = [Plant]()
     @Published var favoritePlantUUIDs = [String]() // Store UUIDs of favorite plants
+    @Published var humidity_average: [String: Double] = [:]
+    @Published var temperature_average: [String: Double] = [:]
+    @Published var light_average: [String: Double] = [:]
 
 
     func fetchFavoritePlants() {
@@ -45,96 +48,170 @@ class home_viewmodel: ObservableObject {
             }
     }
     
-    func fetchMostRecentDocumentForAllPlants() async {
+    func getHumidityImage(plantId: String) -> String {
+        let humidity = self.humidity_average[plantId] ?? 0
+         
+         if humidity < 45 {
+             return "humidity_100"
+         } else if humidity < 50 {
+             return "humidity_75"
+         } else if humidity < 55 {
+             return "humidity_50"
+         } else if humidity < 60 {
+             return "humidity_25"
+         } else {
+             return "humidity_original"
+         }
+    }
+    
+    func getTemperatureImage(plantId: String) -> String {
+        let temperature = self.temperature_average[plantId] ?? 0
+         if temperature < 45 {
+             return "temperature_100"
+         } else if temperature < 55 {
+             return "temperature_75"
+         } else if temperature < 65 {
+             return "temperature_50"
+         } else if temperature < 70 {
+             return "temperature_25"
+         } else {
+             return "temperature_original"
+         }
+    }
+    
+    func getLightImage(plantId: String) -> String {
+        let my_light = self.light_average[plantId] ?? 0
+         if my_light < 80 {
+             return "sun_100"
+         } else if my_light < 90 {
+             return "sun_75"
+         } else if my_light < 100 {
+             return "sun_50"
+         } else if my_light < 120 {
+             return "sun_25"
+         } else {
+             return "sun_original"
+         }
+    }
+    func fetchMostRecentDocumentForAllPlants(sensor: String) {
+        
+        let currentDate = Date() + 1 // Assuming you're adding one day to the current date
+        let weeklyId = formatDate(currentDate, format: "yyyy-'W'ww")
+        let monthlyId = formatDate(currentDate, format: "yyyy-MM")
+
+        print(weeklyId)
+        print(monthlyId)
+        
+        let db = Firestore.firestore()
+        let dispatchGroup = DispatchGroup()
+        
         guard let uid = Auth.auth().currentUser?.uid else {
             print("User not logged in")
             return
         }
         
+        var averages: [String: Double] = [:] // Dictionary to store plant_id and average sensor reading
+        
         for plant in favoritePlants {
-            print(plant.plant_name)
-            await fetchMostRecentAverage(userId: uid, plantId: plant.id, periodicity: "daily", sensor: "heat")
-        }
-    }
-
-//    func fetchMostRecentHeat(userId: String, plantId: UUID, periodicity: String, sensor: String){
-//        var total = 0
-//        var count = 0
-//        
-//        let db = Firestore.firestore()
-//
-//        let documentRef = db.collection("users")
-//            .document(userId)
-//            .collection("plants")
-//            .document(plantId.uuidString)
-//            .collection(periodicity)
-//        
-//        documentRef.getDocuments { (querySnapshot, error) in
-//            if let error = error {
-//                print("Error: \(error.localizedDescription)")
-//                return
-//            }
-//            
-//            guard let document = querySnapshot?.documents.first else {
-//                return
-//            }
-//                        
-//            let secondRef = db.collection("users")
-//                .document(userId)
-//                .collection("plants")
-//                .document(plantId.uuidString)
-//                .collection(periodicity)
-//                .document(document.documentID)
-//                .collection(sensor)
-//            
-//            secondRef.getDocuments { (secondSnapshot, error) in
-//                for document in secondSnapshot!.documents {
-//                    let value = document.data()[sensor] as? Int
-//                    total += value ?? 0
-//                    count += 1
-//                }
-//                print(total / count)
-//            }
-//        }
-//    }
-    
-    
-    func fetchMostRecentAverage(userId:String, plantId: UUID, periodicity: String, sensor: String) async{
-        let db = Firestore.firestore()
-        do {
+            dispatchGroup.enter() // Enter the group before each async operation
+            
+            let plantId = plant.id.uuidString
+            
             let documentRef = db.collection("users")
-                .document(userId)
+                .document(uid)
                 .collection("plants")
-                .document(plantId.uuidString)
-                .collection(periodicity)
+                .document(plantId)
+                .collection("monthly")
+                .document(monthlyId)
+                .collection(weeklyId)
+                .order(by: "timestamp", descending: true)
+                .limit(to: 7)
             
-            let querySnapshot = try await documentRef.getDocuments().documents.first
-            let secondRef = db.collection("users")
-                .document(userId)
-                .collection("plants")
-                .document(plantId.uuidString)
-                .collection(periodicity)
-                .document(querySnapshot?.documentID ?? "Error")
-                .collection(sensor)
+            var weeklyAverage: Int = 0
+            var totalDays: Int = 0
             
-            let secondSnapshot = try await secondRef.getDocuments()
-            
-            var total = 0
-            var count = 0
-            for document in secondSnapshot.documents {
-                let value = document.data()[sensor] as? Int
-                total += value ?? 0
-                count += 1
-            }
-            if (count != 0){
-                print(total/count)
-            }
+            documentRef.getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                    dispatchGroup.leave()
+                    return
+                }
+                
+                let dispatchGroupInner = DispatchGroup() // Inner group to handle nested asynchronous calls
+                
+                for document in querySnapshot!.documents {
+                    dispatchGroupInner.enter() // Enter inner group before each async operation
+                    
+                    let secondRef = document.reference // Get reference to the document
+                        .collection(sensor)
+                    
+                    secondRef.getDocuments { (secondSnapshot, anotherError) in
+                        if let error = anotherError {
+                            print("Error getting documents: \(error)")
+                            dispatchGroupInner.leave() // Leave inner group if there's an error
+                            return
+                        }
+                        
+                        var dailySensorValue: Int = 0
+                        var count: Int = 0
+        
+                        for secondDocument in secondSnapshot!.documents {
+                            if let value = secondDocument.data()[sensor] as? Int {
+                                
+                                if value > 0{
+                                    dailySensorValue += value
+                                    count += 1
+                                }
+                            }
+                        }
+                        
+                        let average = count > 0 ? dailySensorValue / count : 0
+                        
+                        if average > 0{
+                            weeklyAverage += average
+                            totalDays += 1
 
-        } catch {
-          print("Error getting documents: \(error)")
+                        }
+                        dispatchGroupInner.leave() // Leave inner group after processing each document
+                    }
+                }
+                
+                dispatchGroupInner.notify(queue: .main) {
+                    // Calculate the average after all inner asynchronous calls are finished
+                    if totalDays > 0 {
+                        let average = Double(weeklyAverage) / Double(totalDays)
+                        averages[plantId] = average
+                    } else {
+                        averages[plantId] = 0 // No data found, set average to 0
+                    }
+                    
+                    dispatchGroup.leave() // Leave outer group after processing all documents
+                }
+            }
         }
-
+        
+        dispatchGroup.notify(queue: .main) {
+            // All asynchronous tasks are finished
+            // Now you can use averages dictionary containing plant_id and corresponding average sensor reading
+            print("Averages:", averages, sensor)
+            
+            if (sensor) == "temperature"{
+                self.temperature_average = averages
+            }
+            else if (sensor) == "light"{
+                self.light_average = averages
+            }
+            else if (sensor) == "humidity"{
+                self.humidity_average = averages
+            }
+        }
     }
-
+    
+    // Helper function to format dates
+    func formatDate(_ date: Date, format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: date)
+    }
 }
 
