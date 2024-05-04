@@ -98,7 +98,8 @@ struct SettingsView: View {
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
     @StateObject var viewModel = settings_viewmodel()
     @State private var showNavigationBar = true
-    
+    @Binding var isDeviceConnected: Bool // Binding to track device connection
+
     var body: some View {
         // Use NavigationStack to navigate between views
         NavigationStack {
@@ -127,7 +128,7 @@ struct SettingsView: View {
                     Form {
                         Section(header: Text("Global Settings")) {
                             NavigationLink {
-                                BluetoothView()
+                                BluetoothView(isDeviceConnected: $isDeviceConnected)
                                     .toolbar(.hidden, for: .tabBar)
                             } label: {
                                 Label("Bluetooth", systemImage: "antenna.radiowaves.left.and.right")
@@ -139,7 +140,12 @@ struct SettingsView: View {
                             } label: {
                                 Label("Account Settings", systemImage: "person.crop.circle")
                             }
-                            
+                            NavigationLink {
+                                HelpAndSupportView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            } label: {
+                                Label("Help and Support", systemImage: "questionmark.circle")
+                            }
                             NavigationLink {
                                 TestView()
                                     .environmentObject(bluetooth)
@@ -147,13 +153,21 @@ struct SettingsView: View {
                             } label: {
                                 Label("Test Data", systemImage: "gearshape")
                             }
+                            
+                            
                         }
                         
                         Section {
                             Button(action: { viewModel.logOut() }) {
-                                Text("Log Out").foregroundColor(.red)
+                                Text("Log Out")
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 5) // Adjust vertical padding
                             }
+                            .background(Color.red)
+                            .cornerRadius(8)
                         }
+                        .listRowBackground(Color.red) // Set the background color of the entire row
                     }
                     .frame(width: 360, height: 400)
                     .cornerRadius(20)
@@ -168,7 +182,7 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsView(isDeviceConnected: .constant(false)) // Provide a mock binding
             .environmentObject(bluetooth_viewmodel()) // Provide a mock environment object
     }
 }
