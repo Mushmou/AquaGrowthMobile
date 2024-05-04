@@ -64,22 +64,24 @@ struct GraphWeek: View {
                     ZStack {
                         Rectangle() // Graph Box
                             .stroke(Color.black, lineWidth: 2)
-                            .frame(width: UIScreen.main.bounds.width - 40, height: 325)
-                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.71)
+                            .frame(width: UIScreen.main.bounds.width - 40, height: 335)
+                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.70)
                         
                         //to check when the sensor type is changed from the drop down
                         if isExpanded {
                             ProgressView("Fetching Data...")
-                        } 
+                                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
+                            
+                        }
                         else {
                             if selectedItem == "sun"{
                                 GraphPlotView(plantId: my_plant.id.uuidString,sensorType: "heat", dayweekmonthId: "week", date: data.currentWeekId)
-                                    .frame(width: UIScreen.main.bounds.width - 20, height: 310)
+                                    .frame(width: UIScreen.main.bounds.width - 25, height: 310)
                                     .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
                             }
                             else{
                                 GraphPlotView(plantId: my_plant.id.uuidString,sensorType: selectedItem, dayweekmonthId: "week", date: data.currentWeekId)
-                                    .frame(width: UIScreen.main.bounds.width - 20, height: 310)
+                                    .frame(width: UIScreen.main.bounds.width - 25, height: 310)
                                     .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
                             }
                         }
@@ -253,14 +255,16 @@ struct GraphWeek: View {
                         .bold()
                     
                 //Date calendar list in the graph
+                    
                     HStack(spacing:-26){
                         // Display the week's dates
                         ForEach(viewModel.weekDateList, id:\.self) { date in
-                            Text(date)
+                            Text("")
                                 .padding()
                         }
                     }
                     .font(.system(size: 14))
+                     
                 }
                 .padding(.bottom,125)
                 
@@ -269,32 +273,6 @@ struct GraphWeek: View {
             
         }
         .navigationBarHidden(true)
-        //.onAppear{
-        //    viewModel.plantId = my_plant.id.uuidString
-        //}
-    /*
-        //Back button to plant page
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    selectedOption = "Back"
-                }) {
-                    Image(systemName: "chevron.backward")
-                        .font(.system(size: 30))
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                }
-            }
-        }
-        .background(
-            NavigationLink(destination: IndividualPlantView(my_plant: my_plant), // Change this to your desired destination
-                tag: "Back",
-                selection: $selectedOption,
-                label: { EmptyView() }
-            )
-        )
-        */
-        
     }
     
 }

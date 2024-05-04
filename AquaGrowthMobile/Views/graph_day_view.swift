@@ -68,6 +68,7 @@ struct GraphDay: View {
                         //to check when the sensor type is changed from the drop down
                         if isExpanded {
                             ProgressView("Fetching Data...")
+                                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
                         }
                         else {
                             if selectedItem == "sun"{

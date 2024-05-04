@@ -21,7 +21,7 @@ class GraphWeekViewmodel: ObservableObject {
     }
     func generateWeekDateList() {
         var calendar = Calendar.current
-        calendar.firstWeekday = 2 // Set Monday as the first day of the week
+        calendar.firstWeekday = 1 // Set sunday as the first day of the week
 
         // Get the current date
         let currentDate = Date()
