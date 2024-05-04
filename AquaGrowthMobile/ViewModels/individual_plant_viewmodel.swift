@@ -17,6 +17,7 @@ class individualplant_viewmodel: ObservableObject {
     @Published var fahrenheit = 0
     @Published var heatIndex = 0
     @Published var currentDay = ""
+    @Published var lightIndex = 0
     
     init(){
         
@@ -36,18 +37,35 @@ class individualplant_viewmodel: ObservableObject {
             "humidity": humidity,
             "temperature": fahrenheit,
             "heat": heatIndex,
+            "light": lightIndex,
             "timestamp": Date().timeIntervalSince1970
         ] as [String : Any]
         
         
         
         // Call the updated addSensorData method
-        addSensorData(db: db, userId: uid,data: sensorData)
         
-//        updateLastSensorData(db: db, userId: uid, documentId: dailyId, data: sensorData)
+        let one = "2024-05-02"
+        let two = "2024-05-03"
+        let three = "2024-05-04"
+        let four = "2024-05-05"
+        let five = "2024-05-06"
+        let six = "2024-05-07"
+        let seven = "2024-05-08"
+
+//REMOVE THIS 
+        addSensorData(db: db, userId: uid,data: sensorData, daily: one)
+        addSensorData(db: db, userId: uid,data: sensorData, daily: two)
+        addSensorData(db: db, userId: uid,data: sensorData, daily: three)
+        addSensorData(db: db, userId: uid,data: sensorData, daily: four)
+        addSensorData(db: db, userId: uid,data: sensorData, daily: five)
+        addSensorData(db: db, userId: uid,data: sensorData, daily: six)
+        addSensorData(db: db, userId: uid,data: sensorData, daily: seven)
+
+        updateLastSensorData(db: db, userId: uid, data: sensorData)
     }
     
-    func updateLastSensorData(db: Firestore, userId: String, documentId: String, data: [String: Any]) {
+    func updateLastSensorData(db: Firestore, userId: String, data: [String: Any]) {
         let plantCollectionRef = db.collection("users")
             .document(userId)
             .collection("plants")
@@ -69,7 +87,7 @@ class individualplant_viewmodel: ObservableObject {
         }
     }
     
-    func addSensorData(db: Firestore, userId: String, data: [String: Any]) {
+    func addSensorData(db: Firestore, userId: String, data: [String: Any], daily: String) {
         let currentDate = Date() + 1
         let dailyId = formatDate(currentDate, format: "yyyy-MM-dd")
         let weeklyId = formatDate(currentDate, format: "yyyy-'W'ww")
@@ -82,7 +100,16 @@ class individualplant_viewmodel: ObservableObject {
             .collection("monthly")
             .document(monthlyId)
             .collection(weeklyId)
-            .document(dailyId)
+            .document(daily)
+                
+        // Set the document with the data including timestamp
+        plantCollectionRef.setData(["timestamp" : Date().timeIntervalSince1970]) { error in
+            if let error = error {
+                print("Error adding sensor data: \(error)")
+            } else {
+                print("Successfully added sensor data")
+            }
+        }
         
         // Iterate over each key-value pair in the data dictionary
         for (key, value) in data {
@@ -99,7 +126,6 @@ class individualplant_viewmodel: ObservableObject {
             }
         }
     }
-    
     
     // Helper function to format dates
     func formatDate(_ date: Date, format: String) -> String {
