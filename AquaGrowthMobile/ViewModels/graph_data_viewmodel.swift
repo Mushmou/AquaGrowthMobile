@@ -343,39 +343,144 @@ class GraphDataViewmodel: ObservableObject {
         
         switch dayweekmonth {
         case "day":
-            fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: date){
-                self.fetchDaySensorData(plantId: plantId, sensor: "timestamp", dayId: date){
-                    // Check if there are any timestamp values
-                    guard !self.timestampValues.isEmpty else {
-                        completion()
-                        return
-                    }
-                    //for i in 0...(self.timestampValues.count-1){
-                    switch sensorType {
-                    case "heat":
-                        //self.sunGraphPoints.append((self.timestampValues[i], self.sunValues[i]))
-                        // Sort the data points based on timestamps
-                        self.sunGraphPoints.sort { $0.0 < $1.0 }
-                        completion()
-                    case "humidity":
-                        self.humidityGraphPoints.append((self.calculate(values:self.timestampValues), self.calculate(values: self.humidityValues)))
-                        //self.humidityGraphPoints.sort { $0.0 < $1.0 }
+            switch sensorType{
+            case "heat":
+                fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: date){
+                    self.fetchDaySensorData(plantId: plantId, sensor: "timestamp", dayId: date){
+                        // Check if there are any timestamp values
+                        guard !self.timestampValues.isEmpty else {
+                            completion()
+                            return
+                        }
+                        self.sunGraphPoints.removeAll()
                         
+                        var hourlySunValues = [Int: [Double]]()
+                        for (timestamp, sun) in zip(self.timestampValues, self.sunValues) {
+                            let date = Date(timeIntervalSince1970: timestamp)
+                            let calendar = Calendar.current
+                            let hour = calendar.component(.hour, from: date)
+                            if hourlySunValues[hour] == nil {
+                                hourlySunValues[hour] = [sun]
+                            } else {
+                                hourlySunValues[hour]?.append(sun)
+                            }
+                        }
+                        
+                        for hour in hourlySunValues.keys.sorted() {
+                            if let sunValues = hourlySunValues[hour] {
+                                let avgSun = self.calculate(values: sunValues)
+                                let timestamp = Double(hour)
+                                self.sunGraphPoints.append((timestamp, avgSun))
+                            }
+                        }
+                        self.sunGraphPoints.sort { $0.0 > $1.0 }
                         completion()
-                    case "temperature":
-                        //self.temperatureGraphPoints.append((self.timestampValues[i], self.temperatureValues[i]))
-                        self.temperatureGraphPoints.sort { $0.0 < $1.0 }
-                        completion()
-                    case "moisture":
-                        //self.moistureGraphPoints.append((self.timestampValues[i], self.moistureValues[i]))
-                        self.moistureGraphPoints.sort { $0.0 < $1.0 }
-                        completion()
-                    default:
-                        break
                     }
-                    //}
                 }
+            case "humidity":
+                fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: date){
+                    self.fetchDaySensorData(plantId: plantId, sensor: "timestamp", dayId: date){
+                        // Check if there are any timestamp values
+                        guard !self.timestampValues.isEmpty else {
+                            completion()
+                            return
+                        }
+                        self.humidityGraphPoints.removeAll()
+                        
+                        var hourlyHumidityValues = [Int: [Double]]()
+                        for (timestamp, humidity) in zip(self.timestampValues, self.humidityValues) {
+                            let date = Date(timeIntervalSince1970: timestamp)
+                            let calendar = Calendar.current
+                            let hour = calendar.component(.hour, from: date)
+                            if hourlyHumidityValues[hour] == nil {
+                                hourlyHumidityValues[hour] = [humidity]
+                            } else {
+                                hourlyHumidityValues[hour]?.append(humidity)
+                            }
+                        }
+                        
+                        for hour in hourlyHumidityValues.keys.sorted() {
+                            if let humidityValues = hourlyHumidityValues[hour] {
+                                let avgHum = self.calculate(values: humidityValues)
+                                let timestamp = Double(hour)
+                                self.humidityGraphPoints.append((timestamp, avgHum))
+                            }
+                        }
+                        self.humidityGraphPoints.sort { $0.0 > $1.0 }
+                        completion()
+                    }
+                }
+            case "temperature":
+                fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: date){
+                    self.fetchDaySensorData(plantId: plantId, sensor: "timestamp", dayId: date){
+                        // Check if there are any timestamp values
+                        guard !self.timestampValues.isEmpty else {
+                            completion()
+                            return
+                        }
+                        self.temperatureGraphPoints.removeAll()
+                        
+                        var hourlyTempValues = [Int: [Double]]()
+                        for (timestamp, temp) in zip(self.timestampValues, self.temperatureValues) {
+                            let date = Date(timeIntervalSince1970: timestamp)
+                            let calendar = Calendar.current
+                            let hour = calendar.component(.hour, from: date)
+                            if hourlyTempValues[hour] == nil {
+                                hourlyTempValues[hour] = [temp]
+                            } else {
+                                hourlyTempValues[hour]?.append(temp)
+                            }
+                        }
+                        
+                        for hour in hourlyTempValues.keys.sorted() {
+                            if let tempValues = hourlyTempValues[hour] {
+                                let avgTemp = self.calculate(values: tempValues)
+                                let timestamp = Double(hour)
+                                self.temperatureGraphPoints.append((timestamp, avgTemp))
+                            }
+                        }
+                        self.temperatureGraphPoints.sort { $0.0 > $1.0 }
+                        completion()
+                    }
+                }
+            case "moisture":
+                fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: date){
+                    self.fetchDaySensorData(plantId: plantId, sensor: "timestamp", dayId: date){
+                        // Check if there are any timestamp values
+                        guard !self.timestampValues.isEmpty else {
+                            completion()
+                            return
+                        }
+                        self.moistureGraphPoints.removeAll()
+                        
+                        var hourlyMoistureValues = [Int: [Double]]()
+                        for (timestamp, moi) in zip(self.timestampValues, self.moistureValues) {
+                            let date = Date(timeIntervalSince1970: timestamp)
+                            let calendar = Calendar.current
+                            let hour = calendar.component(.hour, from: date)
+                            if hourlyMoistureValues[hour] == nil {
+                                hourlyMoistureValues[hour] = [moi]
+                            } else {
+                                hourlyMoistureValues[hour]?.append(moi)
+                            }
+                        }
+                        
+                        for hour in hourlyMoistureValues.keys.sorted() {
+                            if let moiValues = hourlyMoistureValues[hour] {
+                                let avgMoi = self.calculate(values: moiValues)
+                                let timestamp = Double(hour)
+                                self.moistureGraphPoints.append((timestamp, avgMoi))
+                            }
+                        }
+                        self.moistureGraphPoints.sort { $0.0 > $1.0 }
+                        completion()
+                    }
+                }
+            default:
+                break
             }
+            
+
             
         case "week":
             switch sensorType {
@@ -713,6 +818,12 @@ class GraphDataViewmodel: ObservableObject {
             break
         }
     
+    }
+    func hourComponent(from timestamp: TimeInterval) -> Int {
+        let date = Date(timeIntervalSince1970: timestamp)
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        return hour
     }
     
     func compareMonths(day:String, month:String) ->Bool{

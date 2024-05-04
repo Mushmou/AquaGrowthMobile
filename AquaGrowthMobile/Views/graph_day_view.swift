@@ -23,7 +23,7 @@ struct GraphDay: View {
     
     init(my_plant: Plant) {
         self.my_plant = my_plant
-        viewModel.calculateAllAverages(plantId: my_plant.id.uuidString, dayId: data.currentWeekId)
+        viewModel.calculateAllAverages(plantId: my_plant.id.uuidString, dayId: data.currentDayId)
     }
     
     var body: some View {
@@ -62,8 +62,8 @@ struct GraphDay: View {
                     ZStack {
                         Rectangle() // Graph Box
                             .stroke(Color.black, lineWidth: 2)
-                            .frame(width: UIScreen.main.bounds.width - 40, height: 325)
-                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.71)
+                            .frame(width: UIScreen.main.bounds.width - 40, height: 335)
+                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.70)
                         
                         //to check when the sensor type is changed from the drop down
                         if isExpanded {
@@ -254,7 +254,7 @@ struct GraphDay: View {
                     HStack(spacing:-26){
                         // Display the week's dates
                         ForEach(viewModel.dayDateList, id:\.self) { date in
-                            Text(date)
+                            Text("")
                                 .padding()
                         }
                     }
