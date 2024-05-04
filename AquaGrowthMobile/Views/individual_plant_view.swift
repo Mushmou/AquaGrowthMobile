@@ -198,6 +198,7 @@ struct IndividualPlantView: View {
                         }
             .navigationDestination(isPresented: $isEditingPlant){
                 EditPlantView(plant: my_plant)
+                    .toolbar(.hidden, for: .tabBar)
             }
         }
     }
