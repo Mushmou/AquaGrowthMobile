@@ -27,11 +27,13 @@ class plant_viewmodel: ObservableObject{
     }
     
     func savePlantDatabase(_ plant: Plant) {
-        guard let uid = Auth.auth().currentUser?.uid, let selectedImage = plant.plant_ui_image else {
-            print("User not logged in or image not selected")
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("User not logged in")
             return
         }
-
+        
+        var selectedImage = plant.plant_ui_image
+        
         let db = Firestore.firestore()
         let plantRef = db.collection("users").document(uid).collection("plants").document(plant.id.uuidString)
         plantRef.setData([
@@ -44,7 +46,7 @@ class plant_viewmodel: ObservableObject{
             if let error = error {
                 print("Error writing document: \(error)")
             } else {
-                self.uploadNewImage(plantId: plant.id, selectedImage: selectedImage, dbRef: plantRef)
+                self.uploadNewImage(plantId: plant.id, selectedImage: (selectedImage ?? UIImage(named: "Flower"))!, dbRef: plantRef)
             }
         }
     }

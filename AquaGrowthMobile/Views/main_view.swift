@@ -46,7 +46,6 @@ struct MainView: View {
                         bluetooth.connect(peripheral: item)
                     }
                 }
-//                bluetooth.startScanning() // Assuming you have a method to explicitly start scanning
             }
             .alert(isPresented: $showAlert) {
                 Alert(title: Text("Bluetooth Connection"), message: Text(bluetooth.statusMessage), dismissButton: .default(Text("OK")))
