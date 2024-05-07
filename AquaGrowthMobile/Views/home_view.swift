@@ -129,9 +129,12 @@ struct HomeView: View {
                 .sheet(isPresented: $isImagePickerDisplayed) {
                     ImagePicker(selectedImage: $selectedUIImage)
                 }.onChange(of: isImagePickerDisplayed) { newValue in
+                    
                     if !newValue {
                         print("Image Picker was dismissed.")
-                        replaceExistingImage(selectedImage: selectedUIImage!)
+                        if selectedUIImage != nil{
+                            replaceExistingImage(selectedImage: selectedUIImage!)
+                        }
                     }
                 }
                   .onAppear {
