@@ -117,7 +117,15 @@ class GraphDataViewmodel: ObservableObject {
             print("User not logged in")
             return
         }
-        
+        var dayWeekId = ""
+        for week in allWeeksInMonth{
+            getDaysInWeek(weekId: week)
+            for day in allDaysInWeek{
+                if dayId == day{
+                    dayWeekId = week
+                }
+            }
+        }
         
         let db = Firestore.firestore()
         
@@ -131,7 +139,7 @@ class GraphDataViewmodel: ObservableObject {
             .document(plantId)
             .collection("monthly")
             .document(currentMonthId)
-            .collection(currentWeekId)
+            .collection(dayWeekId)
             .document(dayId)
             .collection(sensor)
         
@@ -184,12 +192,12 @@ class GraphDataViewmodel: ObservableObject {
             print("User not logged in")
             return
         }
+        getDaysInWeek(weekId: weekId)
         
         let db = Firestore.firestore()
         
         // Dispatch group to wait for all queries to finish
         let dispatchGroup = DispatchGroup()
-        self.getDaysInWeek(weekId: weekId)
         for day in allDaysInWeek {
             dispatchGroup.enter() // Enter dispatch group
             
@@ -352,7 +360,7 @@ class GraphDataViewmodel: ObservableObject {
                             completion()
                             return
                         }
-                        self.sunGraphPoints.removeAll()
+                        //self.sunGraphPoints.removeAll()
                         
                         var hourlySunValues = [Int: [Double]]()
                         for (timestamp, sun) in zip(self.timestampValues, self.sunValues) {
@@ -374,6 +382,7 @@ class GraphDataViewmodel: ObservableObject {
                             }
                         }
                         self.sunGraphPoints.sort { $0.0 > $1.0 }
+                        print(self.sunGraphPoints)
                         completion()
                     }
                 }
@@ -385,7 +394,7 @@ class GraphDataViewmodel: ObservableObject {
                             completion()
                             return
                         }
-                        self.humidityGraphPoints.removeAll()
+                        //self.humidityGraphPoints.removeAll()
                         
                         var hourlyHumidityValues = [Int: [Double]]()
                         for (timestamp, humidity) in zip(self.timestampValues, self.humidityValues) {
@@ -407,6 +416,7 @@ class GraphDataViewmodel: ObservableObject {
                             }
                         }
                         self.humidityGraphPoints.sort { $0.0 > $1.0 }
+                        print(self.humidityGraphPoints)
                         completion()
                     }
                 }
@@ -418,7 +428,7 @@ class GraphDataViewmodel: ObservableObject {
                             completion()
                             return
                         }
-                        self.temperatureGraphPoints.removeAll()
+                        //self.temperatureGraphPoints.removeAll()
                         
                         var hourlyTempValues = [Int: [Double]]()
                         for (timestamp, temp) in zip(self.timestampValues, self.temperatureValues) {
@@ -440,6 +450,7 @@ class GraphDataViewmodel: ObservableObject {
                             }
                         }
                         self.temperatureGraphPoints.sort { $0.0 > $1.0 }
+                        print(self.temperatureGraphPoints)
                         completion()
                     }
                 }
@@ -451,7 +462,7 @@ class GraphDataViewmodel: ObservableObject {
                             completion()
                             return
                         }
-                        self.moistureGraphPoints.removeAll()
+                        //self.moistureGraphPoints.removeAll()
                         
                         var hourlyMoistureValues = [Int: [Double]]()
                         for (timestamp, moi) in zip(self.timestampValues, self.moistureValues) {
@@ -473,6 +484,7 @@ class GraphDataViewmodel: ObservableObject {
                             }
                         }
                         self.moistureGraphPoints.sort { $0.0 > $1.0 }
+                        print(self.moistureGraphPoints)
                         completion()
                     }
                 }
@@ -511,7 +523,7 @@ class GraphDataViewmodel: ObservableObject {
                             daysProcessed += 1
                             if daysProcessed == self.allDaysInWeek.count {
                                 self.sunGraphPoints.sort { $0.0 > $1.0 }
-                                //print (self.sunGraphPoints)
+                                print (self.sunGraphPoints)
                                 completion() // Call completion after all days are processed
                             }
                         }
@@ -591,7 +603,7 @@ class GraphDataViewmodel: ObservableObject {
                 var daysProcessed = 0
                 for (index, day) in self.allDaysInWeek.enumerated() {
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.2) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.25) {
                         self.moistureValues = []
                         self.fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: day) {
                             //print(day, self.moistureValues)
@@ -646,7 +658,7 @@ class GraphDataViewmodel: ObservableObject {
                         //print(day)
                         self.sunValues = []
                         self.fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: day) {
-                            //print(day)
+                            //print(dayId)
                             // Calculate average heat value for the day
                             var avgSun: Double = 0.0
                             if !self.sunValues.isEmpty {
@@ -666,7 +678,7 @@ class GraphDataViewmodel: ObservableObject {
                             //print("dayprocess", daysProcessed)
                             if daysProcessed == totalDays.count {
                                 self.sunGraphPoints.sort { $0.0 > $1.0 }
-                                //print(self.sunGraphPoints)
+                                print(self.sunGraphPoints)
                                 print("Loaded")
                                 completion()
                             }
@@ -714,10 +726,9 @@ class GraphDataViewmodel: ObservableObject {
                             if daysProcessed == totalDays.count {
                                 
                                 self.humidityGraphPoints.sort { $0.0 > $1.0 }
-                                //print (self.humidityGraphPoints)
+                                print (self.humidityGraphPoints)
                                 print("Loaded")
-                                completion() // Call completion after all days are processed
-                            }
+                                completion()                            }
                         }
                     }
                 }
@@ -759,9 +770,9 @@ class GraphDataViewmodel: ObservableObject {
                             daysProcessed += 1
                             if daysProcessed == totalDays.count {
                                 self.temperatureGraphPoints.sort { $0.0 > $1.0 }
-                                //print (self.temperatureGraphPoints)
+                                print (self.temperatureGraphPoints)
                                 print("Loaded")
-                                completion() // Call completion after all days are processed
+                                completion()
                             }
                         }
                     }
@@ -804,9 +815,9 @@ class GraphDataViewmodel: ObservableObject {
                             daysProcessed += 1
                             if daysProcessed == totalDays.count {
                                 self.moistureGraphPoints.sort { $0.0 > $1.0 }
-                                //print (self.moistureGraphPoints)
+                                print (self.moistureGraphPoints)
                                 print("Loaded")
-                                completion() // Call completion after all days are processed
+                                completion()
                             }
                         }
                     }

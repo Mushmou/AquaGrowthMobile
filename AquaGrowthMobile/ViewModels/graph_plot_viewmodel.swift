@@ -60,7 +60,7 @@ class GraphPlot : UIViewController, ChartViewDelegate {
         xAxis.labelFont = UIFont.systemFont(ofSize: 5)
         
         
-        //chartView.animate(xAxisDuration: 2.0)
+        chartView.animate(xAxisDuration: 1.0)
         return chartView
     }()
     
@@ -138,8 +138,11 @@ class GraphPlot : UIViewController, ChartViewDelegate {
             
             switch self.dayweekmonthId{
             case "day":
+                self.xValues.removeAll()
                 print()
             case "week":
+                self.xValues.removeAll()
+                self.data.getDaysInWeek(weekId: self.date)
                 for day in self.data.allDaysInWeek {
                     guard let day = dateFormatter.date(from: day) else {
                         print("Error converting date")
@@ -151,6 +154,8 @@ class GraphPlot : UIViewController, ChartViewDelegate {
                 self.lineChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: self.xValues)
                 
             case "month":
+                self.xValues.removeAll()
+                self.data.getWeeksInMonth()
                 for week in self.data.allWeeksInMonth{
                     self.data.getDaysInWeek(weekId: week)
                     for day in self.data.allDaysInWeek{
@@ -189,8 +194,8 @@ struct GraphPlotView: UIViewControllerRepresentable {
         self.plantId = plantId
         self.dayweekmonthId = dayweekmonthId
         self.date = date
-        
     }
+    
 
     func makeUIViewController(context: Context) -> GraphPlot {
         return GraphPlot(plantId: plantId, sensorType: sensorType, dayweekmonthId: dayweekmonthId, date:date)
