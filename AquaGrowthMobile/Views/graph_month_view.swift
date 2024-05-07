@@ -110,21 +110,21 @@ struct GraphMonth: View {
                             VStack(spacing:5){
                                 Text("Avg. Temp.")
                                 Text("\(String(format: "%.1f", viewModel.avgTemperature))°F")
-                                Image("Temperature")
+                                Image("temperature_original")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
                             VStack(spacing:5){
                                 Text("Avg. Hum.")
                                 Text("\(String(format: "%.1f", viewModel.avgHumidity))%")
-                                Image("Humidity")
+                                Image("humidity_original")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
                             VStack(spacing:5){
                                 Text("Avg. Sun")
                                 Text("\(String(format: "%.1f", viewModel.avgSun))%")
-                                Image("Sun")
+                                Image("sun_original")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }

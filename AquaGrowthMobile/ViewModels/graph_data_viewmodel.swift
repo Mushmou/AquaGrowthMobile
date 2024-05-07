@@ -653,7 +653,7 @@ class GraphDataViewmodel: ObservableObject {
                 }
                 //print (totalDays.count)
                 for (index, day) in totalDays.enumerated() {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.1) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.15) {
                         
                         //print(day)
                         self.sunValues = []
@@ -704,7 +704,7 @@ class GraphDataViewmodel: ObservableObject {
                 
                 for (index, day) in totalDays.enumerated() {
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.1) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.15) {
                         self.humidityValues = []
                         self.fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: day) {
                             // Calculate average humidity value for the day
@@ -749,7 +749,7 @@ class GraphDataViewmodel: ObservableObject {
                 }
                 
                 for (index, day) in totalDays.enumerated() {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.1) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.15) {
                         self.temperatureValues = []
                         self.fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: day) {
                             // Calculate average humidity value for the day
@@ -794,7 +794,7 @@ class GraphDataViewmodel: ObservableObject {
                 }
                 
                 for (index, day) in totalDays.enumerated() {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.1) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.15) {
                         self.moistureValues = []
                         self.fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: day) {
                             // Calculate average humidity value for the day
