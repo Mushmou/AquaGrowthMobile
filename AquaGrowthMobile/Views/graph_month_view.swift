@@ -62,12 +62,13 @@ struct GraphMonth: View {
                     ZStack {
                         Rectangle() // Graph Box
                             .stroke(Color.black, lineWidth: 2)
-                            .frame(width: UIScreen.main.bounds.width - 40, height: 325)
-                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.71)
+                            .frame(width: UIScreen.main.bounds.width - 40, height: 335)
+                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.70)
                         
                         //to check when the sensor type is changed from the drop down
                         if isExpanded {
                             ProgressView("Fetching Data...")
+                                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
                         }
                         else {
                             if selectedItem == "sun"{
@@ -109,21 +110,21 @@ struct GraphMonth: View {
                             VStack(spacing:5){
                                 Text("Avg. Temp.")
                                 Text("\(String(format: "%.1f", viewModel.avgTemperature))°F")
-                                Image("Temperature")
+                                Image("temperature_original")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
                             VStack(spacing:5){
                                 Text("Avg. Hum.")
                                 Text("\(String(format: "%.1f", viewModel.avgHumidity))%")
-                                Image("Humidity")
+                                Image("humidity_original")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
                             VStack(spacing:5){
                                 Text("Avg. Sun")
                                 Text("\(String(format: "%.1f", viewModel.avgSun))%")
-                                Image("Sun")
+                                Image("sun_original")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                             }
@@ -253,7 +254,7 @@ struct GraphMonth: View {
                     HStack(spacing:-26){
                         // Display the week's dates
                         ForEach(viewModel.monthDateList, id:\.self) { date in
-                            Text(date)
+                            Text("")
                                 .padding()
                         }
                     }
