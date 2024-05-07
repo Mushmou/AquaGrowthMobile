@@ -30,18 +30,20 @@ struct LoginView: View {
                 
                 //Title for Logo
                 //TODO: Replace this set of HStack with an image of our logo.
-                HStack{
+                HStack(spacing: 0) { // Adjust the spacing as needed
                     Text("AquaGr")
                         .font(.system(size: 55))
                         .bold()
-                    Text("🍅")
-                        .font(.system(size: 40))
-                        .padding(0)
+                    Image("Tomato")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 40, height: 50) // Adjust size as needed
                     Text("wth")
                         .font(.system(size: 55))
                         .bold()
                 }
                 .padding(.bottom, 80)
+
                 
                 VStack{
                     TextField("Email", text: $viewModel.email)
@@ -95,9 +97,7 @@ struct LoginView: View {
                                 google_viewModel.signInWithGoogle()
                             }
                             .frame(width: 200, height: 45)
-                            .cornerRadius(25)
-                            .shadow(radius: 3)
-
+                        
                             //Separate with Padding
                             SignInWithAppleButton(.signIn) { request in
                                 let nonce = randomNonceString()
@@ -113,22 +113,22 @@ struct LoginView: View {
                                 }
                             }
                             .frame(width: 200, height: 45)
-                            .cornerRadius(25)
-                            .shadow(radius: 3)
+//                            .cornerRadius(25)
+//                            .shadow(radius: 3)
 
                         NavigationLink{
                             RegisterView()
                                 .navigationBarBackButtonHidden(true)
                         }
                         label: {
-                            Text("Sign in with Email")
-                                .bold()
+                            Text("Sign up with Email")
                                 .foregroundColor(.black)
                                 .frame(width: 200, height: 45)
-                                .cornerRadius(25)
-                                .background{
-                                    Capsule().stroke(.black, lineWidth: 0.4).shadow(radius: 3)
-                                }
+                                .background(
+                                    RoundedRectangle(cornerRadius: 3)
+                                        .stroke(Color.black, lineWidth: 0.4)
+                                        .shadow(radius: 3)
+                                )
                         }
                     }
                 }

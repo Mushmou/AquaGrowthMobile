@@ -66,6 +66,7 @@ struct IndividualPlantView: View {
                 
                 Spacer()
                 HStack{
+                    Spacer()
                     Image("Water")
                         .resizable()
                         .frame(width: 30, height: 30)
@@ -81,7 +82,8 @@ struct IndividualPlantView: View {
                 
                 
                 HStack{
-                    Image("Temperature")
+                    Spacer()
+                    Image("temperature_original")
                         .resizable()
                         .frame(width: 30, height: 30)
                     
@@ -95,7 +97,8 @@ struct IndividualPlantView: View {
                 
                 
                 HStack{
-                    Image("Humidity")
+                    Spacer()
+                    Image("humidity_original")
                         .resizable()
                         .frame(width: 30, height: 30)
                     
@@ -111,14 +114,14 @@ struct IndividualPlantView: View {
                 
                 RoundedRectangle(cornerRadius: 50)
                     .frame(width: 200, height: 40)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.green)
                     .overlay(
                         Button(action: {
                         // Show Graph view when "More Info" button is clicked
                             isShowingGraphPage = true
                         }) {
                             Text("More Info")
-                                .foregroundColor(.black)
+                                .foregroundColor(.white)
                                 .bold()
                                 .font(.system(size: 25))
                             }
@@ -132,15 +135,24 @@ struct IndividualPlantView: View {
 
                 
                 Button("Save Data"){
-                    viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 0
-                    viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 0
-                    viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 0
-                    viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 0
-                    viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 0
                     viewmodel.SavedSensorInformation()
                 }
             }
             .onAppear(){
+                bluetooth.readLEDCharacteristic()
+                bluetooth.readLightCharacteristic()
+                bluetooth.readHumidityCharacteristic()
+                bluetooth.readMoistureCharacteristic()
+                bluetooth.readFahrenheitCharacteristic()
+                bluetooth.readHeatIndexCharacteristic()
+                
+                viewmodel.led = bluetooth.bluetoothModel.ledCharacteristicInt ?? 0
+                viewmodel.moisture = bluetooth.bluetoothModel.moistureCharacteristicInt ?? 0
+                viewmodel.humidity = bluetooth.bluetoothModel.humidityCharacteristicInt ?? 0
+                viewmodel.fahrenheit = bluetooth.bluetoothModel.fahrenheitCharacteristicInt ?? 0
+                viewmodel.heatIndex = bluetooth.bluetoothModel.heatIndexCharacteristicInt ?? 0
+                viewmodel.lightIndex = bluetooth.bluetoothModel.lightCharacteristicInt ?? 0
+                
                 viewmodel.plant_id = my_plant.id.uuidString
                 viewmodel.fetchLatestDailyMoisture { fetchedMoisture in
                     // Update the moisture state with the fetched value
@@ -186,6 +198,7 @@ struct IndividualPlantView: View {
                         }
             .navigationDestination(isPresented: $isEditingPlant){
                 EditPlantView(plant: my_plant)
+                    .toolbar(.hidden, for: .tabBar)
             }
         }
     }

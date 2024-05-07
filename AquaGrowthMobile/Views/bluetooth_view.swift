@@ -6,7 +6,8 @@ struct BluetoothView: View {
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @Environment(\.colorScheme) var colorScheme
     @State private var showNavigationBar = true
-    
+    @Binding var isDeviceConnected: Bool // Binding to track device connection
+
     var body: some View {
         NavigationStack{
             VStack {
@@ -58,12 +59,14 @@ struct BluetoothView: View {
                                 if viewModel.bluetoothModel.connectedPeripheral == peripheral && viewModel.bluetoothModel.isConnected {
                                     Button("Disconnect") {
                                         viewModel.disconnect(peripheral: peripheral)
+                                        isDeviceConnected = false
                                     }
                                     .tint(.red)
                                     .bold()
                                 } else {
                                     Button("Connect") {
                                         viewModel.connect(peripheral: peripheral)
+                                        isDeviceConnected = true
                                     }
                                     .tint(.green)
                                     .bold()
@@ -96,9 +99,7 @@ struct BluetoothView: View {
     }
 }
 
-// Preview provider for SwiftUI previews in Xcode
-struct BluetoothView_Previews: PreviewProvider {
-    static var previews: some View {
-        BluetoothView().environmentObject(bluetooth_viewmodel())
-    }
+#Preview {
+    BluetoothView(isDeviceConnected: .constant(false))
+        .environmentObject(bluetooth_viewmodel())
 }

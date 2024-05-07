@@ -17,6 +17,7 @@ class individualplant_viewmodel: ObservableObject {
     @Published var fahrenheit = 0
     @Published var heatIndex = 0
     @Published var currentDay = ""
+    @Published var lightIndex = 0
     
     init(){
         
@@ -36,18 +37,20 @@ class individualplant_viewmodel: ObservableObject {
             "humidity": humidity,
             "temperature": fahrenheit,
             "heat": heatIndex,
+            "light": lightIndex,
             "timestamp": Date().timeIntervalSince1970
         ] as [String : Any]
         
         
         
         // Call the updated addSensorData method
-        addSensorData(db: db, userId: uid,data: sensorData)
         
-//        updateLastSensorData(db: db, userId: uid, documentId: dailyId, data: sensorData)
+
+        addSensorData(db: db, userId: uid, data: sensorData)
+        updateLastSensorData(db: db, userId: uid, data: sensorData)
     }
     
-    func updateLastSensorData(db: Firestore, userId: String, documentId: String, data: [String: Any]) {
+    func updateLastSensorData(db: Firestore, userId: String, data: [String: Any]) {
         let plantCollectionRef = db.collection("users")
             .document(userId)
             .collection("plants")
@@ -71,6 +74,8 @@ class individualplant_viewmodel: ObservableObject {
     
     func addSensorData(db: Firestore, userId: String, data: [String: Any]) {
         let currentDate = Date() + 1
+        let timestamp = Date().timeIntervalSince1970
+        
         let dailyId = formatDate(currentDate, format: "yyyy-MM-dd")
         let weeklyId = formatDate(currentDate, format: "yyyy-'W'ww")
         let monthlyId = formatDate(currentDate, format: "yyyy-MM")
@@ -83,6 +88,15 @@ class individualplant_viewmodel: ObservableObject {
             .document(monthlyId)
             .collection(weeklyId)
             .document(dailyId)
+
+        // Set the document with the data including timestamp
+        plantCollectionRef.setData(["timestamp" : Date().timeIntervalSince1970]) { error in
+            if let error = error {
+                print("Error adding sensor data: \(error)")
+            } else {
+                print("Successfully added sensor data")
+            }
+        }
         
         // Iterate over each key-value pair in the data dictionary
         for (key, value) in data {
@@ -90,7 +104,12 @@ class individualplant_viewmodel: ObservableObject {
             // Each sensor's data is stored in its own document, named by the key
             let sensorData = sensorDataRef.document(UUID().uuidString)
             // Assuming all data values are of a type that can be directly stored in Firestore
-            sensorData.setData([key: value]) { error in
+            let sensorDataDocument = [
+                String(timestamp) : value,
+                key: value
+            ]
+            
+            sensorData.setData(sensorDataDocument) { error in
                 if let error = error {
                     print("Error adding data for \(key): \(error)")
                 } else {
@@ -99,6 +118,54 @@ class individualplant_viewmodel: ObservableObject {
             }
         }
     }
+    
+//    func addSensorData(db: Firestore, userId: String, data: [String: Any]) {
+//        let currentDate = Date()
+//        let timestamp = currentDate.timeIntervalSince1970
+//        
+//        let dailyId = formatDate(currentDate, format: "yyyy-MM-dd")
+//        let weeklyId = formatDate(currentDate, format: "yyyy-'W'ww")
+//        let monthlyId = formatDate(currentDate, format: "yyyy-MM")
+//        
+//        let plantCollectionRef = db.collection("users")
+//            .document(userId)
+//            .collection("plants")
+//            .document(self.plant_id)
+//            .collection("monthly")
+//            .document(monthlyId)
+//            .collection(weeklyId)
+//            .document(dailyId)
+//
+//        //        plantCollectionRef.setData(["timestamp" : Date().timeIntervalSince1970]) { error in
+//            if let error = error {
+//                print("Error adding sensor data: \(error)")
+//            } else {
+//                print("Successfully added sensor data")
+//            }
+//        }
+//        
+//        // Iterate over each key-value pair in the data dictionary
+//        for (key, value) in data {
+//            let sensorDataRef = plantCollectionRef.collection("sensorData")
+//            // Each sensor's data is stored in its own document, named by the key
+//            let sensorData = sensorDataRef.document(UUID().uuidString)
+//            // Assuming all data values are of a type that can be directly stored in Firestore
+//            let sensorDataDocument = [
+//                "sensor_name": key,
+//                "timestamp": timestamp,
+//                key: value
+//            ]
+//            sensorData.setData(sensorDataDocument) { error in
+//                if let error = error {
+//                    print("Error adding data for \(key): \(error)")
+//                } else {
+//                    print("Successfully added data for \(key)")
+//                }
+//            }
+//        }
+//    }
+
+
     
     
     // Helper function to format dates

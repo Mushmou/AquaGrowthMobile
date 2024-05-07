@@ -7,39 +7,33 @@ import FirebaseAuth
 struct FavoriteView: View {
     @State private var isImagePickerDisplayedCircle = false
     @State private var selectedCircleImage: UIImage?
+    let defaultImage = UIImage(named: "Flower") // Change "default_image" to your default image name
+
+    var light_image : String
+    var humidity_image : String
+    var temperature_image : String
 
     var body: some View {
         // Three buttons centered vertically
         VStack {
             HStack{
-                Image(systemName: "camera.circle.fill")
-                    .resizable()
-                    .foregroundColor(.gray)
-                    .frame(width: 50, height: 50)
-                    .onTapGesture {
-                        isImagePickerDisplayedCircle.toggle()
-                    }
-                    .sheet(isPresented: $isImagePickerDisplayedCircle) {
-                        ImagePicker(selectedImage: $selectedCircleImage)
-                    }
-                    .padding(.trailing, 5)
-                
-                Image("Sun - Bright")
+                Spacer()
+                Image(light_image)
                     .resizable()
                     .frame(width: 50, height: 50)
                     .padding(.trailing, 5)
-                
-                Image("Water - Bright")
+                Spacer()
+                Image(humidity_image)
                     .resizable()
                     .frame(width: 50, height: 50)
                     .padding(.trailing, 5)
-                
-                Image("Humidity - Bright")
+                Spacer()
+                Image(temperature_image)
                     .resizable()
                     .frame(width: 50, height: 50)
                     .padding(.trailing, 10)
                     .padding(.trailing, 5)
-                
+                Spacer()
             }
             .cornerRadius(20)
         }
@@ -51,23 +45,26 @@ struct HomeView: View {
     // State to hold the selected image
     @State private var isImagePickerDisplayed = false
     @State private var selectedUIImage: UIImage?
-    
     @State private var isInfoWindowPresented = false
     @State private var isLoading = false
-    
     @StateObject var viewModel = home_viewmodel()
     @EnvironmentObject var bluetooth: bluetooth_viewmodel
-
     @State private var selectedPlant: Plant? = nil // Track selected plant for navigation
+
+    @State private var my_sun = ""
+    @State private var my_temperature = ""
+    @State private var my_humidity = ""
+
+    let defaultImage = UIImage(named: "Flower") // Change "default_image" to your default image name
 
     var body: some View {
         NavigationStack {
-            Button("lol"){
-                Task {
-                    await viewModel.fetchMostRecentDocumentForAllPlants()
-                }
-            }
             VStack {
+                HStack{
+                    Text("Home")
+                        .foregroundColor(.black)
+                        .font(.system(size: 30, weight: .bold))
+                }
                 Group {
                     if isLoading {
                         // Display a loading indicator while the image is being fetched
@@ -75,17 +72,30 @@ struct HomeView: View {
                             .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                             .scaleEffect(1.5)
                             .padding()
-                    }
-                    else if selectedUIImage != nil{
+                    } else if selectedUIImage != nil {
                         Image(uiImage: selectedUIImage!)
                             .resizable()
                             .scaledToFill()
                             .padding([.top,.bottom], 30)
-                    }
-                    else {
-                        Text("Tap to choose image")
-                            .frame(maxWidth: .infinity, minHeight: 200)
-                            .background(Color.gray)
+                    } else {
+                        if let defaultImage = defaultImage {
+                            ZStack {
+                                Image(uiImage: defaultImage)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(maxWidth: .infinity, minHeight: 200)
+                                    .background(Color.gray)
+                                    .onTapGesture {
+                                        isImagePickerDisplayed = true
+                                    }
+                                    .cornerRadius(20)
+                                Text("Add your own image here")
+                                    .foregroundColor(.white)
+                                    .bold()
+                                    .font(.headline)
+                                    .padding()
+                            }
+                        }
                     }
                 }
                 .frame(width: UIScreen.main.bounds.width - 20, height: 200)
@@ -93,20 +103,17 @@ struct HomeView: View {
                 .onTapGesture {
                     isImagePickerDisplayed = true
                 }
-                .navigationBarTitle("Home")
-                .navigationBarTitleDisplayMode(.large)
-                
-                Spacer()
-                
+                .navigationBarBackButtonHidden()
+
                 HStack {
-                    Text("Today")
+                    Text("Favorite Plants")
                         .padding(.top, 10)
                         .foregroundColor(.black)
                         .font(.system(size: 30, weight: .bold))
                         .padding(.leading, 1)
-                    
+
                     Spacer()
-                    
+
                     Button(action: {
                         isInfoWindowPresented.toggle()
                     }) {
@@ -130,15 +137,17 @@ struct HomeView: View {
                   .onAppear {
                       loadImageFromFirebase()
                   }
-                
+
                 // Three buttons centered vertically
-                
+
                     List(viewModel.favoritePlants) { plant in
                         NavigationLink(destination: IndividualPlantView(my_plant: plant).environmentObject(bluetooth).toolbar(.hidden, for: .tabBar)) {
                             VStack(alignment: .leading){
                                 Text(plant.plant_name)
                                     .bold()
-                                FavoriteView()
+                                FavoriteView(light_image: viewModel.getLightImage(plantId: plant.id.uuidString),
+                                             humidity_image: viewModel.getHumidityImage(plantId: plant.id.uuidString),
+                                             temperature_image: viewModel.getTemperatureImage(plantId: plant.id.uuidString))
                             }
                         }
                     }
@@ -152,46 +161,52 @@ struct HomeView: View {
                 VStack {
                     HStack {
                         VStack(alignment: .leading) {
-                            Image("Sun - Bright")
+                            Image("sun_original")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 50, height: 50)
                                 .padding(.bottom, 35)
-                            
-                            Image("Sun - Dim")
+
+                            Image("sun_100")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 50, height: 50)
                                 .padding(.bottom, 35)
                         }
-                        
+
                         VStack(alignment: .leading) {
-                            Text("GOOD: Needs NO Attention")
+                            Text("GOOD: No Attention")
                                 .foregroundColor(.black)
                                 .font(.system(size: 20, weight: .bold))
                                 .padding(.top, 15)
                                 .padding(.bottom, 55)
-                            
-                            Text("BAD: Needs Attention !!")
+
+                            Text("BAD: Attention")
                                 .foregroundColor(.black)
                                 .font(.system(size: 20, weight: .bold))
                                 .padding(.top, 10)
                                 .padding(.bottom, 55)
                         }
-                        .presentationDetents([.fraction(0.40)])
+                        .presentationDetents([.fraction(0.28)])
                     }
                 }
             }
             .onAppear {
                 viewModel.fetchFavoritePlants() // Fetch favorite plants when the view appears
+                print("light")
+                viewModel.fetchMostRecentDocumentForAllPlants(sensor: "light")
+                print("humidity")
+                viewModel.fetchMostRecentDocumentForAllPlants(sensor: "humidity")
+                print("temperature")
+                viewModel.fetchMostRecentDocumentForAllPlants(sensor: "temperature")
             }
         }
     }
 
 
-    
-    
-    
+
+
+
     func loadImageFromFirebase() {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("User not logged in")
@@ -227,7 +242,7 @@ struct HomeView: View {
             print("User not logged in")
             return
         }
-        
+
         let docRef = db.collection("users").document(uid).collection("home").document("image")
         docRef.getDocument { document, error in
             if let document = document, document.exists, let existingImagePath = document.data()?["image_path"] as? String {
@@ -243,7 +258,7 @@ struct HomeView: View {
             }
         }
     }
-    
+
     func deleteImage(path: String, completion: @escaping (Bool) -> Void) {
         let storageRef = Storage.storage().reference().child(path)
         storageRef.delete { error in
@@ -256,7 +271,7 @@ struct HomeView: View {
             }
         }
     }
-    
+
     func uploadNewImage(selectedImage: UIImage) {
         guard let imageData = selectedImage.jpegData(compressionQuality: 0.8) else {
             print("Could not get JPEG representation of UIImage")
@@ -264,7 +279,7 @@ struct HomeView: View {
         }
         let path = "home_images/\(UUID().uuidString).jpg"
         let storageRef = Storage.storage().reference().child(path)
-        
+
         storageRef.putData(imageData, metadata: nil) { metadata, error in
             guard let _ = metadata, error == nil else {
                 print("Error uploading image: \(error?.localizedDescription ?? "")")
@@ -273,7 +288,7 @@ struct HomeView: View {
             self.saveImagePathToFirestore(path: path)
         }
     }
-    
+
     private func saveImagePathToFirestore(path: String) {
         let db = Firestore.firestore()
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -287,38 +302,40 @@ struct HomeView: View {
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
     @Environment(\.presentationMode) private var presentationMode
-    
+
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = context.coordinator
         return imagePicker
     }
-    
+
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
-    
+
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-    
+
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
         var parent: ImagePicker
-        
+
         init(_ parent: ImagePicker) {
             self.parent = parent
         }
-        
+
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let image = info[.originalImage] as? UIImage {
                 parent.selectedImage = image
             }
             parent.presentationMode.wrappedValue.dismiss()
         }
-        
+
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.selectedImage = nil // Set selectedImage to nil to remove the image
             parent.presentationMode.wrappedValue.dismiss()
         }
     }
 }
+
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
