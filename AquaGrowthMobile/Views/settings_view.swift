@@ -52,7 +52,7 @@ struct SettingsView: View {
                             }
                             
                             NavigationLink {
-                                EmptyView()
+                                SupportView()
                                     .toolbar(.hidden, for: .tabBar)
 
                             } label: {
