@@ -129,12 +129,14 @@ struct HomeView: View {
                 .sheet(isPresented: $isImagePickerDisplayed) {
                     ImagePicker(selectedImage: $selectedUIImage)
                 }.onChange(of: isImagePickerDisplayed) { newValue in
-                    
                     if !newValue {
                         print("Image Picker was dismissed.")
                         if selectedUIImage != nil{
                             replaceExistingImage(selectedImage: selectedUIImage!)
+                        }else{
+                            loadImageFromFirebase()
                         }
+                        
                     }
                 }
                   .onAppear {
@@ -222,7 +224,7 @@ struct HomeView: View {
         docRef.getDocument { (document, error) in
             if let document = document, let imagePath = document.data()?["image_path"] as? String {
                 let storageRef = Storage.storage().reference().child(imagePath)
-                storageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                storageRef.getData(maxSize: 52 * 1024 * 1024) { data, error in
                     isLoading = false
                     if let error = error {
                         print("Error downloading image: \(error)")
