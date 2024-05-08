@@ -48,7 +48,7 @@ class GraphDayViewmodel: ObservableObject{
         data.fetchDaySensorData(plantId: plantId, sensor: "humidity", dayId: dayId){
             self.avgHumidity = self.calculate(values: self.data.humidityValues)
         }
-        data.fetchDaySensorData(plantId: plantId, sensor: "heat", dayId: dayId){
+        data.fetchDaySensorData(plantId: plantId, sensor: "light", dayId: dayId){
             self.avgSun = self.calculate(values: self.data.sunValues)
         }
         data.fetchDaySensorData(plantId: plantId, sensor: "temperature", dayId: dayId){
