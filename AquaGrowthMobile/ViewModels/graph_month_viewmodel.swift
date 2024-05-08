@@ -82,7 +82,7 @@ class GraphMonthViewmodel: ObservableObject{
         data.fetchMonthSensorData(plantId: plantId, sensor: "humidity"){
             self.avgHumidity = self.calculate(values: self.data.humidityValues)
         }
-        data.fetchMonthSensorData(plantId: plantId, sensor: "heat"){
+        data.fetchMonthSensorData(plantId: plantId, sensor: "light"){
             self.avgSun = self.calculate(values: self.data.sunValues)
         }
         data.fetchMonthSensorData(plantId: plantId, sensor: "temperature"){

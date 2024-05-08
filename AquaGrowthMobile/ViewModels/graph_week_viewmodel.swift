@@ -65,7 +65,7 @@ class GraphWeekViewmodel: ObservableObject {
         data.fetchWeekSensorData(plantId: plantId, sensor: "humidity", weekId: weekId){
             self.avgHumidity = self.calculate(values: self.data.humidityValues)
         }
-        data.fetchWeekSensorData(plantId: plantId, sensor: "heat", weekId: weekId){
+        data.fetchWeekSensorData(plantId: plantId, sensor: "light", weekId: weekId){
             self.avgSun = self.calculate(values: self.data.sunValues)
         }
         data.fetchWeekSensorData(plantId: plantId, sensor: "temperature", weekId: weekId){
