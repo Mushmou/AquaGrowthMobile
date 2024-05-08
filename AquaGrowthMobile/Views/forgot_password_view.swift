@@ -22,7 +22,6 @@ struct ForgotPasswordView: View {
                     .bold()
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 40)
-//                    .border(.red)
                 
                 TextField("Email Address", text: $viewModel.email)
                     .padding()

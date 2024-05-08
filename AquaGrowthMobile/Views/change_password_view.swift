@@ -18,7 +18,6 @@ struct ChangePasswordView: View {
             .font(.system(size: 25))
             .bold()
             .multilineTextAlignment(.center)
-            .border(.red)
             
             Button("Send Again"){
                 viewModel.reset()
