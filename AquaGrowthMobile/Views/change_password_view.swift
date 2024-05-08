@@ -38,7 +38,6 @@ struct ChangePasswordView: View {
                     .bold()
                     .foregroundColor(Color(red: 0.28, green: 0.59, blue: 0.17))
             }
-            .border(.red)
         }
     }
 }
