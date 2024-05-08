@@ -5,36 +5,6 @@
 //  Created by Megan Kang on 4/27/24.
 //
 
-//import Foundation
-//import UIKit
-//
-//class SupportView: UIViewController{
-//    
-//    @IBOutlet weak var messageTextView: UITextView!
-//    
-//    let viewModel = support_viewmodel()
-//    
-//    override func viewDidLoad(){
-//        super.viewDidLoad()
-//    }
-//    
-//    @IBAction func sendButtonTapped(_ sender: UIButton){
-//        guard let message = messageTextView.text, !message.isEmpty else{
-//            return
-//        }
-//        viewModel.sendFeedback(message) {success in
-//            if success {
-//                print("Message sent successfully!")
-//            }
-//            else{
-//                print("Failed to send message.")
-//            }
-//            
-//        }
-//    }
-//    
-//}
-
 import SwiftUI
 import MessageUI
 
@@ -44,13 +14,30 @@ struct SupportView: View {
 
     var body: some View {
         VStack {
+//            Rectangle()
+//                .fill(Color(red: 0.28, green: 0.59, blue: 0.17))
+//                .frame(width: UIScreen.main.bounds.width, height: 500) // Change the size of the VStack
+//                .position(x: UIScreen.main.bounds.width / 2.179, y: 10)
+//            
+////            Rectangle()
+////                .fill(.white)
+////                .frame(width: UIScreen.main.bounds.width, height: 640) // Change the size of the VStack
+////                .position(x: UIScreen.main.bounds.width / 2, y: 550)
+            
+//            Text("Help & Support")
+//                .font(.system(size: 45))
+//                .bold()
+//                .padding(.top, 20)
+//                .position(x: UIScreen.main.bounds.width / 2.179, y: -25)
+//                .foregroundColor(.white)
             Text("Help and Support")
+                .bold()
                 .font(.largeTitle)
                 .padding(.top, 20)
             
             Text("Have a question? Send us a message.")
                 .font(.headline)
-                .padding(.top, 10)
+                .padding(.top, 20)
             
             TextEditor(text: $messageText)
                 .frame(height: 150)
@@ -67,7 +54,7 @@ struct SupportView: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.blue)
+                    .background(Color(red: 0.28, green: 0.59, blue: 0.17))
                     .cornerRadius(10)
                     .padding(.horizontal)
             })
@@ -85,6 +72,6 @@ struct SupportView: View {
     }
 }
 
-
-
-
+#Preview {
+    SupportView()
+}

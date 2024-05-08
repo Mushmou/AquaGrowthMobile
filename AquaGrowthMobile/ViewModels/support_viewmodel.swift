@@ -48,7 +48,7 @@ class support_viewmodel: NSObject, ObservableObject, MFMailComposeViewController
         if MFMailComposeViewController.canSendMail() {
             let mailComposer = MFMailComposeViewController()
             mailComposer.mailComposeDelegate = self
-            mailComposer.setToRecipients(["AquaGrowth@gmail.com"])
+            mailComposer.setToRecipients(["aquagrowthofficial@gmail.com"])
             mailComposer.setSubject("Support Request")
             mailComposer.setMessageBody(message, isHTML: false)
 
