@@ -1,3 +1,5 @@
+
+import Foundation
 import SwiftUI
 
 struct GraphMonth: View {
@@ -5,6 +7,16 @@ struct GraphMonth: View {
     @ObservedObject var viewModel = GraphMonthViewmodel()
     @ObservedObject var data = GraphDataViewmodel()
     
+    @State private var showNavigationBar = true
+    
+    @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+    @Environment(\.colorScheme) var colorScheme
+    
+    @State private var selectedOption: String? = nil
+    @State private var isDataFetched = false
+    
+    //vars for drop down
+    @State private var isExpanded = false
     @State private var selectedItem: String = "moisture"
     let options = ["moisture", "temperature", "humidity", "sun"]
     
@@ -16,93 +28,254 @@ struct GraphMonth: View {
     }
     
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .center, spacing: 20) {
-                    topInfoView
+        NavigationStack{
+            ZStack{
+                ZStack{
+                    Rectangle()
+                        .fill(Color(red: 0.28, green: 0.59, blue: 0.17))
+                        .frame(width: UIScreen.main.bounds.width, height: 250)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 30)
                     
-                    dateRangeView
+                    Rectangle()
+                        .fill(.white)
+                        .frame(width: UIScreen.main.bounds.width, height: 640)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 550)
                     
-                    if viewModel.isCalculated {
-                        dataAveragesView
+                    //bar to indicate you can swipe page down
+                    RoundedRectangle(cornerRadius: 40)
+                        .frame(width: 200, height: 5)
+                        .foregroundColor(.gray)
+                        .position(x: UIScreen.main.bounds.width / 2, y: 40)
+                    
+                    //plant name
+                    Text(my_plant.plant_name)
+                        .font(.system(size: 50))
+                        .bold()
+                        .position(x: UIScreen.main.bounds.width / 2, y: 70)
+                        .foregroundColor(.white)
+                    
+                    //plant type
+                    Text(my_plant.plant_type)
+                        .font(.system(size: 20))
+                        .position(x: UIScreen.main.bounds.width / 2, y: 100)
+                        .foregroundColor(.white)
+                    
+                    ZStack {
+                        Rectangle() // Graph Box
+                            .stroke(Color.black, lineWidth: 2)
+                            .frame(width: UIScreen.main.bounds.width - 40, height: 335)
+                            .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.70)
+                        
+                        //to check when the sensor type is changed from the drop down
+                        if isExpanded {
+                            ProgressView("Fetching Data...")
+                                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
+                        }
+                        else {
+                            if selectedItem == "sun"{
+                                GraphPlotView(plantId: my_plant.id.uuidString,sensorType: "light", dayweekmonthId: "month", date: data.currentMonthId)
+                                    .frame(width: UIScreen.main.bounds.width - 20, height: 310)
+                                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
+                            }
+                            else{
+                                GraphPlotView(plantId: my_plant.id.uuidString,sensorType: selectedItem, dayweekmonthId: "month", date: data.currentMonthId)
+                                    .frame(width: UIScreen.main.bounds.width - 20, height: 310)
+                                    .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
+                            }
+                        }
+                    }
+                        
+                    Rectangle() //Date Box
+                        .stroke(Color.black, lineWidth: 2)
+                        .frame(width: UIScreen.main.bounds.width - 100, height: 40)
+                        .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 4.5)
+
+                    //Gray box on day
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(.gray)
+                        .frame(width: UIScreen.main.bounds.width / 5, height: 35) // Change the size of the VStack
+                        .position(x: UIScreen.main.bounds.width / 1.303, y: 189)
+                }
+                
+                //Data Averages
+                ZStack{
+                    if viewModel.isCalculated{
+                        HStack(spacing: 15){
+                            VStack(spacing:5){
+                                Text("Avg. Moi.")
+                                Text("\(String(format: "%.1f", viewModel.avgMoisture))%")
+                                Image("Water")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                            }
+                            VStack(spacing:5){
+                                Text("Avg. Temp.")
+                                Text("\(String(format: "%.1f", viewModel.avgTemperature))°F")
+                                Image("temperature_original")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                            }
+                            VStack(spacing:5){
+                                Text("Avg. Hum.")
+                                Text("\(String(format: "%.1f", viewModel.avgHumidity))%")
+                                Image("humidity_original")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                            }
+                            VStack(spacing:5){
+                                Text("Avg. Sun")
+                                Text("\(String(format: "%.1f", viewModel.avgSun))%")
+                                Image("sun_original")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                            }
+                        }
+                        .position(x: UIScreen.main.bounds.width / 2, y: 290)
+                        
                     } else {
                         ProgressView("Fetching data...")
-                    }
-                    
-                    sensorPicker
-                    
-                    navigationLinks
-                    
-                    if selectedItem == "sun"{
-                        GraphPlotView(plantId: my_plant.id.uuidString, sensorType: "light", dayweekmonthId: "month", date: data.currentMonthId)
-                        .frame(height: 310)
-                    }
-                    else{
-                        GraphPlotView(plantId: my_plant.id.uuidString, sensorType: selectedItem, dayweekmonthId: "month", date: data.currentMonthId)
-                            .frame(height: 310)
-                    }
-                                    
+                            .padding(.top,50)
+                            
+                      }
                 }
-                .padding(.horizontal)
+                
+                //drop down box
+                ZStack{
+                    VStack{
+                        RoundedRectangle(cornerRadius: 40)
+                            .frame(width: 200, height: 35)
+                            .foregroundColor(.gray)
+                            .overlay(
+                                VStack{
+                                    if selectedItem == selectedItem {
+                                        Text(selectedItem)
+                                            .bold()
+                                            .font(.system(size: 23))
+                                            .padding(.vertical, 5)
+                                    }
+                                }
+                            )
+                            .onTapGesture {
+                                withAnimation {
+                                    isExpanded.toggle()
+                                }
+                            }
+                            .position(x: UIScreen.main.bounds.width / 2, y: 360)
+
+                        if isExpanded {
+                            RoundedRectangle(cornerRadius: 20)
+                                .frame(width: 200, height: CGFloat((options.count) * 40))
+                                .foregroundColor(.gray)
+                                //current option
+                                .overlay(
+                                    VStack{
+                                        if selectedItem == selectedItem {
+                                            Text(selectedItem)
+                                                .bold()
+                                                .font(.system(size: 23))
+                                                .padding(.bottom, 126)
+                                        }
+                                    }
+                                )
+                                //list options
+                                .overlay(
+                                    VStack(spacing:10){
+                                        ForEach(options.filter { $0 != selectedItem }, id: \.self) { option in
+                                            Button(action: {
+                                                selectedItem = option
+                                                isExpanded.toggle()
+                                            }) {
+                                                Text(option)
+                                            }
+                                            .foregroundColor(.black)
+                                            .bold()
+                                            .font(.system(size: 23))
+                                        }
+                                    }
+                                        .padding(.top, 18)
+                                )
+                                .position(x: UIScreen.main.bounds.width / 2, y: 313)
+                        }
+                    }
+                }
+                
+                //Day Week Month
+                ZStack{
+                    VStack{
+                        HStack (spacing: 40){
+                            NavigationLink(
+                                destination: GraphDay(my_plant: my_plant),
+                                tag: "Day",
+                                selection: $selectedOption
+                            ) {
+                                Text("Day")
+                                    .bold()
+                                    .foregroundColor(.black)
+                                    .padding(8)
+                                    .overlay(RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.gray, lineWidth: selectedOption == "Day" ? 2 : 0))
+                            }
+                            .isDetailLink(false)
+                            
+                            NavigationLink(destination: GraphWeek(my_plant:my_plant),
+                                           tag: "Week", selection: $selectedOption) {
+                                Text("Week")
+                                    .bold()
+                                    .foregroundColor(.black)
+                                    .padding(8)
+                                    .overlay(RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.gray, lineWidth: selectedOption == "Week" ? 2 : 0))
+                            }.isDetailLink(false)
+                            
+                            NavigationLink(destination: GraphMonth(my_plant:my_plant),
+                                           tag: "Month", selection: $selectedOption) {
+                                Text("Month")
+                                    .bold()
+                                    .foregroundColor(.black)
+                                    .padding(8)
+                                    .overlay(RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.gray, lineWidth: selectedOption == "Month" ? 2 : 0))
+                            }.isDetailLink(false)
+                        }
+                        .font(.system(size: 23))
+                        .padding(.top,168)
+                    }
+                }
             }
-            .navigationBarHidden(true)
-        }
-    }
-    
-    private var topInfoView: some View {
-        VStack {
-            Text(my_plant.plant_name)
-                .font(.largeTitle)
-                .bold()
-                .foregroundColor(.white)
-            Text(my_plant.plant_type)
-                .font(.title3)
-                .foregroundColor(.white)
-        }
-        .padding()
-        .frame(maxWidth: .infinity)
-        .background(Color(red: 0.28, green: 0.59, blue: 0.17))
-        .cornerRadius(12)
-    }
-    
-    private var dateRangeView: some View {
-        Text("Month of \(viewModel.monthDateRange)")
-            .font(.headline)
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(Color.gray.opacity(0.2))
-            .cornerRadius(12)
-    }
-    
-    private var dataAveragesView: some View {
-        HStack(spacing: 15) {
-            DataView(title: "Avg. Moi.", value: "\(String(format: "%.1f", viewModel.avgMoisture))%", imageName: "Water")
-            DataView(title: "Avg. Temp.", value: "\(String(format: "%.1f", viewModel.avgTemperature))°F", imageName: "temperature_original")
-            DataView(title: "Avg. Hum.", value: "\(String(format: "%.1f", viewModel.avgHumidity))%", imageName: "humidity_original")
-            DataView(title: "Avg. Sun", value: "\(String(format: "%.1f", viewModel.avgSun))%", imageName: "sun_original")
-        }
-        .background(Color.white)
-        .cornerRadius(12)
-    }
-    
-    private var sensorPicker: some View {
-        Picker("Select Sensor", selection: $selectedItem) {
-            ForEach(options, id: \.self) { option in
-                Text(option.capitalized)
+            ZStack{
+                VStack(spacing:148){
+                //Date range at top
+                    Text(viewModel.monthDateRange)
+                        .padding(.bottom,220)
+                        .foregroundColor(.black)
+                        .font(.system(size: 27))
+                        .bold()
+                    
+                //Date calendar list in the graph
+                    HStack(spacing:-26){
+                        // Display the week's dates
+                        ForEach(viewModel.monthDateList, id:\.self) { date in
+                            Text("")
+                                .padding()
+                        }
+                    }
+                    .font(.system(size: 14))
+                }
+                .padding(.bottom,125)
             }
         }
-        .pickerStyle(SegmentedPickerStyle())
-        .padding()
+        .navigationBarHidden(true)
     }
     
-    
-    private var navigationLinks: some View {
-        HStack(spacing: 40) {
-            NavigationLink("Day", destination: GraphDay(my_plant: my_plant))
-            NavigationLink("Week", destination: GraphWeek(my_plant: my_plant))
-            NavigationLink("Month", destination: GraphMonth(my_plant: my_plant))
-        }
-        .padding(.top, 10)
-    }
 }
 
+#Preview {
+    struct PreviewWrapper: View {
+        var body: some View {
+            let testPlant = Plant(plant_name: "Cactus", plant_type: "Pincushion", plant_description: "My indoor prickly cactus", plant_image: "Flower")
+            GraphMonth(my_plant: testPlant)
+        }
+    }
+    return PreviewWrapper()
+}
+                
