@@ -14,6 +14,7 @@ struct GraphMonth: View {
     
     @State private var selectedOption: String? = nil
     @State private var isDataFetched = false
+    
     //vars for drop down
     @State private var isExpanded = false
     @State private var selectedItem: String = "moisture"

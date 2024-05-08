@@ -14,6 +14,7 @@ struct GraphWeek: View {
     
     @State private var selectedOption: String? = nil
     @State private var isDataFetched = false
+    
     //vars for drop down
     @State private var isExpanded = false
     @State private var selectedItem: String = "moisture"
@@ -136,7 +137,6 @@ struct GraphWeek: View {
                     } else {
                         ProgressView("Fetching data...")
                             .padding(.top,50)
-                            
                       }  
                 }
                 
