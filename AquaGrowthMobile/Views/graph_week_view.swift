@@ -75,7 +75,7 @@ struct GraphWeek: View {
                         }
                         else {
                             if selectedItem == "sun"{
-                                GraphPlotView(plantId: my_plant.id.uuidString,sensorType: "heat", dayweekmonthId: "week", date: data.currentWeekId)
+                                GraphPlotView(plantId: my_plant.id.uuidString,sensorType: "light", dayweekmonthId: "week", date: data.currentWeekId)
                                     .frame(width: UIScreen.main.bounds.width - 25, height: 310)
                                     .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 1.67)
                             }

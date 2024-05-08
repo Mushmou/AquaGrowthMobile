@@ -87,7 +87,7 @@ class GraphPlot : UIViewController, ChartViewDelegate {
         data.fetchGraphPoints(plantId: plantId, sensorType: sensorType, dayweekmonth: dayweekmonthId, date: date){
             
             switch self.sensorType {
-            case "heat":
+            case "light":
                 self.fetchedData = self.data.sunGraphPoints
             case "humidity":
                 self.fetchedData =  self.data.humidityGraphPoints

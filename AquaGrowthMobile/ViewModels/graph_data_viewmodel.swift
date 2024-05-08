@@ -11,7 +11,7 @@ class GraphDataViewmodel: ObservableObject {
     
     
     //var plot = GraphPlot()
-    var sensorTypes:[String] = ["heat","humidity","moisture","temperature","timestamp"]
+    var sensorTypes:[String] = ["light","humidity","moisture","temperature","timestamp"]
     var sunValues: [Double] = []
     var humidityValues: [Double] = []
     var temperatureValues: [Double] = []
@@ -163,7 +163,7 @@ class GraphDataViewmodel: ObservableObject {
                 if let value = data[sensor] as? Double {
                     //print("VALUE", value)
                     switch sensor {
-                    case "heat":
+                    case "light":
                         self.sunValues.append(value)
                     case "humidity":
                         self.humidityValues.append(value)
@@ -231,7 +231,7 @@ class GraphDataViewmodel: ObservableObject {
                     if let value = data[sensor] as? Double {
                         //print("VALUE", value)
                         switch sensor {
-                        case "heat":
+                        case "light":
                             self.sunValues.append(value)
                         case "humidity":
                             self.humidityValues.append(value)
@@ -305,7 +305,7 @@ class GraphDataViewmodel: ObservableObject {
                         if let value = data[sensor] as? Double {
                             //print("VALUE", value)
                             switch sensor {
-                            case "heat":
+                            case "light":
                                 self.sunValues.append(value)
                             case "humidity":
                                 self.humidityValues.append(value)
@@ -352,7 +352,7 @@ class GraphDataViewmodel: ObservableObject {
         switch dayweekmonth {
         case "day":
             switch sensorType{
-            case "heat":
+            case "light":
                 fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: date){
                     self.fetchDaySensorData(plantId: plantId, sensor: "timestamp", dayId: date){
                         // Check if there are any timestamp values
@@ -496,13 +496,13 @@ class GraphDataViewmodel: ObservableObject {
             
         case "week":
             switch sensorType {
-            case "heat":
+            case "light":
                 var previousSunAvg: Double? = nil
                 var daysProcessed = 0
                 
                 for (index, day) in self.allDaysInWeek.enumerated() {
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.15) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.2) {
                         self.sunValues = []
                         self.fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: day) {
                             // Calculate average humidity value for the day
@@ -536,7 +536,7 @@ class GraphDataViewmodel: ObservableObject {
                 
                 for (index, day) in self.allDaysInWeek.enumerated() {
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.15) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.2) {
                         self.humidityValues = []
                         self.fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: day) {
                             // Calculate average humidity value for the day
@@ -570,7 +570,7 @@ class GraphDataViewmodel: ObservableObject {
                 
                 for (index, day) in self.allDaysInWeek.enumerated() {
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.15) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.2) {
                         self.temperatureValues = []
                         self.fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: day) {
                             // Calculate average humidity value for the day
@@ -637,7 +637,7 @@ class GraphDataViewmodel: ObservableObject {
             
         case "month":
             switch sensorType {
-            case "heat":
+            case "light":
                 var previousSunAvg: Double? = nil
                 var daysProcessed = 0
                 var totalDays:[String] = []
@@ -653,13 +653,13 @@ class GraphDataViewmodel: ObservableObject {
                 }
                 //print (totalDays.count)
                 for (index, day) in totalDays.enumerated() {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.15) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.1) {
                         
                         //print(day)
                         self.sunValues = []
                         self.fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: day) {
                             //print(dayId)
-                            // Calculate average heat value for the day
+                            // Calculate average sun value for the day
                             var avgSun: Double = 0.0
                             if !self.sunValues.isEmpty {
                                 avgSun = self.calculate(values: self.sunValues)
@@ -704,7 +704,7 @@ class GraphDataViewmodel: ObservableObject {
                 
                 for (index, day) in totalDays.enumerated() {
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.15) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.1) {
                         self.humidityValues = []
                         self.fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: day) {
                             // Calculate average humidity value for the day
@@ -749,7 +749,7 @@ class GraphDataViewmodel: ObservableObject {
                 }
                 
                 for (index, day) in totalDays.enumerated() {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.15) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.1) {
                         self.temperatureValues = []
                         self.fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: day) {
                             // Calculate average humidity value for the day
@@ -794,7 +794,7 @@ class GraphDataViewmodel: ObservableObject {
                 }
                 
                 for (index, day) in totalDays.enumerated() {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.15) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.1) {
                         self.moistureValues = []
                         self.fetchDaySensorData(plantId: plantId, sensor: sensorType, dayId: day) {
                             // Calculate average humidity value for the day
